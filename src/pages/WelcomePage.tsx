@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import FishesSVG from "../assets/fishes.svg";
 import SharkSVG from "../assets/shark.svg";
 import WhaleSVG from "../assets/whale.svg";
@@ -10,6 +11,8 @@ import "./WelcomePage.css";
 const title = "El Gran Azul";
 
 export default function WelcomePage() {
+    const navigate = useNavigate();
+
     return (
         <div className="welcome-container">
             {/* 🌊 Fondo del océano */}
@@ -48,6 +51,7 @@ export default function WelcomePage() {
 
                 <motion.button
                     className="start-btn"
+                    onClick={() => navigate("/login")}
                     whileHover={{
                         scale: 1.1,
                         boxShadow: "0 0 30px rgba(0,255,255,0.9)",
@@ -64,19 +68,12 @@ export default function WelcomePage() {
                 className="absolute"
                 style={{
                     top: "10%",
-                    left: "-300px", // sale desde fuera de la pantalla
+                    left: "-300px",
                     width: "280px",
                 }}
                 initial={{ x: "-300px", rotateY: 180 }} 
-                animate={{ x: "120vw", rotateY: 180,
-                    opacity: [0.6, 1, 0.6],
-                 }} 
-                transition={{
-                    repeat: Infinity,
-                    duration: 30,
-                    ease: "linear",
-                    delay: 2,
-                }}
+                animate={{ x: "120vw", rotateY: 180, opacity: [0.6, 1, 0.6] }} 
+                transition={{ repeat: Infinity, duration: 30, ease: "linear", delay: 2 }}
             />
 
             {/* 🦈 Tiburón - derecha a izquierda */}
@@ -84,16 +81,8 @@ export default function WelcomePage() {
                 src={SharkSVG}
                 className="animal shark"
                 initial={{ x: "120vw", opacity: 0.8 }}
-                animate={{
-                    x: "-80vw",
-                    opacity: [0.6, 1, 0.6],
-                }}
-                transition={{
-                    repeat: Infinity,
-                    duration: 25,
-                    ease: "linear",
-                    delay: 3,
-                }}
+                animate={{ x: "-80vw", opacity: [0.6, 1, 0.6] }}
+                transition={{ repeat: Infinity, duration: 25, ease: "linear", delay: 3 }}
             />
 
             {/* 🐢 Tortuga - aparece desde fuera (izquierda a derecha) */}
@@ -101,16 +90,8 @@ export default function WelcomePage() {
                 src={TurtleSVG}
                 className="animal turtle"
                 initial={{ x: "-60vw", opacity: 0.8 }}
-                animate={{
-                    x: "120vw",
-                    opacity: [0.8, 1, 0.8],
-                }}
-                transition={{
-                    repeat: Infinity,
-                    duration: 32,
-                    ease: "linear",
-                    delay: 3,
-                }}
+                animate={{ x: "120vw", opacity: [0.8, 1, 0.8] }}
+                transition={{ repeat: Infinity, duration: 32, ease: "linear", delay: 3 }}
             />
 
             {/* 🐟 Peces - derecha a izquierda */}
@@ -118,16 +99,8 @@ export default function WelcomePage() {
                 src={FishesSVG}
                 className="animal fishes"
                 initial={{ x: "120vw", opacity: 0.7 }}
-                animate={{
-                    x: "-40vw",
-                    opacity: [0.5, 1, 0.5],
-                }}
-                transition={{
-                    repeat: Infinity,
-                    duration: 18,
-                    ease: "linear",
-                    delay: 4,
-                }}
+                animate={{ x: "-40vw", opacity: [0.5, 1, 0.5] }}
+                transition={{ repeat: Infinity, duration: 18, ease: "linear", delay: 4 }}
             />
 
             {/* 🪼 Medusas flotando suavemente hacia arriba */}
@@ -137,9 +110,9 @@ export default function WelcomePage() {
                     src={JellyfishSVG}
                     className="absolute"
                     style={{
-                        bottom: `-${30 + i * 15}px`, // empiezan en distintas alturas bajo el borde
-                        left: `${10 + i * 12}%`, // repartidas horizontalmente
-                        width: `${50 + (i % 3) * 15}px`, // distintos tamaños
+                        bottom: `-${30 + i * 15}px`,
+                        left: `${10 + i * 12}%`,
+                        width: `${50 + (i % 3) * 15}px`,
                         opacity: 0.8,
                         filter: "drop-shadow(0 0 10px rgba(174, 244, 255, 0.6))",
                     }}
@@ -147,17 +120,16 @@ export default function WelcomePage() {
                     animate={{
                         y: ["0vh", "-95vh"],
                         opacity: [0.2, 0.9, 0.1],
-                        x: [0, 10, -10, 0], // pequeño movimiento lateral tipo flotación
+                        x: [0, 10, -10, 0],
                     }}
                     transition={{
                         repeat: Infinity,
-                        duration: 20 + i * 4, // cada medusa tiene un ritmo diferente
+                        duration: 20 + i * 4,
                         ease: "easeInOut",
                         delay: i * 2,
                     }}
                 />
             ))}
-
         </div>
     );
 }
