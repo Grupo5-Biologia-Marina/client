@@ -1,14 +1,19 @@
-import './App.css' 
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import WelcomePage from "./pages/WelcomePage";
+import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
+import DiscoveriesPage from "./pages/DiscoveriesPage";
+import "./styles/index.css";
 
-function App() {
+export default function App() {
   return (
-    <div className="relative min-h-screen flex items-center justify-center bg-gradient-to-b from-sky-100 via-sky-400 to-blue-900 overflow-hidden">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.4)_0%,transparent_70%)] animate-pulse"></div>
-      <h1 className="relative text-5xl font-bold text-white drop-shadow-lg text-center">
-        Sumérgete en <span className="text-yellow-200">El Gran Azul</span> 🌊
-      </h1>
-    </div>
-  )
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<WelcomePage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/discoveries" element={<DiscoveriesPage />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
-
-export default App

@@ -1,0 +1,156 @@
+.welcome-container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.ocean-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+}
+
+.light-overlay {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at top, rgba(255, 255, 255, 0.12), transparent 70%);
+    z-index: 1;
+}
+
+.text-zone {
+    position: relative;
+    z-index: 10;
+    color: white;
+    padding: 1rem;
+    max-width: 90%;
+}
+
+.title {
+    font-size: clamp(2.8rem, 6vw, 5rem);
+    font-weight: 800;
+    color: #ffffff;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
+    margin-bottom: 0.5rem;
+}
+
+.subtitle {
+    font-size: clamp(1.1rem, 2.5vw, 2rem);
+    color: #e2f8ff;
+    text-shadow: 0 0 8px rgba(0, 255, 255, 0.4);
+}
+
+.start-btn {
+    margin-top: 1.5rem;
+    background: linear-gradient(45deg, #00f2ff, #0077ff, #00d4ff);
+    background-size: 300% 300%;
+    color: white;
+    font-weight: bold;
+    font-size: clamp(1rem, 1.5vw, 1.2rem);
+    padding: 0.8rem 2rem;
+    border-radius: 0.75rem;
+    border: none;
+    cursor: pointer;
+    transition: all 0.4s ease;
+}
+
+.start-btn:hover {
+    background-position: 100% 0;
+    box-shadow: 0 0 25px rgba(0, 255, 255, 0.7);
+    transform: scale(1.05);
+}
+
+/* 🐋 Animales */
+.animal {
+    position: absolute;
+    z-index: 2;
+    will-change: transform, opacity;
+    opacity: 0.9;
+}
+
+.whale {
+    top: 20%;
+    width: 260px;
+}
+
+.shark {
+    top: 40%;
+    width: 170px;
+}
+
+.turtle {
+    top: 65%;
+    width: 120px;
+}
+
+.fishes {
+    top: 30%;
+    width: 100px;
+}
+
+/* 🪼 Medusas */
+.jellyfish {
+    position: absolute;
+    bottom: -100px;
+    opacity: 0.8;
+    z-index: 3;
+    filter: drop-shadow(0 0 10px rgba(0, 255, 255, 0.6));
+}
+
+/* 📱  Responsive */
+@media (max-width: 768px) {
+    .ocean-bg {
+        width: auto;
+        height: 100%;
+        /* dejar que se ajuste a contenido */
+        min-height: 100vh;
+        /* cubrir al menos la pantalla */
+        object-fit: contain;
+        /* mostrar todo el GIF sin recortar */
+    }
+
+    .text-zone {
+        max-width: 90%;
+        max-height: 90vh;
+        /* no exceda pantalla */
+        overflow: hidden;
+        /* fuerza que el texto no empuje el contenedor */
+        margin: 0 auto;
+        padding: 1rem;
+    }
+
+    .title {
+        font-size: 2rem;
+        line-height: 1.3;
+        word-break: break-word;
+    }
+
+    .subtitle {
+        font-size: 1rem;
+        line-height: 1.4;
+    }
+
+    .start-btn {
+        font-size: 0.9rem;
+        padding: 0.6rem 1.5rem;
+    }
+
+
+.animal {
+    transform: scale(0.5);
+    /* reducir animales en móvil */
+}
+
+.jellyfish {
+    bottom: -80px;
+    width: auto;
+    filter: drop-shadow(0 0 8px rgba(0, 255, 255, 0.5));
+}
+}
