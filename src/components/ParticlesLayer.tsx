@@ -1,11 +1,11 @@
+// src/components/ParticlesLayer.tsx
+import { useCallback } from "react";
 import Particles from "@tsparticles/react";
 import { loadFull } from "tsparticles";
-import { useCallback } from "react";
 
 export default function ParticlesLayer() {
-  // Inicializa el engine con todos los presets
-  const particlesInit = useCallback(async (engine) => {
-    await loadFull(engine);
+  const particlesInit = useCallback(async (engine: any) => {
+    await loadFull(engine); // carga todos los presets de tsparticles
   }, []);
 
   return (
@@ -16,9 +16,7 @@ export default function ParticlesLayer() {
         background: { color: "transparent" },
         fpsLimit: 60,
         interactivity: {
-          events: {
-            onHover: { enable: true, mode: "repulse" }, // repeler burbujas al pasar el mouse
-          },
+          events: { onHover: { enable: true, mode: "repulse" } },
           modes: { repulse: { distance: 100 } },
         },
         particles: {

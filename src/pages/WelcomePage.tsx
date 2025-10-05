@@ -1,33 +1,53 @@
-import ParticlesLayer from "../components/ParticlesLayer";
+// src/pages/WelcomePage.tsx
 import { motion } from "framer-motion";
+import ParticlesLayer from "../components/ParticlesLayer";
+import SharkSVG from "../assets/shark.svg";
+import TurtleSVG from "../assets/turtle.svg";
+import JellyfishSVG from "../assets/jellyfish.svg";
+import "./WelcomePage.css";
 
 export default function WelcomePage() {
   return (
-    <div className="relative w-full h-screen bg-blue-900 overflow-hidden flex flex-col justify-center items-center">
-      {/* Partículas animadas */}
+    <div className="welcome-container">
+      {/* Fondo animado */}
       <ParticlesLayer />
 
-      {/* Gradiente radial de luz bajo el agua */}
-      <motion.div
-        className="absolute inset-0"
-        style={{ background: 'radial-gradient(circle at top, rgba(255,255,255,0.3) 0%, transparent 70%)' }}
-        animate={{ opacity: [0.6, 0.3, 0.6] }}
-        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-      />
-
-      {/* Contenido central */}
-      <div className="relative z-10 text-center text-white px-4">
-        <h1 className="text-5xl font-bold mb-6 drop-shadow-lg">
-          Sumérgete en <span className="text-yellow-200">El Gran Azul</span> 🌊
+      {/* Título y botón */}
+      <div className="text-center z-10">
+        <h1 className="welcome-title">
+          Sumérgete en <span style={{ color: "#FACC15" }}>El Gran Azul</span> 🌊
         </h1>
         <motion.button
+          className="start-button"
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.95 }}
-          className="bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-lg font-bold transition-all duration-300"
         >
           Comenzar
         </motion.button>
       </div>
+
+      {/* Animales flotando (placeholders) */}
+      <motion.img
+        src={SharkSVG}
+        className="animal"
+        style={{ top: "20%", left: "-100px" }}
+        animate={{ x: ["-100px", "120vw"] }}
+        transition={{ repeat: Infinity, duration: 20, ease: "linear" }}
+      />
+      <motion.img
+        src={TurtleSVG}
+        className="animal"
+        style={{ top: "50%", left: "120vw" }}
+        animate={{ x: ["120vw", "-100px"] }}
+        transition={{ repeat: Infinity, duration: 25, ease: "linear" }}
+      />
+      <motion.img
+        src={JellyfishSVG}
+        className="animal"
+        style={{ top: "70%", left: "-150px" }}
+        animate={{ x: ["-150px", "120vw"] }}
+        transition={{ repeat: Infinity, duration: 30, ease: "linear" }}
+      />
     </div>
   );
 }

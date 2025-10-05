@@ -1,0 +1,42 @@
+/* src/pages/WelcomePage.css */
+.welcome-container {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  background: linear-gradient(to bottom, #87ceeb 0%, #1e3c72 100%);
+}
+
+.welcome-title {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  color: white;
+  font-size: 3rem;
+  font-weight: bold;
+  text-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
+.start-button {
+  margin-top: 2rem;
+  padding: 0.8rem 2rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+  border-radius: 0.5rem;
+  border: none;
+  background-color: #facc15; /* amarillo */
+  color: #1e3c72;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+.start-button:hover {
+  transform: scale(1.1);
+}
+
+/* Animaciones de animales flotando (placeholder) */
+.animal {
+  position: absolute;
+  width: 5rem;
+}
