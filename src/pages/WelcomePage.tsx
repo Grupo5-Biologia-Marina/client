@@ -15,14 +15,14 @@ export default function WelcomePage() {
             {/* 🌊 Fondo del océano */}
             <img src={OceanGIF} alt="Ocean background" className="ocean-bg" />
 
-            {/* 💡 Luz ambiental */}
+            {/* Luz ambiental */}
             <motion.div
                 className="light-overlay"
                 animate={{ opacity: [0.6, 0.3, 0.6] }}
                 transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
             />
 
-            {/* 🧭 Texto principal */}
+            {/* Texto principal */}
             <div className="text-zone">
                 <h1 className="title">
                     {title.split("").map((letter, i) => (
@@ -67,8 +67,10 @@ export default function WelcomePage() {
                     left: "-300px", // sale desde fuera de la pantalla
                     width: "280px",
                 }}
-                initial={{ x: "-300px", rotateY: 180 }} // empieza fuera, girada
-                animate={{ x: "120vw", rotateY: 180 }} // atraviesa todo el ancho manteniendo el giro
+                initial={{ x: "-300px", rotateY: 180 }} 
+                animate={{ x: "120vw", rotateY: 180,
+                    opacity: [0.6, 1, 0.6],
+                 }} 
                 transition={{
                     repeat: Infinity,
                     duration: 30,
