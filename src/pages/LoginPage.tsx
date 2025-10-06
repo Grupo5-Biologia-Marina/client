@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { api } from "../services/api"; 
 import OceanBG from "../assets/ocean-bg.png";
 import "./AuthPage.css";
 
@@ -8,9 +9,17 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log({ email, password });
+
+    try {
+      const res = await api.post("/auth/login", { email, password });
+      console.log("Login exitoso:", res.data);
+      localStorage.setItem("token", res.data.token);
+      navigate("/dashboard");
+    } catch (err: any) {
+      console.error(err.response?.data || "Error al iniciar sesión");
+    }
   };
 
   return (
