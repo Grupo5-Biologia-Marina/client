@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import OceanBG from "../assets/ocean-bg.png";
 import "./AuthPage.css";
 
@@ -10,10 +11,35 @@ export default function RegisterPage() {
   const [lastname, setLastname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
-  const handleRegister = (e: React.FormEvent) => {
+  const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log({ username, firstname, lastname, email, password });
+    setError("");
+
+    try {
+      const response = await axios.post("http://localhost:4000/auth/register", {
+        username,
+        firstname,
+        lastname,
+        email,
+        password,
+      });
+
+      if (response.status === 201) {
+        const { token, user } = response.data;
+
+        // Guardamos datos en localStorage
+        localStorage.setItem("token", token);
+        localStorage.setItem("username", user.username);
+
+        // Redirigimos a descubrimientos
+        navigate("/discoveries");
+      }
+    } catch (err: any) {
+      console.error("Error al registrar:", err);
+      setError(err.response?.data?.message || "Error al registrarse");
+    }
   };
 
   return (
@@ -57,6 +83,9 @@ export default function RegisterPage() {
           />
           <button type="submit">Registrarse</button>
         </form>
+
+        {error && <p className="error-text">{error}</p>}
+
         <p>
           ¿Ya tienes cuenta?{" "}
           <span className="auth-link" onClick={() => navigate("/login")}>

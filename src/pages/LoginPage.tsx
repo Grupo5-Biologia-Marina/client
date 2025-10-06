@@ -16,7 +16,7 @@ export default function LoginPage() {
       const res = await api.post("/auth/login", { email, password });
       console.log("Login exitoso:", res.data);
       localStorage.setItem("token", res.data.token);
-      navigate("/dashboard");
+      navigate("/discoveries");
     } catch (err: any) {
       console.error(err.response?.data || "Error al iniciar sesión");
     }
