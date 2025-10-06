@@ -1,10 +1,10 @@
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import FishesSVG from "../assets/fishes.svg";
-import SharkSVG from "../assets/shark.svg";
-import WhaleSVG from "../assets/whale.svg";
-import TurtleSVG from "../assets/turtle.svg";
-import JellyfishSVG from "../assets/jellyfish.svg";
+import FishesSVG from "../assets/fishes.png";
+import SharkSVG from "../assets/shark.png";
+import WhaleSVG from "../assets/whale.png";
+import TurtleSVG from "../assets/turtle.png";
+import JellyfishSVG from "../assets/jellyfish.png";
 import OceanGIF from "../assets/ocean.gif";
 import "./WelcomePage.css";
 
