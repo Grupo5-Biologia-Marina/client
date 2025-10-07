@@ -26,12 +26,13 @@ export default function RegisterPage() {
         password,
       });
 
-      if (response.status === 201) {
-        const { token, user } = response.data;
+      if (response.status === 201 && response.data.success) {
+        const { token, data: user } = response.data;
 
         // Guardamos datos en localStorage
         localStorage.setItem("token", token);
         localStorage.setItem("username", user.username);
+        localStorage.setItem("email", user.email);
 
         // Redirigimos a descubrimientos
         navigate("/discoveries");
@@ -41,6 +42,7 @@ export default function RegisterPage() {
       setError(err.response?.data?.message || "Error al registrarse");
     }
   };
+
 
   return (
     <div className="auth-container">
