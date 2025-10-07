@@ -3,6 +3,7 @@ import WelcomePage from "./pages/WelcomePage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import DiscoveriesPage from "./pages/DiscoveriesPage";
+import Footer from "./components/Footer";
 import "./styles/index.css";
 
 export default function App() {
@@ -14,6 +15,7 @@ export default function App() {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/discoveries" element={<DiscoveriesPage />} />
       </Routes>
+      <Footer />
     </BrowserRouter>
   );
 }
