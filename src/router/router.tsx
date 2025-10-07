@@ -25,8 +25,10 @@ export default function AppRoutes() {
       <Route path="/login" element={<LoginPage />} />          {/* POST /auth/login */}
       <Route path="/register" element={<RegisterPage />} />    {/* POST /auth/register */}
 
-      {/* Posts */}
-      <Route path="/" element={<WelcomePage />} />         
+      {/* Welcome */}
+      <Route path="/" element={<WelcomePage />} /> 
+
+      {/* Posts */}     
       <Route path="/discoveries" element={<DiscoveriesPage />} /> {/* GET /posts */}    
       <Route path="/posts/:id" element={<PostDetailPage />} /> {/* GET /posts/:id */}
       <Route path="/posts/new" element={<CreatePostPage />} /> {/* POST /posts */}
