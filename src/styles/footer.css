@@ -2,8 +2,8 @@
   background-color: #003f5c;
   color: white;
   align-items: center;
-  padding: 10px 40px;
-  width: 100%;
+  padding: 8px 30px;
+  
   height: auto;
   display:flex;
   justify-content: space-between;
@@ -23,7 +23,7 @@
         text-align: center;
     }
     .footer-logo {
-        width: 40%;
+        width: 60%;
         max-width: 120px;
         margin-bottom: 15px;
     }
