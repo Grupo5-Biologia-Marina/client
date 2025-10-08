@@ -1,120 +1,215 @@
-import { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import React, { useState, MouseEvent } from 'react';
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  Button,
+  Menu,
+  MenuItem,
+  IconButton,
+  Box,
+  Drawer,
+  List,
+  ListItem,
+  ListItemText,
+  Divider,
+  useTheme,
+  useMediaQuery,
+} from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 
-interface NavbarProps {
-  username?: string | null;
-}
+const Navbar: React.FC = () => {
+  const [anchorPosts, setAnchorPosts] = useState<null | HTMLElement>(null);
+  const [anchorCategorias, setAnchorCategorias] = useState<null | HTMLElement>(null);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
-export default function Navbar({ username }: NavbarProps) {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const location = useLocation();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const navigate = useNavigate();
 
-  // No mostrar navbar en estas rutas
-  if (["/", "/login", "/register"].includes(location.pathname)) return null;
+  // Handlers
+  const handleMenuOpen = (
+    setter: React.Dispatch<React.SetStateAction<HTMLElement | null>>
+  ) => (event: MouseEvent<HTMLElement>) => {
+    setter(event.currentTarget);
+  };
 
-  const postOptions = ["Ver todos", "Crear"];
-  const categories = [
-    "🐠 Vida Marina",
-    "Ecosistemas Oceánicos",
-    "Ciencia y Exploración",
-    "⚠️ Problemas y Amenazas",
-    "Regiones y Océanos del Mundo",
-  ];
+  const handleMenuClose = (
+    setter: React.Dispatch<React.SetStateAction<HTMLElement | null>>
+  ) => () => {
+    setter(null);
+  };
+
+  const handleLogout = () => {
+    // Aquí va tu lógica real para cerrar sesión
+    console.log('Cerrando sesión...');
+    navigate('/login');
+  };
+
+  // Estilo de fondo con animación tipo agua
+  const navbarStyle = {
+    background: `linear-gradient(135deg, #0f2027, #203a43, #2c5364)`,
+    backgroundSize: '400% 400%',
+    animation: 'moveBg 20s ease infinite',
+  };
 
   return (
-    <nav className="navbar-gradient w-full text-white shadow-lg fixed top-0 z-50">
-      <div className="max-w-7xl mx-auto px-6 py-3 flex justify-between items-center">
-        {/* Logo */}
-        <h1 className="text-2xl font-bold tracking-wide text-white hover:text-cyan-200 transition-colors">
-          El Gran Azul
-        </h1>
+    <>
+      <AppBar position="static" sx={navbarStyle}>
+        <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
+          {/* Título a la izquierda */}
+          <Typography
+            variant="h6"
+            component={RouterLink}
+            to="/"
+            sx={{
+              textDecoration: 'none',
+              color: 'white',
+              fontWeight: 'bold',
+            }}
+          >
+            El Gran Azul
+          </Typography>
 
-        {/* Desktop menu */}
-        <div className="hidden md:flex items-center space-x-6">
-          {/* Saludo */}
-          {username && <span className="font-semibold px-2 py-1 rounded bg-black bg-opacity-30 text-white">Hola, {username}</span>}
-
-          {/* Posts */}
-          <div className="relative group">
-            <button className="hover:text-cyan-300 transition px-2 py-1 rounded">
-              Posts ▾
-            </button>
-            <div className="absolute hidden group-hover:flex flex-col bg-black bg-opacity-70 rounded-lg mt-2 py-1 min-w-[150px] shadow-lg border border-cyan-700">
-              {postOptions.map((opt) => (
-                <Link
-                  key={opt}
-                  to={`/posts/${opt.toLowerCase().replace(" ", "-")}`}
-                  className="px-4 py-2 text-left hover:bg-cyan-800 hover:text-white transition"
-                >
-                  {opt}
-                </Link>
-              ))}
-            </div>
-          </div>
-
-          {/* Categories */}
-          <div className="relative group">
-            <button className="hover:text-cyan-300 transition px-2 py-1 rounded">
-              Categorías ▾
-            </button>
-            <div className="absolute hidden group-hover:flex flex-col bg-black bg-opacity-70 rounded-lg mt-2 py-1 min-w-[200px] shadow-lg border border-cyan-700">
-              {categories.map((cat) => (
-                <Link
-                  key={cat}
-                  to={`/category/${cat.toLowerCase().replace(/\s+/g, "-")}`}
-                  className="px-4 py-2 text-left hover:bg-cyan-800 hover:text-white transition"
-                >
-                  {cat}
-                </Link>
-              ))}
-            </div>
-          </div>
-
-          {/* Mi cuenta */}
-          <Link className="hover:text-cyan-300 transition px-2 py-1 rounded" to="/account">
-            Mi cuenta
-          </Link>
-
-          {/* Cerrar sesión */}
-          <button className="hover:text-red-400 transition px-2 py-1 rounded">
-            Cerrar sesión
-          </button>
-        </div>
-
-        {/* Mobile menu button */}
-        <button
-          className="md:hidden text-cyan-300 hover:text-white transition"
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
-        >
-          {isMenuOpen ? "✕" : "☰"}
-        </button>
-      </div>
-
-      {/* Mobile menu */}
-      {isMenuOpen && (
-        <div className="md:hidden bg-black bg-opacity-80 flex flex-col items-center py-4 space-y-3">
-          <span className="text-white font-semibold">Hola, {username}</span>
-          <Link className="hover:text-cyan-300 transition" to="/posts/all">
-            Posts
-          </Link>
-          <div className="flex flex-col items-center space-y-1">
-            <span className="text-cyan-400 font-semibold">Categorías</span>
-            {categories.map((cat) => (
-              <Link
-                key={cat}
-                className="text-sm hover:text-cyan-300 transition"
-                to={`/category/${cat.toLowerCase().replace(/\s+/g, "-")}`}
+          {/* Menú Desktop */}
+          {!isMobile && (
+            <Box>
+              {/* POSTS */}
+              <Button color="inherit" onClick={handleMenuOpen(setAnchorPosts)}>
+                Posts
+              </Button>
+              <Menu
+                anchorEl={anchorPosts}
+                open={Boolean(anchorPosts)}
+                onClose={handleMenuClose(setAnchorPosts)}
               >
-                {cat}
-              </Link>
-            ))}
-          </div>
-          <Link className="hover:text-cyan-300 transition" to="/account">
-            Mi cuenta
-          </Link>
-          <button className="hover:text-red-400 transition">Cerrar sesión</button>
-        </div>
-      )}
-    </nav>
+                <MenuItem
+                  component={RouterLink}
+                  to="/posts"
+                  onClick={handleMenuClose(setAnchorPosts)}
+                >
+                  Ver todos
+                </MenuItem>
+                <MenuItem
+                  component={RouterLink}
+                  to="/posts/new"
+                  onClick={handleMenuClose(setAnchorPosts)}
+                >
+                  Crear nuevo post
+                </MenuItem>
+              </Menu>
+
+              {/* CATEGORÍAS */}
+              <Button
+                color="inherit"
+                onClick={handleMenuOpen(setAnchorCategorias)}
+              >
+                Categorías
+              </Button>
+              <Menu
+                anchorEl={anchorCategorias}
+                open={Boolean(anchorCategorias)}
+                onClose={handleMenuClose(setAnchorCategorias)}
+              >
+                <MenuItem onClick={handleMenuClose(setAnchorCategorias)}>
+                  🦈 Vida Marina
+                </MenuItem>
+                <MenuItem onClick={handleMenuClose(setAnchorCategorias)}>
+                  🌊 Ecosistemas Oceánicos
+                </MenuItem>
+                <MenuItem onClick={handleMenuClose(setAnchorCategorias)}>
+                  🤿 Ciencia y Exploración
+                </MenuItem>
+                <MenuItem onClick={handleMenuClose(setAnchorCategorias)}>
+                  ⚠️ Problemas y Amenazas
+                </MenuItem>
+                <MenuItem onClick={handleMenuClose(setAnchorCategorias)}>
+                  🌍 Regiones y Océanos del Mundo
+                </MenuItem>
+              </Menu>
+
+              {/* MI CUENTA */}
+              <Button color="inherit" component={RouterLink} to="/mi-cuenta">
+                Mi Cuenta
+              </Button>
+
+              {/* CERRAR SESIÓN */}
+              <Button color="inherit" onClick={handleLogout}>
+                Cerrar Sesión
+              </Button>
+            </Box>
+          )}
+
+          {/* Menú móvil (hamburguesa) */}
+          {isMobile && (
+            <>
+              <IconButton
+                edge="end"
+                color="inherit"
+                onClick={() => setMobileOpen(true)}
+              >
+                <MenuIcon />
+              </IconButton>
+              <Drawer
+                anchor="right"
+                open={mobileOpen}
+                onClose={() => setMobileOpen(false)}
+              >
+                <Box
+                  sx={{ width: 250 }}
+                  role="presentation"
+                  onClick={() => setMobileOpen(false)}
+                >
+                  <List>
+                    <ListItem button component={RouterLink} to="/posts">
+                      <ListItemText primary="📄 Ver todos los Posts" />
+                    </ListItem>
+                    <ListItem button component={RouterLink} to="/posts/new">
+                      <ListItemText primary="📝 Crear nuevo post" />
+                    </ListItem>
+                    <Divider />
+                    <ListItem>
+                      <ListItemText primary="📚 Categorías" />
+                    </ListItem>
+                    {[
+                      '🦈 Vida Marina',
+                      '🪸 Ecosistemas Oceánicos',
+                      '🤿 Ciencia y Exploración',
+                      '⚠️ Problemas y Amenazas',
+                      '🦭 Regiones y Océanos del Mundo',
+                    ].map((text) => (
+                      <ListItem button key={text}>
+                        <ListItemText primary={text} />
+                      </ListItem>
+                    ))}
+                    <Divider />
+                    <ListItem button component={RouterLink} to="/mi-cuenta">
+                      <ListItemText primary="👤 Mi Cuenta" />
+                    </ListItem>
+                    <ListItem button onClick={handleLogout}>
+                      <ListItemText primary="🚪 Cerrar Sesión" />
+                    </ListItem>
+                  </List>
+                </Box>
+              </Drawer>
+            </>
+          )}
+        </Toolbar>
+      </AppBar>
+
+      {/* Animación del fondo */}
+      <style>
+        {`
+          @keyframes moveBg {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+          }
+        `}
+      </style>
+    </>
   );
-}
+};
+
+export default Navbar;
