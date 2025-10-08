@@ -107,7 +107,7 @@ const Navbar: React.FC = () => {
                 <MenuItem onClick={handleMenuClose(setAnchorCategorias)}>🌍 Regiones y Océanos del Mundo</MenuItem>
               </Menu>
 
-              <Button color="inherit" component={RouterLink} to="/mi-cuenta">
+              <Button color="inherit" component={RouterLink} to="/users/:id">
                 Mi Cuenta
               </Button>
               <Button color="inherit" onClick={handleLogout}>
@@ -154,7 +154,7 @@ const Navbar: React.FC = () => {
                     ))}
                     <Divider />
                     <ListItem>
-                      <ListItemButton component={RouterLink} to="/mi-cuenta">
+                      <ListItemButton component={RouterLink} to="/users/:id">
                         <ListItemText primary="👤 Mi Cuenta" />
                       </ListItemButton>
                     </ListItem>
