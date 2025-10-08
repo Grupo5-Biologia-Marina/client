@@ -5,16 +5,29 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import { useState } from "react";
 
+/**
+ * AppContent vive dentro del BrowserRouter para poder usar useLocation.
+ * Encapsulamos la lógica de "ocultar navbar/footer en ciertas rutas" aquí.
+ */
 function AppContent() {
   const location = useLocation();
-  const [username, setUsername] = useState("User"); // O traer del contexto/auth
+  const [username, setUsername] = useState<string>("Explorador"); // o traelo del contexto/auth si lo tienes
 
-  const hideNavFooter = ["/welcome", "/login", "/register"];
-  const shouldHide = hideNavFooter.includes(location.pathname);
+  // Rutas donde NO queremos navbar ni footer
+  // Ajusta las rutas según tu router (si tu welcome es '/', mantenlo).
+  const hidePaths = ["/", "/welcome", "/login", "/register"];
+
+  // shouldHide = true si la ruta actual es exactamente una de las anteriores
+  // o si empieza por esa ruta (p. ej. /login/verify)
+  const shouldHide = hidePaths.some((p) =>
+    p === "/"
+      ? location.pathname === "/" // root necesita igualdad exacta
+      : location.pathname === p || location.pathname.startsWith(p + "/") || location.pathname.startsWith(p)
+  );
 
   const handleLogout = () => {
     console.log("Cerrar sesión");
-    // Aquí borras token, rediriges, etc.
+    // aquí borrar token / contexto y redirigir si procede
   };
 
   return (
