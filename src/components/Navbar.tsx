@@ -1,4 +1,4 @@
-import React, { useState, MouseEvent } from 'react';
+import React, { useState } from 'react';
 import {
   AppBar,
   Toolbar,
@@ -12,6 +12,7 @@ import {
   List,
   ListItem,
   ListItemText,
+  ListItemButton,
   Divider,
   useTheme,
   useMediaQuery,
@@ -29,25 +30,22 @@ const Navbar: React.FC = () => {
   const navigate = useNavigate();
 
   // Handlers
-  const handleMenuOpen = (
-    setter: React.Dispatch<React.SetStateAction<HTMLElement | null>>
-  ) => (event: MouseEvent<HTMLElement>) => {
-    setter(event.currentTarget);
-  };
+  const handleMenuOpen =
+    (setter: React.Dispatch<React.SetStateAction<HTMLElement | null>>) =>
+    (event: React.MouseEvent<HTMLElement>) => {
+      setter(event.currentTarget);
+    };
 
-  const handleMenuClose = (
-    setter: React.Dispatch<React.SetStateAction<HTMLElement | null>>
-  ) => () => {
-    setter(null);
-  };
+  const handleMenuClose =
+    (setter: React.Dispatch<React.SetStateAction<HTMLElement | null>>) => () => {
+      setter(null);
+    };
 
   const handleLogout = () => {
-    // Aquí va tu lógica real para cerrar sesión
     console.log('Cerrando sesión...');
     navigate('/login');
   };
 
-  // Estilo de fondo con animación tipo agua
   const navbarStyle = {
     background: `linear-gradient(135deg, #0f2027, #203a43, #2c5364)`,
     backgroundSize: '400% 400%',
@@ -58,11 +56,10 @@ const Navbar: React.FC = () => {
     <>
       <AppBar position="static" sx={navbarStyle}>
         <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
-          {/* Título a la izquierda */}
           <Typography
             variant="h6"
             component={RouterLink}
-            to="/"
+            to="/discoveries"
             sx={{
               textDecoration: 'none',
               color: 'white',
@@ -72,10 +69,9 @@ const Navbar: React.FC = () => {
             El Gran Azul
           </Typography>
 
-          {/* Menú Desktop */}
+          {/* Desktop */}
           {!isMobile && (
             <Box>
-              {/* POSTS */}
               <Button color="inherit" onClick={handleMenuOpen(setAnchorPosts)}>
                 Posts
               </Button>
@@ -84,11 +80,7 @@ const Navbar: React.FC = () => {
                 open={Boolean(anchorPosts)}
                 onClose={handleMenuClose(setAnchorPosts)}
               >
-                <MenuItem
-                  component={RouterLink}
-                  to="/posts"
-                  onClick={handleMenuClose(setAnchorPosts)}
-                >
+                <MenuItem component={RouterLink} to="/posts" onClick={handleMenuClose(setAnchorPosts)}>
                   Ver todos
                 </MenuItem>
                 <MenuItem
@@ -100,11 +92,7 @@ const Navbar: React.FC = () => {
                 </MenuItem>
               </Menu>
 
-              {/* CATEGORÍAS */}
-              <Button
-                color="inherit"
-                onClick={handleMenuOpen(setAnchorCategorias)}
-              >
+              <Button color="inherit" onClick={handleMenuOpen(setAnchorCategorias)}>
                 Categorías
               </Button>
               <Menu
@@ -112,61 +100,40 @@ const Navbar: React.FC = () => {
                 open={Boolean(anchorCategorias)}
                 onClose={handleMenuClose(setAnchorCategorias)}
               >
-                <MenuItem onClick={handleMenuClose(setAnchorCategorias)}>
-                  🦈 Vida Marina
-                </MenuItem>
-                <MenuItem onClick={handleMenuClose(setAnchorCategorias)}>
-                  🌊 Ecosistemas Oceánicos
-                </MenuItem>
-                <MenuItem onClick={handleMenuClose(setAnchorCategorias)}>
-                  🤿 Ciencia y Exploración
-                </MenuItem>
-                <MenuItem onClick={handleMenuClose(setAnchorCategorias)}>
-                  ⚠️ Problemas y Amenazas
-                </MenuItem>
-                <MenuItem onClick={handleMenuClose(setAnchorCategorias)}>
-                  🌍 Regiones y Océanos del Mundo
-                </MenuItem>
+                <MenuItem onClick={handleMenuClose(setAnchorCategorias)}>🦈 Vida Marina</MenuItem>
+                <MenuItem onClick={handleMenuClose(setAnchorCategorias)}>🌊 Ecosistemas Oceánicos</MenuItem>
+                <MenuItem onClick={handleMenuClose(setAnchorCategorias)}>🤿 Ciencia y Exploración</MenuItem>
+                <MenuItem onClick={handleMenuClose(setAnchorCategorias)}>⚠️ Problemas y Amenazas</MenuItem>
+                <MenuItem onClick={handleMenuClose(setAnchorCategorias)}>🌍 Regiones y Océanos del Mundo</MenuItem>
               </Menu>
 
-              {/* MI CUENTA */}
               <Button color="inherit" component={RouterLink} to="/mi-cuenta">
                 Mi Cuenta
               </Button>
-
-              {/* CERRAR SESIÓN */}
               <Button color="inherit" onClick={handleLogout}>
                 Cerrar Sesión
               </Button>
             </Box>
           )}
 
-          {/* Menú móvil (hamburguesa) */}
+          {/* Mobile */}
           {isMobile && (
             <>
-              <IconButton
-                edge="end"
-                color="inherit"
-                onClick={() => setMobileOpen(true)}
-              >
+              <IconButton edge="end" color="inherit" onClick={() => setMobileOpen(true)}>
                 <MenuIcon />
               </IconButton>
-              <Drawer
-                anchor="right"
-                open={mobileOpen}
-                onClose={() => setMobileOpen(false)}
-              >
-                <Box
-                  sx={{ width: 250 }}
-                  role="presentation"
-                  onClick={() => setMobileOpen(false)}
-                >
+              <Drawer anchor="right" open={mobileOpen} onClose={() => setMobileOpen(false)}>
+                <Box sx={{ width: 250 }} role="presentation" onClick={() => setMobileOpen(false)}>
                   <List>
-                    <ListItem button component={RouterLink} to="/posts">
-                      <ListItemText primary="📄 Ver todos los Posts" />
+                    <ListItem>
+                      <ListItemButton component={RouterLink} to="/posts">
+                        <ListItemText primary="📄 Ver todos los Posts" />
+                      </ListItemButton>
                     </ListItem>
-                    <ListItem button component={RouterLink} to="/posts/new">
-                      <ListItemText primary="📝 Crear nuevo post" />
+                    <ListItem>
+                      <ListItemButton component={RouterLink} to="/posts/new">
+                        <ListItemText primary="📝 Crear nuevo post" />
+                      </ListItemButton>
                     </ListItem>
                     <Divider />
                     <ListItem>
@@ -179,16 +146,22 @@ const Navbar: React.FC = () => {
                       '⚠️ Problemas y Amenazas',
                       '🦭 Regiones y Océanos del Mundo',
                     ].map((text) => (
-                      <ListItem button key={text}>
-                        <ListItemText primary={text} />
+                      <ListItem key={text}>
+                        <ListItemButton>
+                          <ListItemText primary={text} />
+                        </ListItemButton>
                       </ListItem>
                     ))}
                     <Divider />
-                    <ListItem button component={RouterLink} to="/mi-cuenta">
-                      <ListItemText primary="👤 Mi Cuenta" />
+                    <ListItem>
+                      <ListItemButton component={RouterLink} to="/mi-cuenta">
+                        <ListItemText primary="👤 Mi Cuenta" />
+                      </ListItemButton>
                     </ListItem>
-                    <ListItem button onClick={handleLogout}>
-                      <ListItemText primary="🚪 Cerrar Sesión" />
+                    <ListItem>
+                      <ListItemButton onClick={handleLogout}>
+                        <ListItemText primary="🚪 Cerrar Sesión" />
+                      </ListItemButton>
                     </ListItem>
                   </List>
                 </Box>
@@ -198,7 +171,6 @@ const Navbar: React.FC = () => {
         </Toolbar>
       </AppBar>
 
-      {/* Animación del fondo */}
       <style>
         {`
           @keyframes moveBg {
