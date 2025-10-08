@@ -1,0 +1,64 @@
+.discoveries-container {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  background: url("/assets/ocean.gif") center center / cover no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.discoveries-overlay {
+  background: rgba(0, 20, 40, 0.65);
+  backdrop-filter: blur(3px);
+  padding: 40px;
+  border-radius: 16px;
+  max-width: 1400px;
+  width: 90%;
+  text-align: center;
+  color: white;
+  box-shadow: 0 0 20px rgba(0, 80, 120, 0.5);
+}
+
+.discoveries-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  text-shadow: 0 0 10px #00cfff;
+}
+
+.discoveries-subtitle {
+  font-size: 1.2rem;
+  margin-bottom: 40px;
+  color: #cdefff;
+}
+
+.discoveries-grid {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  gap: 20px;
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #00bfff transparent;
+}
+
+.discoveries-card {
+  min-width: 250px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 16px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.discoveries-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(0, 191, 255, 0.5);
+}
+
+@media (max-width: 768px) {
+  .discoveries-grid {
+    flex-wrap: wrap;
+  }
+}
