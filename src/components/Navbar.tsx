@@ -1,122 +1,215 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
+import React, { useState, MouseEvent } from 'react';
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  Button,
+  Menu,
+  MenuItem,
+  IconButton,
+  Box,
+  Drawer,
+  List,
+  ListItem,
+  ListItemText,
+  Divider,
+  useTheme,
+  useMediaQuery,
+} from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 
-export default function Navbar() {
-  const [isPostsOpen, setIsPostsOpen] = useState(false);
-  const [isCatsOpen, setIsCatsOpen] = useState(false);
-  const [isUserOpen, setIsUserOpen] = useState(false);
+const Navbar: React.FC = () => {
+  const [anchorPosts, setAnchorPosts] = useState<null | HTMLElement>(null);
+  const [anchorCategorias, setAnchorCategorias] = useState<null | HTMLElement>(null);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const navigate = useNavigate();
-  const username = localStorage.getItem("username") || "explorador";
+
+  // Handlers
+  const handleMenuOpen = (
+    setter: React.Dispatch<React.SetStateAction<HTMLElement | null>>
+  ) => (event: MouseEvent<HTMLElement>) => {
+    setter(event.currentTarget);
+  };
+
+  const handleMenuClose = (
+    setter: React.Dispatch<React.SetStateAction<HTMLElement | null>>
+  ) => () => {
+    setter(null);
+  };
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("username");
-    navigate("/");
+    // Aquí va tu lógica real para cerrar sesión
+    console.log('Cerrando sesión...');
+    navigate('/login');
+  };
+
+  // Estilo de fondo con animación tipo agua
+  const navbarStyle = {
+    background: `linear-gradient(135deg, #0f2027, #203a43, #2c5364)`,
+    backgroundSize: '400% 400%',
+    animation: 'moveBg 20s ease infinite',
   };
 
   return (
-    <nav className="w-full bg-gradient-to-r from-blue-900 to-cyan-700 text-white p-4 shadow-lg flex items-center justify-between">
-      {/* 🌊 Logo */}
-      <Link to="/discoveries" className="text-2xl font-bold tracking-wide hover:text-cyan-300 transition">
-        🐋 El Gran Azul
-      </Link>
-
-      {/* 🔽 Menús */}
-      <div className="flex items-center space-x-6 relative">
-        {/* POSTS */}
-        <div className="relative">
-          <button
-            className="hover:text-cyan-300"
-            onClick={() => setIsPostsOpen(!isPostsOpen)}
+    <>
+      <AppBar position="static" sx={navbarStyle}>
+        <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
+          {/* Título a la izquierda */}
+          <Typography
+            variant="h6"
+            component={RouterLink}
+            to="/"
+            sx={{
+              textDecoration: 'none',
+              color: 'white',
+              fontWeight: 'bold',
+            }}
           >
-            Posts ▾
-          </button>
-          {isPostsOpen && (
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="absolute mt-2 bg-blue-800 rounded-lg shadow-md p-2 w-40 z-20"
-            >
-              <Link to="/discoveries" className="block px-3 py-2 hover:bg-cyan-700 rounded">
-                Ver todos
-              </Link>
-              <Link to="/discoveries/new" className="block px-3 py-2 hover:bg-cyan-700 rounded">
-                Crear nuevo
-              </Link>
-            </motion.div>
+            El Gran Azul
+          </Typography>
+
+          {/* Menú Desktop */}
+          {!isMobile && (
+            <Box>
+              {/* POSTS */}
+              <Button color="inherit" onClick={handleMenuOpen(setAnchorPosts)}>
+                Posts
+              </Button>
+              <Menu
+                anchorEl={anchorPosts}
+                open={Boolean(anchorPosts)}
+                onClose={handleMenuClose(setAnchorPosts)}
+              >
+                <MenuItem
+                  component={RouterLink}
+                  to="/posts"
+                  onClick={handleMenuClose(setAnchorPosts)}
+                >
+                  Ver todos
+                </MenuItem>
+                <MenuItem
+                  component={RouterLink}
+                  to="/posts/new"
+                  onClick={handleMenuClose(setAnchorPosts)}
+                >
+                  Crear nuevo post
+                </MenuItem>
+              </Menu>
+
+              {/* CATEGORÍAS */}
+              <Button
+                color="inherit"
+                onClick={handleMenuOpen(setAnchorCategorias)}
+              >
+                Categorías
+              </Button>
+              <Menu
+                anchorEl={anchorCategorias}
+                open={Boolean(anchorCategorias)}
+                onClose={handleMenuClose(setAnchorCategorias)}
+              >
+                <MenuItem onClick={handleMenuClose(setAnchorCategorias)}>
+                  🦈 Vida Marina
+                </MenuItem>
+                <MenuItem onClick={handleMenuClose(setAnchorCategorias)}>
+                  🌊 Ecosistemas Oceánicos
+                </MenuItem>
+                <MenuItem onClick={handleMenuClose(setAnchorCategorias)}>
+                  🤿 Ciencia y Exploración
+                </MenuItem>
+                <MenuItem onClick={handleMenuClose(setAnchorCategorias)}>
+                  ⚠️ Problemas y Amenazas
+                </MenuItem>
+                <MenuItem onClick={handleMenuClose(setAnchorCategorias)}>
+                  🌍 Regiones y Océanos del Mundo
+                </MenuItem>
+              </Menu>
+
+              {/* MI CUENTA */}
+              <Button color="inherit" component={RouterLink} to="/mi-cuenta">
+                Mi Cuenta
+              </Button>
+
+              {/* CERRAR SESIÓN */}
+              <Button color="inherit" onClick={handleLogout}>
+                Cerrar Sesión
+              </Button>
+            </Box>
           )}
-        </div>
 
-        {/* CATEGORÍAS */}
-        <div className="relative">
-          <button
-            className="hover:text-cyan-300"
-            onClick={() => setIsCatsOpen(!isCatsOpen)}
-          >
-            Categorías ▾
-          </button>
-          {isCatsOpen && (
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="absolute mt-2 bg-blue-800 rounded-lg shadow-md p-2 w-48 z-20"
-            >
-              <Link to="/category/corales" className="block px-3 py-2 hover:bg-cyan-700 rounded">
-                🪸 Corales
-              </Link>
-              <Link to="/category/peces" className="block px-3 py-2 hover:bg-cyan-700 rounded">
-                🐠 Peces
-              </Link>
-              <Link to="/category/mamiferos" className="block px-3 py-2 hover:bg-cyan-700 rounded">
-                🐋 Mamíferos marinos
-              </Link>
-              <Link to="/category/plantas" className="block px-3 py-2 hover:bg-cyan-700 rounded">
-                🌿 Flora marina
-              </Link>
-              <Link to="/category/misterios" className="block px-3 py-2 hover:bg-cyan-700 rounded">
-                🌀 Misterios del océano
-              </Link>
-            </motion.div>
+          {/* Menú móvil (hamburguesa) */}
+          {isMobile && (
+            <>
+              <IconButton
+                edge="end"
+                color="inherit"
+                onClick={() => setMobileOpen(true)}
+              >
+                <MenuIcon />
+              </IconButton>
+              <Drawer
+                anchor="right"
+                open={mobileOpen}
+                onClose={() => setMobileOpen(false)}
+              >
+                <Box
+                  sx={{ width: 250 }}
+                  role="presentation"
+                  onClick={() => setMobileOpen(false)}
+                >
+                  <List>
+                    <ListItem button component={RouterLink} to="/posts">
+                      <ListItemText primary="📄 Ver todos los Posts" />
+                    </ListItem>
+                    <ListItem button component={RouterLink} to="/posts/new">
+                      <ListItemText primary="📝 Crear nuevo post" />
+                    </ListItem>
+                    <Divider />
+                    <ListItem>
+                      <ListItemText primary="📚 Categorías" />
+                    </ListItem>
+                    {[
+                      '🦈 Vida Marina',
+                      '🪸 Ecosistemas Oceánicos',
+                      '🤿 Ciencia y Exploración',
+                      '⚠️ Problemas y Amenazas',
+                      '🦭 Regiones y Océanos del Mundo',
+                    ].map((text) => (
+                      <ListItem button key={text}>
+                        <ListItemText primary={text} />
+                      </ListItem>
+                    ))}
+                    <Divider />
+                    <ListItem button component={RouterLink} to="/mi-cuenta">
+                      <ListItemText primary="👤 Mi Cuenta" />
+                    </ListItem>
+                    <ListItem button onClick={handleLogout}>
+                      <ListItemText primary="🚪 Cerrar Sesión" />
+                    </ListItem>
+                  </List>
+                </Box>
+              </Drawer>
+            </>
           )}
-        </div>
+        </Toolbar>
+      </AppBar>
 
-        {/* MI CUENTA */}
-        <div className="relative">
-          <button
-            className="hover:text-cyan-300"
-            onClick={() => setIsUserOpen(!isUserOpen)}
-          >
-            Mi cuenta ▾
-          </button>
-          {isUserOpen && (
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="absolute mt-2 bg-blue-800 rounded-lg shadow-md p-2 w-48 z-20"
-            >
-              <Link to="/profile" className="block px-3 py-2 hover:bg-cyan-700 rounded">
-                👤 Ver perfil
-              </Link>
-              <Link to="/curiosities" className="block px-3 py-2 hover:bg-cyan-700 rounded">
-                💫 Curiosidades marinas
-              </Link>
-            </motion.div>
-          )}
-        </div>
-
-        {/* CERRAR SESIÓN */}
-        <button
-          onClick={handleLogout}
-          className="ml-4 px-4 py-2 bg-cyan-600 rounded-lg hover:bg-cyan-500 transition"
-        >
-          Cerrar sesión
-        </button>
-
-        {/* 👋 Saludo */}
-        <span className="ml-4 italic text-cyan-300">Hola, {username}</span>
-      </div>
-    </nav>
+      {/* Animación del fondo */}
+      <style>
+        {`
+          @keyframes moveBg {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+          }
+        `}
+      </style>
+    </>
   );
-}
+};
+
+export default Navbar;
