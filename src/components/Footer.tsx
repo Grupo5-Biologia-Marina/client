@@ -7,7 +7,9 @@ export default function Footer() {
     <Box
       component="footer"
       sx={{
-        bgcolor: 'primary.main',
+        background: `linear-gradient(135deg, #0f2027, #203a43, #2c5364)`,
+        backgroundSize: '400% 400%',
+        animation: 'moveBg 20s ease infinite',
         color: 'white',
         py: 4,
         mt: 'auto',
@@ -19,8 +21,10 @@ export default function Footer() {
           display: 'flex',
           flexDirection: { xs: 'column', md: 'row' },
           alignItems: 'center',
-          justifyContent: 'space-between',
-          textAlign: { xs: 'center', md: 'left' },
+          justifyContent: 'center', // centra logo y texto juntos
+          gap: 2, // espacio entre logo y texto
+          textAlign: 'center',
+          flexWrap: 'wrap', // si no cabe, el texto baja
         }}
       >
         {/* Logo */}
@@ -41,13 +45,24 @@ export default function Footer() {
             href="https://factoriaf5.org"
             target="_blank"
             rel="noopener noreferrer"
-            sx={{ color: 'secondary.light', textDecoration: 'underline' }}
+            sx={{ color: '#FFA500', textDecoration: 'underline' }} // naranja
           >
             Factoría F5
           </MuiLink>
           . Todos los derechos reservados.
         </Typography>
       </Container>
+
+      {/* Animación del fondo */}
+      <style>
+        {`
+          @keyframes moveBg {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+          }
+        `}
+      </style>
     </Box>
   );
 }
