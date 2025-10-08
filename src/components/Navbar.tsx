@@ -1,122 +1,120 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
+import { Link, useLocation } from "react-router-dom";
 
-export default function Navbar() {
-  const [isPostsOpen, setIsPostsOpen] = useState(false);
-  const [isCatsOpen, setIsCatsOpen] = useState(false);
-  const [isUserOpen, setIsUserOpen] = useState(false);
+interface NavbarProps {
+  username?: string | null;
+}
 
-  const navigate = useNavigate();
-  const username = localStorage.getItem("username") || "explorador";
+export default function Navbar({ username }: NavbarProps) {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const location = useLocation();
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("username");
-    navigate("/");
-  };
+  // No mostrar navbar en estas rutas
+  if (["/", "/login", "/register"].includes(location.pathname)) return null;
+
+  const postOptions = ["Ver todos", "Crear"];
+  const categories = [
+    "🐠 Vida Marina",
+    "Ecosistemas Oceánicos",
+    "Ciencia y Exploración",
+    "⚠️ Problemas y Amenazas",
+    "Regiones y Océanos del Mundo",
+  ];
 
   return (
-    <nav className="w-full bg-gradient-to-r from-blue-900 to-cyan-700 text-white p-4 shadow-lg flex items-center justify-between">
-      {/* 🌊 Logo */}
-      <Link to="/discoveries" className="text-2xl font-bold tracking-wide hover:text-cyan-300 transition">
-        🐋 El Gran Azul
-      </Link>
+    <nav className="navbar-gradient w-full text-white shadow-lg fixed top-0 z-50">
+      <div className="max-w-7xl mx-auto px-6 py-3 flex justify-between items-center">
+        {/* Logo */}
+        <h1 className="text-2xl font-bold tracking-wide text-white hover:text-cyan-200 transition-colors">
+          El Gran Azul
+        </h1>
 
-      {/* 🔽 Menús */}
-      <div className="flex items-center space-x-6 relative">
-        {/* POSTS */}
-        <div className="relative">
-          <button
-            className="hover:text-cyan-300"
-            onClick={() => setIsPostsOpen(!isPostsOpen)}
-          >
-            Posts ▾
+        {/* Desktop menu */}
+        <div className="hidden md:flex items-center space-x-6">
+          {/* Saludo */}
+          {username && <span className="font-semibold px-2 py-1 rounded bg-black bg-opacity-30 text-white">Hola, {username}</span>}
+
+          {/* Posts */}
+          <div className="relative group">
+            <button className="hover:text-cyan-300 transition px-2 py-1 rounded">
+              Posts ▾
+            </button>
+            <div className="absolute hidden group-hover:flex flex-col bg-black bg-opacity-70 rounded-lg mt-2 py-1 min-w-[150px] shadow-lg border border-cyan-700">
+              {postOptions.map((opt) => (
+                <Link
+                  key={opt}
+                  to={`/posts/${opt.toLowerCase().replace(" ", "-")}`}
+                  className="px-4 py-2 text-left hover:bg-cyan-800 hover:text-white transition"
+                >
+                  {opt}
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          {/* Categories */}
+          <div className="relative group">
+            <button className="hover:text-cyan-300 transition px-2 py-1 rounded">
+              Categorías ▾
+            </button>
+            <div className="absolute hidden group-hover:flex flex-col bg-black bg-opacity-70 rounded-lg mt-2 py-1 min-w-[200px] shadow-lg border border-cyan-700">
+              {categories.map((cat) => (
+                <Link
+                  key={cat}
+                  to={`/category/${cat.toLowerCase().replace(/\s+/g, "-")}`}
+                  className="px-4 py-2 text-left hover:bg-cyan-800 hover:text-white transition"
+                >
+                  {cat}
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          {/* Mi cuenta */}
+          <Link className="hover:text-cyan-300 transition px-2 py-1 rounded" to="/account">
+            Mi cuenta
+          </Link>
+
+          {/* Cerrar sesión */}
+          <button className="hover:text-red-400 transition px-2 py-1 rounded">
+            Cerrar sesión
           </button>
-          {isPostsOpen && (
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="absolute mt-2 bg-blue-800 rounded-lg shadow-md p-2 w-40 z-20"
-            >
-              <Link to="/discoveries" className="block px-3 py-2 hover:bg-cyan-700 rounded">
-                Ver todos
-              </Link>
-              <Link to="/discoveries/new" className="block px-3 py-2 hover:bg-cyan-700 rounded">
-                Crear nuevo
-              </Link>
-            </motion.div>
-          )}
         </div>
 
-        {/* CATEGORÍAS */}
-        <div className="relative">
-          <button
-            className="hover:text-cyan-300"
-            onClick={() => setIsCatsOpen(!isCatsOpen)}
-          >
-            Categorías ▾
-          </button>
-          {isCatsOpen && (
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="absolute mt-2 bg-blue-800 rounded-lg shadow-md p-2 w-48 z-20"
-            >
-              <Link to="/category/corales" className="block px-3 py-2 hover:bg-cyan-700 rounded">
-                🪸 Corales
-              </Link>
-              <Link to="/category/peces" className="block px-3 py-2 hover:bg-cyan-700 rounded">
-                🐠 Peces
-              </Link>
-              <Link to="/category/mamiferos" className="block px-3 py-2 hover:bg-cyan-700 rounded">
-                🐋 Mamíferos marinos
-              </Link>
-              <Link to="/category/plantas" className="block px-3 py-2 hover:bg-cyan-700 rounded">
-                🌿 Flora marina
-              </Link>
-              <Link to="/category/misterios" className="block px-3 py-2 hover:bg-cyan-700 rounded">
-                🌀 Misterios del océano
-              </Link>
-            </motion.div>
-          )}
-        </div>
-
-        {/* MI CUENTA */}
-        <div className="relative">
-          <button
-            className="hover:text-cyan-300"
-            onClick={() => setIsUserOpen(!isUserOpen)}
-          >
-            Mi cuenta ▾
-          </button>
-          {isUserOpen && (
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="absolute mt-2 bg-blue-800 rounded-lg shadow-md p-2 w-48 z-20"
-            >
-              <Link to="/profile" className="block px-3 py-2 hover:bg-cyan-700 rounded">
-                👤 Ver perfil
-              </Link>
-              <Link to="/curiosities" className="block px-3 py-2 hover:bg-cyan-700 rounded">
-                💫 Curiosidades marinas
-              </Link>
-            </motion.div>
-          )}
-        </div>
-
-        {/* CERRAR SESIÓN */}
+        {/* Mobile menu button */}
         <button
-          onClick={handleLogout}
-          className="ml-4 px-4 py-2 bg-cyan-600 rounded-lg hover:bg-cyan-500 transition"
+          className="md:hidden text-cyan-300 hover:text-white transition"
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
         >
-          Cerrar sesión
+          {isMenuOpen ? "✕" : "☰"}
         </button>
-
-        {/* 👋 Saludo */}
-        <span className="ml-4 italic text-cyan-300">Hola, {username}</span>
       </div>
+
+      {/* Mobile menu */}
+      {isMenuOpen && (
+        <div className="md:hidden bg-black bg-opacity-80 flex flex-col items-center py-4 space-y-3">
+          <span className="text-white font-semibold">Hola, {username}</span>
+          <Link className="hover:text-cyan-300 transition" to="/posts/all">
+            Posts
+          </Link>
+          <div className="flex flex-col items-center space-y-1">
+            <span className="text-cyan-400 font-semibold">Categorías</span>
+            {categories.map((cat) => (
+              <Link
+                key={cat}
+                className="text-sm hover:text-cyan-300 transition"
+                to={`/category/${cat.toLowerCase().replace(/\s+/g, "-")}`}
+              >
+                {cat}
+              </Link>
+            ))}
+          </div>
+          <Link className="hover:text-cyan-300 transition" to="/account">
+            Mi cuenta
+          </Link>
+          <button className="hover:text-red-400 transition">Cerrar sesión</button>
+        </div>
+      )}
     </nav>
   );
 }
