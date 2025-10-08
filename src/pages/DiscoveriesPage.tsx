@@ -1,146 +1,159 @@
-import {
-  Box,
-  Grid,
-  Card,
-  CardMedia,
-  CardContent,
-  Typography,
-} from "@mui/material";
+import { Box, Grid, Card, CardMedia, CardContent, Typography } from "@mui/material";
+
+// Import images from assets (manteniendo los nombres que ya tienes)
+import marineLifeImg from "../assets/categories/marine-life.png";
+import ecosystemsImg from "../assets/categories/ocean-ecosystems.jpg";
+import scienceImg from "../assets/categories/science-exploration.png";
+import threatsImg from "../assets/categories/problems-threats.png";
+import regionsImg from "../assets/categories/world-regions.png";
+import oceanBack from "../assets/ocean-bg.png";
+
+const categories = [
+  {
+    title: "🐠 Vida Marina",
+    image: marineLifeImg,
+    description:
+      "Explora la asombrosa diversidad de criaturas que habitan nuestros océanos.",
+  },
+  {
+    title: "🌊 Ecosistemas Oceánicos",
+    image: ecosystemsImg,
+    description:
+      "Descubre cómo interactúan las especies y los ecosistemas bajo el mar.",
+  },
+  {
+    title: "🔬 Ciencia y Exploración",
+    image: scienceImg,
+    description:
+      "Conoce los avances científicos y las misiones que revelan los secretos del océano.",
+  },
+  {
+    title: "⚠️ Problemas y Amenazas",
+    image: threatsImg,
+    description:
+      "Comprende los desafíos ambientales que enfrentan los océanos del planeta.",
+  },
+  {
+    title: "🌍 Regiones y Océanos del Mundo",
+    image: regionsImg,
+    description:
+      "Sumérgete en las distintas regiones marinas que conforman el planeta azul.",
+  },
+];
 
 export default function DiscoveriesPage() {
-  const categories = [
-    {
-      title: "🐠 Vida Marina",
-      image: "/assets/fish.jpg",
-      description:
-        "Descubre la increíble diversidad de criaturas que habitan los mares del planeta.",
-    },
-    {
-      title: "🌊 Ecosistemas Oceánicos",
-      image: "/assets/ocean.jpg",
-      description:
-        "Explora los distintos hábitats marinos, desde arrecifes hasta fosas abisales.",
-    },
-    {
-      title: "🔬 Ciencia y Exploración",
-      image: "/assets/science.jpg",
-      description:
-        "Sumérgete en los descubrimientos y avances científicos que revelan los secretos del océano.",
-    },
-    {
-      title: "⚠️ Problemas y Amenazas",
-      image: "/assets/pollution.jpg",
-      description:
-        "Aprende sobre los desafíos ambientales que enfrentan nuestros océanos y cómo ayudar.",
-    },
-    {
-      title: "🌍 Regiones y Océanos del Mundo",
-      image: "/assets/world.jpg",
-      description:
-        "Viaja a través de los mares del planeta y conoce sus características únicas.",
-    },
-  ];
-
   return (
     <Box
       sx={{
-        position: "relative",
-        minHeight: "100vh",
-        backgroundImage: `url("/assets/ocean.gif")`,
+        backgroundImage: `url(${oceanBack})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
+        backgroundAttachment: "fixed",
+        minHeight: "100vh",
+        py: 8,
         px: { xs: 2, md: 6 },
-        py: { xs: 4, md: 10 },
       }}
     >
-      {/* Overlay para mejorar contraste */}
-      <Box
+      {/* 🐋 Título principal */}
+      <Typography
+        variant="h3"
+        align="center"
+        gutterBottom
         sx={{
-          position: "absolute",
-          inset: 0,
-          backgroundColor: "rgba(0, 20, 40, 0.6)",
-          backdropFilter: "blur(3px)",
-        }}
-      />
-
-      {/* Contenido principal */}
-      <Box
-        sx={{
-          position: "relative",
-          zIndex: 2,
-          textAlign: "center",
-          color: "white",
-          maxWidth: "1200px",
-          width: "100%",
+          fontWeight: "bold",
+          color: "#e0f7fa",
+          textShadow: "0 0 10px rgba(0,0,0,0.6)",
+          mb: 6,
         }}
       >
-        <Typography
-          variant="h3"
-          sx={{
-            fontWeight: 700,
-            mb: 2,
-            textShadow: "0 0 10px #00bfff",
-          }}
-        >
-          Explora las maravillas del océano 🌊
-        </Typography>
+        Descubrimientos de la Biología Marina
+      </Typography>
 
-        <Typography
-          variant="h6"
-          sx={{
-            color: "#cdefff",
-            mb: 6,
-            fontWeight: 400,
-          }}
-        >
-          Sumérgete en cinco fascinantes categorías que muestran la vida, la
-          ciencia y los misterios del mundo marino.
-        </Typography>
+      {/* 🌊 Descripción */}
+      <Typography
+        variant="h6"
+        align="center"
+        sx={{
+          color: "#b2ebf2",
+          maxWidth: "800px",
+          mx: "auto",
+          mb: 6,
+        }}
+      >
+        Explora las cinco categorías principales que componen el fascinante mundo marino.
+        Cada una te llevará a conocer un aspecto único del vasto océano que cubre nuestro planeta.
+      </Typography>
 
-        {/* Grid de tarjetas */}
-        <Grid container spacing={3} justifyContent="space-around">
-          {categories.map((cat) => (
-            <Grid item xs={12} sm={6} md={4} lg={2} xl={2.4} key={cat.title}>
-              <Card
-                sx={{
-                  height: "100%",
-                  borderRadius: 3,
-                  bgcolor: "rgba(255,255,255,0.85)",
-                  transition: "transform 0.3s ease, box-shadow 0.3s ease",
-                  "&:hover": {
-                    transform: "scale(1.05)",
-                    boxShadow: "0 0 20px rgba(0,191,255,0.5)",
-                  },
-                }}
-              >
-                <CardMedia
-                  component="img"
-                  height="140"
-                  image={cat.image}
-                  alt={cat.title}
-                />
-                <CardContent>
-                  <Typography
-                    variant="h6"
-                    fontWeight={600}
-                    sx={{ color: "#003b6f", mb: 1 }}
-                  >
-                    {cat.title}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    {cat.description}
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Grid>
-          ))}
-        </Grid>
-      </Box>
+      {/* 🐚 Tarjetas */}
+      <Grid
+        container
+        spacing={3}
+        justifyContent="center"
+        alignItems="stretch"
+        sx={{
+          display: "flex",
+          flexWrap: "nowrap",
+          overflowX: "auto",
+          "&::-webkit-scrollbar": { display: "none" },
+        }}
+      >
+        {categories.map((cat) => (
+          <Grid
+            item
+            key={cat.title}
+            sx={{
+              flex: "1 1 20%",
+              minWidth: { xs: "250px", md: "18%" },
+              display: "flex",
+            }}
+          >
+            <Card
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between",
+                borderRadius: 3,
+                overflow: "hidden",
+                height: "100%",
+                minHeight: "380px",
+                bgcolor: "rgba(255,255,255,0.9)",
+                transition: "transform 0.3s ease, box-shadow 0.3s ease",
+                "&:hover": {
+                  transform: "scale(1.05)",
+                  boxShadow: "0 0 20px rgba(0, 242, 255, 0.6)",
+                },
+              }}
+            >
+              <CardMedia
+                component="img"
+                height="160"
+                image={cat.image}
+                alt={cat.title}
+              />
+              <CardContent sx={{ flexGrow: 1 }}>
+                <Typography
+                  variant="h6"
+                  fontWeight={600}
+                  sx={{
+                    color: "#004d61",
+                    mb: 1,
+                    textAlign: "center",
+                  }}
+                >
+                  {cat.title}
+                </Typography>
+                <Typography
+                  variant="body2"
+                  color="text.secondary"
+                  sx={{ textAlign: "center" }}
+                >
+                  {cat.description}
+                </Typography>
+              </CardContent>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
     </Box>
   );
 }

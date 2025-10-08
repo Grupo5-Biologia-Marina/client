@@ -62,7 +62,7 @@ const Navbar: React.FC = () => {
           <Typography
             variant="h6"
             component={RouterLink}
-            to="/"
+            to="/discoveries"
             sx={{
               textDecoration: 'none',
               color: 'white',
