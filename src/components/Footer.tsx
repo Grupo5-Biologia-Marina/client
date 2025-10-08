@@ -1,6 +1,6 @@
 import { Box, Container, Typography, Link as MuiLink } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
-import logo from '../assets/logo.png';
+import logoFactoria from '../assets/logo-factoria.png'; // Nuevo logo
 
 export default function Footer() {
   return (
@@ -21,17 +21,17 @@ export default function Footer() {
           display: 'flex',
           flexDirection: { xs: 'column', md: 'row' },
           alignItems: 'center',
-          justifyContent: 'center', // centra logo y texto juntos
-          gap: 2, // espacio entre logo y texto
+          justifyContent: 'center',
+          gap: 2,
           textAlign: 'center',
-          flexWrap: 'wrap', // si no cabe, el texto baja
+          flexWrap: 'wrap',
         }}
       >
-        {/* Logo */}
+        {/* Logo Factoría F5 */}
         <Box sx={{ mb: { xs: 2, md: 0 } }}>
           <img
-            src={logo}
-            alt="logo"
+            src={logoFactoria}
+            alt="Logo Factoría F5"
             style={{
               height: '50px',
             }}
@@ -40,12 +40,12 @@ export default function Footer() {
 
         {/* Texto */}
         <Typography variant="body2" sx={{ maxWidth: 600 }}>
-          © 2025 Proyecto colaborativo desarrollado por 5 coders del bootcamp FemCoders de{' '}
+          © 2025 Proyecto colaborativo desarrollado por 5 coders del bootcamp{' '}
           <MuiLink
             href="https://factoriaf5.org"
             target="_blank"
             rel="noopener noreferrer"
-            sx={{ color: '#FFA500', textDecoration: 'underline' }} // naranja
+            sx={{ color: '#FFA500', textDecoration: 'underline' }}
           >
             Factoría F5
           </MuiLink>
