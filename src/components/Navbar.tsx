@@ -47,9 +47,19 @@ const Navbar: React.FC = () => {
   };
 
   const navbarStyle = {
-    background: `linear-gradient(135deg, #0f2027, #203a43, #2c5364)`,
+    background: 'linear-gradient(-45deg, #001f2f, #003d5c, #005f80, #0077aa)',
     backgroundSize: '400% 400%',
-    animation: 'moveBg 20s ease infinite',
+    animation: 'gradientMove 15s ease infinite',
+    boxShadow: '0 4px 20px rgba(0, 119, 170, 0.3)',
+  };
+
+  const buttonStyle = {
+    textShadow: '0 0 5px rgba(0,0,0,0.7)',
+    transition: 'all 0.3s ease',
+    '&:hover': {
+      backgroundColor: 'rgba(255, 255, 255, 0.1)',
+      transform: 'translateY(-2px)',
+    },
   };
 
   return (
@@ -64,6 +74,7 @@ const Navbar: React.FC = () => {
               textDecoration: 'none',
               color: 'white',
               fontWeight: 'bold',
+              textShadow: '0 0 5px rgba(0,0,0,0.7)',
             }}
           >
             El Gran Azul
@@ -72,7 +83,7 @@ const Navbar: React.FC = () => {
           {/* Desktop */}
           {!isMobile && (
             <Box>
-              <Button color="inherit" onClick={handleMenuOpen(setAnchorPosts)}>
+              <Button color="inherit" onClick={handleMenuOpen(setAnchorPosts)} sx={buttonStyle}>
                 Posts
               </Button>
               <Menu
@@ -92,7 +103,7 @@ const Navbar: React.FC = () => {
                 </MenuItem>
               </Menu>
 
-              <Button color="inherit" onClick={handleMenuOpen(setAnchorCategorias)}>
+              <Button color="inherit" onClick={handleMenuOpen(setAnchorCategorias)} sx={buttonStyle}>
                 Categorías
               </Button>
               <Menu
@@ -107,10 +118,13 @@ const Navbar: React.FC = () => {
                 <MenuItem onClick={handleMenuClose(setAnchorCategorias)}>🌍 Regiones y Océanos del Mundo</MenuItem>
               </Menu>
 
-              <Button color="inherit" component={RouterLink} to="/users/:id">
+              <Button color="inherit" component={RouterLink} to="/users/:id" sx={buttonStyle}>
                 Mi Cuenta
               </Button>
-              <Button color="inherit" onClick={handleLogout}>
+              <Button color="inherit" component={RouterLink} to="/creators" sx={buttonStyle}>
+                Creadoras
+              </Button>
+              <Button color="inherit" onClick={handleLogout} sx={buttonStyle}>
                 Cerrar Sesión
               </Button>
             </Box>
@@ -159,6 +173,11 @@ const Navbar: React.FC = () => {
                       </ListItemButton>
                     </ListItem>
                     <ListItem>
+                      <ListItemButton component={RouterLink} to="/creators">
+                        <ListItemText primary="👩‍💻 Creadoras" />
+                      </ListItemButton>
+                    </ListItem>
+                    <ListItem>
                       <ListItemButton onClick={handleLogout}>
                         <ListItemText primary="🚪 Cerrar Sesión" />
                       </ListItemButton>
@@ -173,7 +192,7 @@ const Navbar: React.FC = () => {
 
       <style>
         {`
-          @keyframes moveBg {
+          @keyframes gradientMove {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
