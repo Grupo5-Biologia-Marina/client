@@ -16,6 +16,7 @@ import CreatePostPage from "../pages/CreatePostPage"; // POST /posts
 
 // Common
 import NotFoundPage from "../pages/NotFoundPage";
+import Creators from '../pages/CreatorsPage';
 
 
 export default function AppRoutes() {
@@ -40,6 +41,7 @@ export default function AppRoutes() {
 
       {/* Fallback */}
       <Route path="*" element={<NotFoundPage />} />
+      <Route path="/creators" element={<Creators />} />
     </Routes>
   );
 }
