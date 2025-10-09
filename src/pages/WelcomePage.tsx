@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 import FishesSVG from "../assets/fishes.png";
 import SharkSVG from "../assets/shark.png";
 import WhaleSVG from "../assets/whale.png";
@@ -12,6 +13,22 @@ const title = "El Gran Azul";
 
 export default function WelcomePage() {
   const navigate = useNavigate();
+
+  // Bloquear scroll SOLO cuando WelcomePage está montada
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    document.body.style.position = "fixed";
+    document.body.style.width = "100%";
+    document.body.style.height = "100%";
+    
+    return () => {
+      // Restaurar scroll al desmontar
+      document.body.style.overflow = "";
+      document.body.style.position = "";
+      document.body.style.width = "";
+      document.body.style.height = "";
+    };
+  }, []);
 
   return (
     <div className="welcome-container">
@@ -92,30 +109,30 @@ export default function WelcomePage() {
         </motion.button>
       </div>
 
-      {/* 🐋 Ballena SUPERIOR - entra desde fuera, derecha a izquierda */}
+      {/* 🐋 Ballena SUPERIOR - entra desde COMPLETAMENTE fuera */}
       <div className="animal-wrapper whale-wrapper">
         <motion.div
           className="water-trail"
           initial={{ opacity: 0, scale: 0 }}
           animate={{ opacity: [0, 0.3, 0.5, 0.3, 0], scale: [0.8, 1.2, 1, 1.2, 0.8] }}
-          transition={{ repeat: Infinity, duration: 30, ease: "linear", delay: 2 }}
+          transition={{ repeat: Infinity, duration: 28, ease: "linear", delay: 3 }}
         />
         <motion.img
           src={WhaleSVG}
           alt="Whale"
           className="animal-floating whale"
-          initial={{ x: "-300px", rotateY: 180, opacity: 0 }}
+          initial={{ x: "-400px", rotateY: 180, opacity: 0 }}
           animate={{
-            x: "120vw",
+            x: "calc(100vw + 400px)",
             rotateY: 180,
-            opacity: [0, 0.6, 1, 0.6, 0],
+            opacity: [0, 0.9, 1, 0.9, 0],
             y: [0, -10, 0, 10, 0],
           }}
           transition={{
             repeat: Infinity,
-            duration: 30,
+            duration: 28,
             ease: "linear",
-            delay: 2,
+            delay: 3,
           }}
         />
       </div>
@@ -126,23 +143,23 @@ export default function WelcomePage() {
           className="water-trail"
           initial={{ opacity: 0 }}
           animate={{ opacity: [0, 0.4, 0.6, 0.4, 0] }}
-          transition={{ repeat: Infinity, duration: 25, ease: "linear", delay: 3 }}
+          transition={{ repeat: Infinity, duration: 22, ease: "linear", delay: 5 }}
         />
         <motion.img
           src={SharkSVG}
           alt="Shark"
           className="animal-floating shark"
-          initial={{ x: "120vw", opacity: 0 }}
+          initial={{ x: "calc(100vw + 200px)", opacity: 0 }}
           animate={{
-            x: "-80vw",
-            opacity: [0, 0.6, 1, 0.6, 0],
+            x: "-200px",
+            opacity: [0, 0.9, 1, 0.9, 0],
             y: [0, 8, 0, -8, 0],
           }}
           transition={{
             repeat: Infinity,
-            duration: 25,
+            duration: 22,
             ease: "linear",
-            delay: 3,
+            delay: 5,
           }}
         />
       </div>
@@ -153,23 +170,23 @@ export default function WelcomePage() {
           className="water-trail"
           initial={{ opacity: 0 }}
           animate={{ opacity: [0, 0.3, 0.5, 0.3, 0] }}
-          transition={{ repeat: Infinity, duration: 32, ease: "linear", delay: 3 }}
+          transition={{ repeat: Infinity, duration: 30, ease: "linear", delay: 1 }}
         />
         <motion.img
           src={TurtleSVG}
           alt="Turtle"
           className="animal-floating turtle"
-          initial={{ x: "-60vw", opacity: 0 }}
+          initial={{ x: "-200px", opacity: 0 }}
           animate={{
-            x: "120vw",
-            opacity: [0, 0.8, 1, 0.8, 0],
+            x: "calc(100vw + 200px)",
+            opacity: [0, 0.9, 1, 0.9, 0],
             y: [0, -5, 0, 5, 0],
           }}
           transition={{
             repeat: Infinity,
-            duration: 32,
+            duration: 30,
             ease: "linear",
-            delay: 3,
+            delay: 1,
           }}
         />
       </div>
@@ -180,23 +197,23 @@ export default function WelcomePage() {
           className="water-trail small"
           initial={{ opacity: 0 }}
           animate={{ opacity: [0, 0.4, 0.6, 0.4, 0] }}
-          transition={{ repeat: Infinity, duration: 18, ease: "linear", delay: 4 }}
+          transition={{ repeat: Infinity, duration: 16, ease: "linear", delay: 2.5 }}
         />
         <motion.img
           src={FishesSVG}
           alt="Fishes"
           className="animal-floating fishes"
-          initial={{ x: "120vw", opacity: 0 }}
+          initial={{ x: "calc(100vw + 150px)", opacity: 0 }}
           animate={{
-            x: "-40vw",
-            opacity: [0, 0.5, 1, 0.5, 0],
+            x: "-150px",
+            opacity: [0, 0.9, 1, 0.9, 0],
             y: [0, 6, 0, -6, 0],
           }}
           transition={{
             repeat: Infinity,
-            duration: 18,
+            duration: 16,
             ease: "linear",
-            delay: 4,
+            delay: 2.5,
           }}
         />
       </div>
