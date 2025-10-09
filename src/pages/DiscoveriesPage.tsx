@@ -1,8 +1,9 @@
-import { Box, Grid, Card, CardMedia, CardContent, Typography } from "@mui/material";
+import * as React from "react";
+import { Box, Card, CardMedia, CardContent, Typography } from "@mui/material";
 
-// Import images from assets (manteniendo los nombres que ya tienes)
+// Imágenes
 import marineLifeImg from "../assets/categories/marine-life.png";
-import ecosystemsImg from "../assets/categories/ocean-ecosystems.jpg";
+import ecosystemsImg from "../assets/categories/ocean-ecosystems.png";
 import scienceImg from "../assets/categories/science-exploration.png";
 import threatsImg from "../assets/categories/problems-threats.png";
 import regionsImg from "../assets/categories/world-regions.png";
@@ -42,34 +43,35 @@ const categories = [
 ];
 
 export default function DiscoveriesPage() {
+  const [hovered, setHovered] = React.useState<number | null>(null);
+
   return (
     <Box
       sx={{
         backgroundImage: `url(${oceanBack})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
-        backgroundAttachment: "fixed",
         minHeight: "100vh",
-        py: 8,
-        px: { xs: 2, md: 6 },
+        py: 6,
+        px: 3,
       }}
     >
-      {/* 🐋 Título principal */}
+      {/* Título */}
       <Typography
         variant="h3"
         align="center"
-        gutterBottom
         sx={{
           fontWeight: "bold",
           color: "#e0f7fa",
-          textShadow: "0 0 10px rgba(0,0,0,0.6)",
-          mb: 6,
+          textShadow: "0 0 15px rgba(0,0,0,0.8)",
+          mb: 3,
+          fontSize: { xs: "1.8rem", md: "3rem" },
         }}
       >
         Descubrimientos de la Biología Marina
       </Typography>
 
-      {/* 🌊 Descripción */}
+      {/* Descripción */}
       <Typography
         variant="h6"
         align="center"
@@ -77,83 +79,70 @@ export default function DiscoveriesPage() {
           color: "#b2ebf2",
           maxWidth: "800px",
           mx: "auto",
-          mb: 6,
+          mb: 5,
+          fontSize: { xs: "1rem", md: "1.25rem" },
         }}
       >
         Explora las cinco categorías principales que componen el fascinante mundo marino.
-        Cada una te llevará a conocer un aspecto único del vasto océano que cubre nuestro planeta.
       </Typography>
 
-      {/* 🐚 Tarjetas */}
-      <Grid
-        container
-        spacing={3}
-        justifyContent="center"
-        alignItems="stretch"
+      {/* Tarjetas */}
+      <Box
         sx={{
           display: "flex",
-          flexWrap: "nowrap",
-          overflowX: "auto",
-          "&::-webkit-scrollbar": { display: "none" },
+          flexDirection: { xs: "column", md: "row" },
+          gap: 3,
+          justifyContent: "center",
+          alignItems: "stretch",
+          maxWidth: "1400px",
+          mx: "auto",
+          mb: 6,
         }}
       >
-        {categories.map((cat) => (
-          <Grid
-            item
+        {categories.map((cat, index) => (
+          <Card
             key={cat.title}
+            onMouseEnter={() => setHovered(index)}
+            onMouseLeave={() => setHovered(null)}
             sx={{
-              flex: "1 1 20%",
-              minWidth: { xs: "250px", md: "18%" },
-              display: "flex",
+              flex: { xs: "1", md: "1 1 0" },
+              borderRadius: 3,
+              bgcolor: "rgba(255,255,255,0.95)",
+              transition: "all 0.3s ease",
+              cursor: "pointer",
+              transform: hovered === index ? "scale(1.05) translateY(-10px)" : "scale(1)",
+              filter: hovered !== null && hovered !== index ? "brightness(0.6)" : "brightness(1)",
+              boxShadow: hovered === index 
+                ? "0 0 30px rgba(0, 242, 255, 0.8)" 
+                : "0 4px 10px rgba(0,0,0,0.2)",
+              zIndex: hovered === index ? 10 : 1,
             }}
           >
-            <Card
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "space-between",
-                borderRadius: 3,
-                overflow: "hidden",
-                height: "100%",
-                minHeight: "380px",
-                bgcolor: "rgba(255,255,255,0.9)",
-                transition: "transform 0.3s ease, box-shadow 0.3s ease",
-                "&:hover": {
-                  transform: "scale(1.05)",
-                  boxShadow: "0 0 20px rgba(0, 242, 255, 0.6)",
-                },
-              }}
-            >
-              <CardMedia
-                component="img"
-                height="160"
-                image={cat.image}
-                alt={cat.title}
-              />
-              <CardContent sx={{ flexGrow: 1 }}>
-                <Typography
-                  variant="h6"
-                  fontWeight={600}
-                  sx={{
-                    color: "#004d61",
-                    mb: 1,
-                    textAlign: "center",
-                  }}
-                >
-                  {cat.title}
-                </Typography>
-                <Typography
-                  variant="body2"
-                  color="text.secondary"
-                  sx={{ textAlign: "center" }}
-                >
-                  {cat.description}
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
+            <CardMedia
+              component="img"
+              height="180"
+              image={cat.image}
+              alt={cat.title}
+            />
+            <CardContent>
+              <Typography
+                variant="h6"
+                fontWeight={600}
+                sx={{ color: "#004d61", mb: 1, textAlign: "center" }}
+              >
+                {cat.title}
+              </Typography>
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                sx={{ textAlign: "center" }}
+              >
+                {cat.description}
+              </Typography>
+            </CardContent>
+          </Card>
         ))}
-      </Grid>
+      </Box>
     </Box>
   );
 }
