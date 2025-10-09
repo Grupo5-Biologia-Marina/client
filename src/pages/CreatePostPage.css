@@ -1,0 +1,41 @@
+.title-post {
+    text-align: center;
+
+}
+
+.create-post-page {
+   display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  /* Fondo */
+  background-image: url('../assets/ocean-bg.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  /* Ajuste perfecto al espacio entre navbar y footer */
+  min-height: calc(100vh - var(--navbar-height) - var(--footer-height));
+  width: 100%; /* ✅ en lugar de 100vw */
+
+  padding: 2rem;
+  box-sizing: border-box; /* evita que el padding expanda el ancho */
+  overflow-x: hidden; /* ✅ evita scroll horizontal */
+
+}
+
+@media (max-width: 1024px) {
+  .create-post-page {
+    padding: 1.5rem;
+    min-height: calc(100vh - var(--navbar-height) - var(--footer-height));
+  }
+}
+
+/* Responsive: Móviles */
+@media (max-width: 768px) {
+  .create-post-page {
+    padding: 1rem;
+    min-height: calc(100vh - var(--navbar-height) - var(--footer-height));
+  }
+}
