@@ -17,7 +17,7 @@
   margin: 2rem auto;
   padding: 2rem;
   background-color: #0b1e3d; /* Azul muy oscuro */
-  color: #e0f0ff; /* Azul claro para contraste */
+  color: white; /* Azul claro para contraste */
   border-radius: 10px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
   font-family: 'Arial', sans-serif;
@@ -27,13 +27,13 @@
   font-size: 2rem;
   font-weight: bold;
   margin-bottom: 0.5rem;
-  color: #a0d8ef; /* Azul celeste */
+  color: white; 
 }
 
 .post-author {
   font-style: italic;
   margin-bottom: 1rem;
-  color: #b0cfe8;
+  color: white;
 }
 
 .post-categories {
@@ -58,7 +58,7 @@
 
 .post-credits {
   font-size: 0.9rem;
-  color: #9ec2e6;
+  color: white;
   margin-bottom: 1rem;
 }
 
@@ -68,7 +68,7 @@
 
 .post-images h3 {
   margin-bottom: 1rem;
-  color: #a0d8ef;
+  color: white;
 }
 
 .post-image-item {
@@ -84,20 +84,20 @@
 .post-image-item figcaption {
   margin-top: 0.3rem;
   font-size: 0.9rem;
-  color: #b0cfe8;
+  color: white;
 }
 
 .image-credit {
   display: block;
   font-size: 0.8rem;
-  color: #88b0d0;
+  color: white;
   margin-top: 0.1rem;
 }
 
 .back-link {
   display: inline-block;
   margin-top: 2rem;
-  color: #a0d8ef;
+  color: white;
   text-decoration: none;
   font-weight: bold;
 }
