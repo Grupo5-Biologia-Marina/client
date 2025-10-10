@@ -1,12 +1,12 @@
 import React, { useState, useCallback } from "react";
-//import { useDropzone } from "react-dropzone";
+import { useDropzone } from "react-dropzone";
 import { api } from "../services/api";
 import axios from "axios";
 import type { FormEvent } from "react";
 import "../styles/PostForm.css";
 
 interface PostFormProps {
-  userId: number;
+  userId?: number; // Opcional, se puede tomar de localStorage
   onPostCreated?: () => void;
 }
 
@@ -28,6 +28,7 @@ export default function PostForm({ userId, onPostCreated }: PostFormProps) {
   const [error, setError] = useState("");
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
+  // Toggle categorías
   const toggleCategory = (cat: string) => {
     if (categories.includes(cat)) {
       setCategories(categories.filter((c) => c !== cat));
@@ -35,7 +36,8 @@ export default function PostForm({ userId, onPostCreated }: PostFormProps) {
       setCategories([...categories, cat]);
     }
   };
-// --- Manejo de subida de imágenes ---
+
+  // --- Manejo de subida de imágenes ---
   const onDrop = useCallback(
     async (acceptedFiles: File[]) => {
       const uploadedUrls: string[] = [];
@@ -43,7 +45,10 @@ export default function PostForm({ userId, onPostCreated }: PostFormProps) {
       for (const file of acceptedFiles) {
         const formData = new FormData();
         formData.append("file", file);
-        formData.append("upload_preset", import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET);
+        formData.append(
+          "upload_preset",
+          import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET
+        );
 
         try {
           const res = await axios.post(
@@ -57,29 +62,48 @@ export default function PostForm({ userId, onPostCreated }: PostFormProps) {
         }
       }
 
-      setImages([...images, ...uploadedUrls]);
+      setImages((prev) => [...prev, ...uploadedUrls]);
     },
-    [images]
+    []
   );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
+  // --- Manejo del envío del formulario ---
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
     setError("");
 
     try {
-      const res = await api.post("/posts", {
-        title,
-        content,
-        credits,
-        categories,
-        images,
-        userId,
-      });
+      // Tomamos token y userId de localStorage si no vienen como props
+      const token = localStorage.getItem("token");
+      const userIdStored = userId || Number(localStorage.getItem("userId"));
+
+      if (!token) {
+        setError("No se encontró token de autenticación. Debes iniciar sesión.");
+        setLoading(false);
+        return;
+      }
+      if (!userIdStored) {
+        setError("No se encontró userId. Debes iniciar sesión.");
+        setLoading(false);
+        return;
+      }
+
+      console.log("Enviando token:", token);
+      console.log("UserId:", userIdStored);
+
+      // Enviar POST al backend con token
+      const res = await api.post(
+        "/api/:posts",
+        { title, content, credits, categories, images, userId: userIdStored },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
       console.log("Post creado:", res.data);
 
+      // Limpiar formulario
       setTitle("");
       setContent("");
       setCredits("");
@@ -88,7 +112,7 @@ export default function PostForm({ userId, onPostCreated }: PostFormProps) {
 
       if (onPostCreated) onPostCreated();
     } catch (err: any) {
-      console.error(err);
+      console.error("Error creando post:", err);
       setError(err?.response?.data?.message || "Error al crear post");
     } finally {
       setLoading(false);
@@ -128,9 +152,7 @@ export default function PostForm({ userId, onPostCreated }: PostFormProps) {
           className="dropdown-header"
           onClick={() => setDropdownOpen(!dropdownOpen)}
         >
-          {categories.length > 0
-            ? categories.join(", ")
-            : "Selecciona categorías"}
+          {categories.length > 0 ? categories.join(", ") : "Selecciona categorías"}
           <span className={`arrow ${dropdownOpen ? "open" : ""}`} />
         </div>
         {dropdownOpen && (
@@ -138,9 +160,7 @@ export default function PostForm({ userId, onPostCreated }: PostFormProps) {
             {allCategories.map((cat) => (
               <div
                 key={cat}
-                className={`dropdown-item ${
-                  categories.includes(cat) ? "selected" : ""
-                }`}
+                className={`dropdown-item ${categories.includes(cat) ? "selected" : ""}`}
                 onClick={() => toggleCategory(cat)}
               >
                 {cat}

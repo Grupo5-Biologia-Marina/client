@@ -17,7 +17,8 @@ export default function LoginPage() {
       const res = await api.post("/auth/login", { email, password });
       console.log("Login exitoso:", res.data);
 
-      localStorage.setItem("token", res.data.data.token);
+      // Guardar token y userId en localStorage
+      localStorage.setItem("token", res.data.token);
       localStorage.setItem("userId", res.data.data.id.toString());
 
       navigate("/discoveries");
