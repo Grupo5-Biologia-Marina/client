@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Container,
   Typography,
@@ -13,6 +13,11 @@ import {
 import GitHubIcon from '@mui/icons-material/GitHub';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 
+// Importa la función que ya tienes para obtener el usuario
+import { getUserById } from '../services/userService';
+import type { User } from '../types/userTypes';
+
+// Imágenes
 import luisa from "../assets/creators/luisa.png";
 import irina from "../assets/creators/irina.png";
 import valentina from "../assets/creators/valentina.png";
@@ -59,7 +64,7 @@ const creators: Creator[] = [
     photo: julia,
     github: 'https://github.com',
     linkedin: 'https://linkedin.com',
-    description: 'Creando diseños que combinan estética y funcionalidad de manera armoniosa.',
+    description: 'Contribuye en el desarrollo y soporte de la aplicación.',
   },
   {
     name: 'Aday Álvarez',
@@ -67,16 +72,37 @@ const creators: Creator[] = [
     photo: aday,
     github: 'https://github.com/Aday25',
     linkedin: 'https://www.linkedin.com/in/adayasc',
-    description: 'Transformando datos en insights valiosos para tomar mejores decisiones.',
+    description: 'Perfeccionista y perseverante, en busca conseguir códigos eficientes y diseños únicos. ',
   },
 ];
 
 const Creadoras: React.FC = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-  
-  // Simulación de obtener el nombre del usuario
-  const userName = 'Usuario'; // Aquí obtendrías el nombre real del usuario autenticado
+
+  // 👉 Estado para guardar el nombre del usuario
+  const [userName, setUserName] = useState<string>(''); 
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const userId = localStorage.getItem('userId');
+        if (!userId) {
+          setUserName('invitado/a');
+          return;
+        }
+
+        const userData: User = await getUserById(userId);
+        // Puedes mostrar firstname o username según prefieras
+        setUserName(userData.firstname || userData.username);
+      } catch (error) {
+        console.error('Error al obtener el usuario:', error);
+        setUserName('invitado/a');
+      }
+    };
+
+    fetchUser();
+  }, []);
 
   return (
     <Box
@@ -87,7 +113,7 @@ const Creadoras: React.FC = () => {
       }}
     >
       <Container maxWidth="xl">
-        {/* Saludo al usuario */}
+        {/* 💬 Saludo personalizado */}
         <Box
           sx={{
             textAlign: 'center',
@@ -109,20 +135,11 @@ const Creadoras: React.FC = () => {
               textShadow: '0 2px 10px rgba(0,0,0,0.5)',
             }}
           >
-            ¡Hola, {userName}! 👋
-          </Typography>
-          <Typography
-            variant={isMobile ? 'body1' : 'h6'}
-            sx={{
-              color: 'rgba(255, 255, 255, 0.95)',
-              textShadow: '0 1px 5px rgba(0,0,0,0.3)',
-            }}
-          >
-            Bienvenido/a a nuestra comunidad. Estamos encantadas de tenerte aquí.
+            {userName ? `¡${userName}, estamos encantadas de tenerte aquí! 🦀` : 'Cargando...'}
           </Typography>
         </Box>
 
-        {/* Título de la sección */}
+        {/* Resto de la página igual */}
         <Typography
           variant={isMobile ? 'h4' : 'h3'}
           sx={{
@@ -136,7 +153,6 @@ const Creadoras: React.FC = () => {
           Nuestro Equipo de Creadoras
         </Typography>
 
-        {/* Contenedor de tarjetas con Flexbox */}
         <Box
           sx={{
             display: 'flex',
@@ -179,13 +195,7 @@ const Creadoras: React.FC = () => {
                 }}
               >
                 <CardContent sx={{ padding: 3 }}>
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      justifyContent: 'center',
-                      marginBottom: 2,
-                    }}
-                  >
+                  <Box sx={{ display: 'flex', justifyContent: 'center', marginBottom: 2 }}>
                     <Avatar
                       src={creator.photo}
                       alt={creator.name}
@@ -198,57 +208,26 @@ const Creadoras: React.FC = () => {
                     />
                   </Box>
 
-                  <Typography
-                    variant="h6"
-                    sx={{
-                      fontWeight: 'bold',
-                      color: '#003d5c',
-                      marginBottom: 0.5,
-                    }}
-                  >
+                  <Typography variant="h6" sx={{ fontWeight: 'bold', color: '#003d5c', marginBottom: 0.5 }}>
                     {creator.name}
                   </Typography>
 
-                  <Typography
-                    variant="body2"
-                    sx={{
-                      color: '#0077aa',
-                      fontWeight: 500,
-                      marginBottom: 2,
-                    }}
-                  >
+                  <Typography variant="body2" sx={{ color: '#0077aa', fontWeight: 500, marginBottom: 2 }}>
                     {creator.role}
                   </Typography>
 
-                  <Typography
-                    variant="body2"
-                    sx={{
-                      color: '#555',
-                      marginBottom: 2,
-                      fontSize: '0.9rem',
-                      lineHeight: 1.5,
-                    }}
-                  >
+                  <Typography variant="body2" sx={{ color: '#555', marginBottom: 2, fontSize: '0.9rem', lineHeight: 1.5 }}>
                     {creator.description}
                   </Typography>
 
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      justifyContent: 'center',
-                      gap: 1,
-                    }}
-                  >
+                  <Box sx={{ display: 'flex', justifyContent: 'center', gap: 1 }}>
                     <IconButton
                       href={creator.github}
                       target="_blank"
                       rel="noopener noreferrer"
                       sx={{
                         color: '#003d5c',
-                        '&:hover': {
-                          color: '#0077aa',
-                          transform: 'scale(1.2)',
-                        },
+                        '&:hover': { color: '#0077aa', transform: 'scale(1.2)' },
                         transition: 'all 0.2s ease',
                       }}
                     >
@@ -260,10 +239,7 @@ const Creadoras: React.FC = () => {
                       rel="noopener noreferrer"
                       sx={{
                         color: '#003d5c',
-                        '&:hover': {
-                          color: '#0077aa',
-                          transform: 'scale(1.2)',
-                        },
+                        '&:hover': { color: '#0077aa', transform: 'scale(1.2)' },
                         transition: 'all 0.2s ease',
                       }}
                     >

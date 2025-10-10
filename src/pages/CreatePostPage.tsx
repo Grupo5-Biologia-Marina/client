@@ -1,20 +1,22 @@
 import React from "react";
 import PostForm from "../components/PostForm";
 import { useNavigate } from "react-router-dom";
-import "../pages/CreatePostPage.css"
+import "../pages/CreatePostPage.css";
 
 export default function CreatePostPage() {
   const navigate = useNavigate();
   const userId = Number(localStorage.getItem("userId"));
 
+  // 🔒 Redirección si no hay usuario logueado
   if (!userId) {
-    // Si no hay usuario logueado, redirigir al login
     navigate("/login");
     return null;
   }
 
+  // ✅ Mensaje de éxito + redirección automática
   const handlePostCreated = () => {
-    alert("Post creado con éxito");
+    alert("🌊 ¡Descubrimiento creado con éxito!");
+    navigate("/alldiscoveries"); // 👈 redirige a la página de todos los descubrimientos
   };
 
   return (
@@ -24,3 +26,4 @@ export default function CreatePostPage() {
     </div>
   );
 }
+
