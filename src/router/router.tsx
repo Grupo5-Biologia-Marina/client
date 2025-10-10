@@ -10,9 +10,10 @@ import UsersAdminPage from "../pages/UsersAdminPage"; // GET /users (admin)
 
 // Posts
 import WelcomePage from "../pages/WelcomePage";        
-import DiscoveriesPage from "../pages/DiscoveriesPage"; // GET /posts   
+import DiscoveriesPage from "../pages/DiscoveriesPage"; // GET /por categoria   
 import PostDetailPage from "../pages/PostDetailPage"; // GET /posts/:id
 import CreatePostPage from "../pages/CreatePostPage"; // POST /posts
+import AllDiscoveriesPage from "../pages/AllDiscoveriesPage" //GET/ posts
 
 // Common
 import NotFoundPage from "../pages/NotFoundPage";
@@ -31,7 +32,7 @@ export default function AppRoutes() {
 
       {/* Posts */}     
       <Route path="/discoveries" element={<DiscoveriesPage />} /> {/* GET /posts */} 
-      <Route path="/posts" element={<DiscoveriesPage />} /> {/* GET /posts */}    
+      <Route path="/posts" element={<AllDiscoveriesPage />} /> {/* GET /posts */}    
       <Route path="/posts/:id" element={<PostDetailPage />} /> {/* GET /posts/:id */}
       <Route path="/posts/new" element={<CreatePostPage />} /> {/* POST /posts */}
 
