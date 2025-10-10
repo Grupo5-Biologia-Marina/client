@@ -17,7 +17,7 @@ export default function LoginPage() {
       console.log("Login exitoso:", res.data);
 
       // Guardar token y userId en localStorage
-      localStorage.setItem("token", res.data.data.token);
+      localStorage.setItem("token", res.data.token);
       localStorage.setItem("userId", res.data.data.id.toString());
 
       navigate("/discoveries"); // redirige después de login
