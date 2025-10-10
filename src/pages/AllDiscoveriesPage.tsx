@@ -70,6 +70,8 @@ export default function AllDiscoveriesPage() {
                     <img key={i} src={url} alt={`Imagen ${i}`} />
                   ))}
               </div>
+
+
             </div>
           ))}
         </div>
