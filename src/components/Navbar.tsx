@@ -19,6 +19,7 @@ import {
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
+
 import { useAuthStore } from '../store/authStore';
 
 interface Category {
@@ -48,11 +49,17 @@ const Navbar: React.FC = () => {
     (setter: React.Dispatch<React.SetStateAction<HTMLElement | null>>) => () => {
       setter(null);
     };
+const handleLogout = () => {
+  // Limpiar Zustand
+  clearToken();
 
-  const handleLogout = () => {
-    clearToken();
-    navigate('/login');
-  };
+  // Opcional: limpiar localStorage si aún guardas token o userId allí
+  localStorage.removeItem("token");
+  localStorage.removeItem("userId");
+
+  // Redirigir a login o a discoveries
+  navigate('/login');
+};
 
   const navbarStyle = {
     background: 'linear-gradient(-45deg, #001f2f, #003d5c, #005f80, #0077aa)',

@@ -10,21 +10,22 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
 
   const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    try {
-      const res = await api.post("/auth/login", { email, password });
-      console.log("Login exitoso:", res.data);
+  try {
+    const res = await api.post("/auth/login", { email, password });
+    console.log("Login exitoso:", res.data);
 
-      // Guardar token y userId en localStorage
-      localStorage.setItem("token", res.data.token);
-      localStorage.setItem("userId", res.data.data.id.toString());
+    // Guardar token, userId y rol en localStorage
+    localStorage.setItem("token", res.data.data.token);
+    localStorage.setItem("userId", res.data.data.id.toString());
+    localStorage.setItem("role", res.data.data.role); 
 
-      navigate("/discoveries"); // redirige después de login
-    } catch (err: any) {
-      console.error(err.response?.data || "Error al iniciar sesión");
-    }
-  };
+    navigate("/discoveries"); // redirige después de login
+  } catch (err: any) {
+    console.error(err.response?.data || "Error al iniciar sesión");
+  }
+};
 
   return (
     <div className="auth-container">

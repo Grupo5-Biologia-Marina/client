@@ -17,8 +17,7 @@ const ProfilePage: React.FC = () => {
     const loggedUserId = localStorage.getItem("userId");
 
     if (!loggedUserId || id !== loggedUserId.toString()) {
-      alert("No tienes permiso para ver este perfil");
-      navigate("/");
+      navigate("/404", { replace: true });
       return;
     }
 
@@ -41,7 +40,7 @@ const ProfilePage: React.FC = () => {
       await api.post("/auth/logout");
       localStorage.removeItem("token");
       localStorage.removeItem("userId");
-      navigate("/login");
+      navigate("/discoveries");
     } catch (err) {
       console.error("Error al cerrar sesión", err);
     }
