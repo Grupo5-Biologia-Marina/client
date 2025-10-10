@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-import { useAuthStore } from "../store/authStore";
+import { useAuthStore } from "../store/authStore"
 import FishesSVG from "../assets/fishes.png";
 import SharkSVG from "../assets/shark.png";
 import WhaleSVG from "../assets/whale.png";
@@ -14,9 +14,9 @@ const title = "El Gran Azul";
 
 export default function WelcomePage() {
   const navigate = useNavigate();
-  const { userId } = useAuthStore(); // Zustand: obtener token/usuario (si lo hay)
+  const { userId } = useAuthStore(); // Zustand: obtener token/usuario
 
-  // 🔒 Bloquear scroll SOLO cuando WelcomePage está montada
+  // Bloquear scroll SOLO cuando WelcomePage está montada
   useEffect(() => {
     document.body.style.overflow = "hidden";
     document.body.style.position = "fixed";
@@ -62,14 +62,14 @@ export default function WelcomePage() {
         />
       ))}
 
-      {/* 🌫️ Luz ambiental */}
+      {/* Luz ambiental */}
       <motion.div
         className="light-overlay"
         animate={{ opacity: [0.6, 0.3, 0.6] }}
         transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
       />
 
-      {/* 🐚 Texto principal - CENTRADO */}
+      {/* Texto principal - CENTRADO */}
       <div className="text-zone">
         <h1 className="title">
           {title.split("").map((letter, i) => (
@@ -78,7 +78,7 @@ export default function WelcomePage() {
               initial={{ opacity: 0, y: 25 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.15, duration: 0.6 }}
-              style={{ display: "inline-block" }}
+              style={{ display: 'inline-block' }}
             >
               {letter === " " ? "\u00A0" : letter}
             </motion.span>
@@ -96,7 +96,7 @@ export default function WelcomePage() {
 
         <motion.button
           className="start-btn"
-          onClick={() => navigate("/discoveries")} // 🔹 Ahora todos pueden entrar sin login
+          onClick={() => navigate(userId ? "/discoveries" : "/login")} // si hay usuario va a discoveries
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: title.length * 0.15 + 1.2, duration: 0.6 }}
@@ -115,10 +115,7 @@ export default function WelcomePage() {
         <motion.div
           className="water-trail"
           initial={{ opacity: 0, scale: 0 }}
-          animate={{
-            opacity: [0, 0.3, 0.5, 0.3, 0],
-            scale: [0.8, 1.2, 1, 1.2, 0.8],
-          }}
+          animate={{ opacity: [0, 0.3, 0.5, 0.3, 0], scale: [0.8, 1.2, 1, 1.2, 0.8] }}
           transition={{ repeat: Infinity, duration: 28, ease: "linear", delay: 3 }}
         />
         <motion.img
@@ -209,23 +206,10 @@ export default function WelcomePage() {
           src={JellyfishSVG}
           alt={`Jellyfish ${i + 1}`}
           className="jellyfish-floating"
-          style={{
-            bottom: `-${30 + i * 15}px`,
-            left: `${10 + i * 12}%`,
-            width: `${50 + (i % 3) * 15}px`,
-          }}
+          style={{ bottom: `-${30 + i * 15}px`, left: `${10 + i * 12}%`, width: `${50 + (i % 3) * 15}px` }}
           initial={{ y: 0, opacity: 0 }}
-          animate={{
-            y: ["0vh", "-100vh"],
-            opacity: [0, 0.2, 0.9, 0.1, 0],
-            x: [0, 10, -10, 0],
-          }}
-          transition={{
-            repeat: Infinity,
-            duration: 20 + i * 4,
-            ease: "easeInOut",
-            delay: 5 + i * 2,
-          }}
+          animate={{ y: ["0vh", "-100vh"], opacity: [0, 0.2, 0.9, 0.1, 0], x: [0, 10, -10, 0] }}
+          transition={{ repeat: Infinity, duration: 20 + i * 4, ease: "easeInOut", delay: 5 + i * 2 }}
         />
       ))}
     </div>

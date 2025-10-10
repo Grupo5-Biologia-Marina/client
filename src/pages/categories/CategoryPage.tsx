@@ -5,8 +5,8 @@ import { useNavigate } from "react-router-dom";
 interface CategoryPageProps {
   title: string;
   intro: string;
-  slug: string;
-  background?: string;
+  slug: string; // <-- añadimos el slug de la categoría
+  background?: string; // opcional para fondo personalizado
 }
 
 const CategoryPage: React.FC<CategoryPageProps> = ({ title, intro, slug, background }) => {
@@ -15,7 +15,7 @@ const CategoryPage: React.FC<CategoryPageProps> = ({ title, intro, slug, backgro
   const navigate = useNavigate();
 
   const handleShowPosts = () => {
-    navigate(`/category-posts/${slug}`); // Cambio de ruta
+    navigate(`/category/${slug}`);
   };
 
   return (
