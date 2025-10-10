@@ -53,32 +53,86 @@ const Navbar: React.FC = () => {
     boxShadow: '0 4px 20px rgba(0, 119, 170, 0.3)',
   };
 
-  const buttonStyle = {
-    textShadow: '0 0 5px rgba(0,0,0,0.7)',
-    transition: 'all 0.3s ease',
-    '&:hover': {
-      backgroundColor: 'rgba(255, 255, 255, 0.1)',
-      transform: 'translateY(-2px)',
+ const buttonStyle = {
+  position: 'relative',
+  fontWeight: 600,
+  letterSpacing: '1px',
+  textTransform: 'uppercase',
+  background: 'linear-gradient(90deg, #ffffff, #cce9ff, #a7e0ff)',
+  WebkitBackgroundClip: 'text',
+  WebkitTextFillColor: 'transparent',
+  textShadow: '0 0 10px rgba(255, 255, 255, 0.6), 0 0 15px rgba(0, 180, 255, 0.4)',
+  transition: 'all 0.4s ease',
+
+  '&:after': {
+    content: '""',
+    position: 'absolute',
+    left: 0,
+    bottom: 0,
+    width: 0,
+    height: '2px',
+    background: 'linear-gradient(90deg, #ffffff, #6ec9ff)',
+    transition: 'width 0.3s ease',
+    borderRadius: '2px',
+  },
+
+  '&:hover': {
+    transform: 'translateY(-2px) scale(1.05)',
+    textShadow: '0 0 15px rgba(255, 255, 255, 0.9), 0 0 25px rgba(0, 200, 255, 0.8)',
+    '&:after': {
+      width: '100%',
     },
-  };
+  },
+};
+
 
   return (
     <>
-      <AppBar position="static" sx={navbarStyle}>
+     <AppBar position="static" sx={{ ...navbarStyle, minHeight: '80px', paddingY: '0.3rem' }}>
+
         <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
-          <Typography
-            variant="h6"
-            component={RouterLink}
-            to="/discoveries"
-            sx={{
-              textDecoration: 'none',
-              color: 'white',
-              fontWeight: 'bold',
-              textShadow: '0 0 5px rgba(0,0,0,0.7)',
-            }}
-          >
-            El Gran Azul
-          </Typography>
+         <Typography
+  variant="h6"
+  component={RouterLink}
+  to="/discoveries"
+  sx={{
+    textDecoration: 'none',
+    color: 'white',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    textAlign: 'center',
+    textShadow: '0 0 8px rgba(0,0,0,0.8)',
+    fontWeight: 'bold',
+    lineHeight: 1,
+    paddingY: '0.5rem',
+  }}
+>
+  <Box
+    component="span"
+    sx={{
+      fontSize: '1.7rem', // un poco más grande
+      marginBottom: '-6px', // elimina cualquier espacio
+    }}
+  >
+    El Gran
+  </Box>
+  <Box
+    component="span"
+    sx={{
+      fontSize: '3rem',
+      letterSpacing: '1px', // más compacto
+      fontWeight: 900,
+      transform: 'scaleY(1.25)', // alargado verticalmente
+      lineHeight: 1,
+    }}
+  >
+    AZUL
+  </Box>
+</Typography>
+
+
 
           {/* Desktop */}
           {!isMobile && (

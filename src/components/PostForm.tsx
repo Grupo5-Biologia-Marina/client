@@ -96,7 +96,7 @@ export default function PostForm({ userId, onPostCreated }: PostFormProps) {
 
       // Enviar POST al backend con token
       const res = await api.post(
-        "/api/posts",
+        "/api/:posts",
         { title, content, credits, categories, images, userId: userIdStored },
         { headers: { Authorization: `Bearer ${token}` } }
       );
