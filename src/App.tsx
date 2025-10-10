@@ -1,9 +1,11 @@
 import { BrowserRouter, useLocation } from "react-router-dom";
 import AppRoutes from "./router/router";
 import "./index.css";
+import './App.css';
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import { useState } from "react";
+
 /**
  * AppContent vive dentro del BrowserRouter para poder usar useLocation.
  * Encapsulamos la lógica de "ocultar navbar/footer en ciertas rutas" aquí.
@@ -13,11 +15,9 @@ function AppContent() {
   const [username, setUsername] = useState<string>("Explorador"); // o traelo del contexto/auth si lo tienes
 
   // Rutas donde NO queremos navbar ni footer
-  // Ajusta las rutas según tu router (si tu welcome es '/', mantenlo).
   const hidePaths = ["/", "/welcome", "/login", "/register"];
 
-  // shouldHide = true si la ruta actual es exactamente una de las anteriores
-  // o si empieza por esa ruta (p. ej. /login/verify)
+  // shouldHide = true si la ruta actual coincide con alguna ruta de hidePaths
   const shouldHide = hidePaths.some((p) =>
     p === "/"
       ? location.pathname === "/" // root necesita igualdad exacta
@@ -31,7 +31,7 @@ function AppContent() {
 
   return (
     <>
-      {!shouldHide && <Navbar username={username} onLogout={handleLogout} />}
+      {!shouldHide && <Navbar />}
       <AppRoutes />
       {!shouldHide && <Footer />}
     </>
