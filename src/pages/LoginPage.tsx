@@ -8,6 +8,7 @@ export default function LoginPage() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -16,11 +17,10 @@ export default function LoginPage() {
       const res = await api.post("/auth/login", { email, password });
       console.log("Login exitoso:", res.data);
 
-      // Guardar token y userId en localStorage
       localStorage.setItem("token", res.data.data.token);
       localStorage.setItem("userId", res.data.data.id.toString());
 
-      navigate("/discoveries"); // redirige después de login
+      navigate("/discoveries");
     } catch (err: any) {
       console.error(err.response?.data || "Error al iniciar sesión");
     }
@@ -39,13 +39,23 @@ export default function LoginPage() {
             onChange={(e) => setEmail(e.target.value)}
             required
           />
-          <input
-            type="password"
-            placeholder="Contraseña"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
+
+          <div className="password-container">
+            <input
+              type={showPassword ? "text" : "password"}
+              placeholder="Contraseña"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+            <span
+              className="toggle-password-text"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? "Ocultar" : "Ver"}
+            </span>
+          </div>
+
           <button type="submit">Iniciar sesión</button>
         </form>
         <p>
