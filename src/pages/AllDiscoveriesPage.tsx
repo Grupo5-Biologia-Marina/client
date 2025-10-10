@@ -1,41 +1,56 @@
-import { useEffect, useState } from "react";
-import { fakePosts, Post } from "../services/FakePosts";
+import React, { useEffect, useState } from "react";
+import { api } from "../services/api";
 
-export default function PostsPage() {
-  const [posts, setPosts] = useState<Post[]>([]);
+
+export default function AllDiscoveriesPage() {
+  const [posts, setPosts] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  const fetchPosts = async () => {
+    try {
+      const res = await api.get("/posts"); // 👈 tu endpoint que devuelve todos los posts
+      setPosts(res.data);
+    } catch (err) {
+      console.error("Error al obtener los descubrimientos:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    // Simula una llamada a API
-    const fetchPosts = async () => {
-      await new Promise(res => setTimeout(res, 500)); // retraso simulado
-      setPosts(fakePosts);
-    };
     fetchPosts();
   }, []);
 
+  if (loading) return <p className="loading">Cargando descubrimientos...</p>;
+
   return (
-    <div className="posts-container">
-      <h1 className="posts-title">Descubrimientos Marinos 🐚</h1>
+    <div className="all-discoveries-page">
+      <h1 className="title">🌊 Todos los Descubrimientos</h1>
 
       <div className="posts-grid">
-        {posts.map(post => (
-          <div key={post.id} className="post-card">
-            <h2 className="post-title">{post.title}</h2>
-            <p className="post-content">{post.content}</p>
+        {posts.length === 0 ? (
+          <p>No hay descubrimientos aún.</p>
+        ) : (
+          posts.map((post) => (
+            <div key={post.id} className="post-card">
+              <h2>{post.titulo}</h2>
+              <p>{post.contenido}</p>
 
-            {post.images.map((img, idx) => (
-              <img key={idx} src={img} alt={post.title} className="post-image" />
-            ))}
+              {post.categorias && (
+                <p className="categories">
+                  <strong>Categorías:</strong> {post.categorias}
+                </p>
+              )}
 
-            <p className="post-credits">Créditos: {post.credits}</p>
-            <p className="post-categories">
-              Categorías: {post.categories.join(", ")}
-            </p>
-            <p className="post-date">
-              {new Date(post.createdAt).toLocaleDateString()}
-            </p>
-          </div>
-        ))}
+              <div className="images">
+                {post.imagenes &&
+                  post.imagenes.split(",").map((url: string, i: number) => (
+                    <img key={i} src={url} alt={`Imagen ${i}`} />
+                  ))}
+              </div>
+            </div>
+          ))
+        )}
       </div>
     </div>
   );
