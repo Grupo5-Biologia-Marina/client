@@ -17,8 +17,7 @@ const ProfilePage: React.FC = () => {
     const loggedUserId = localStorage.getItem("userId");
 
     if (!loggedUserId || id !== loggedUserId.toString()) {
-      alert("No tienes permiso para ver este perfil");
-      navigate("/");
+      navigate("/notfound", { replace: true });
       return;
     }
 
