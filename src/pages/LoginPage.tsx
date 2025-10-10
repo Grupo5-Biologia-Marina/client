@@ -23,19 +23,21 @@ export default function LoginPage() {
       const res = await api.post("/auth/login", { email, password });
       console.log("Login exitoso:", res.data);
 
+      // Token está en la raíz, no en data
+      const token = res.data.token;
       const userData = res.data.data;
 
-      // ✅ Guardar en localStorage (por compatibilidad)
-      localStorage.setItem("token", userData.token);
+      // Guardar en localStorage
+      localStorage.setItem("token", token);
       localStorage.setItem("userId", userData.id.toString());
       localStorage.setItem("role", userData.role);
 
-      // ✅ CRÍTICO: Guardar en Zustand para que el navbar se actualice
+      // Guardar en Zustand
       setUser({
         id: userData.id.toString(),
         name: userData.username || userData.name,
         email: userData.email,
-        token: userData.token,
+        token: token,
         role: userData.role,
       });
 

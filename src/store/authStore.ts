@@ -22,13 +22,11 @@ export const useAuthStore = create<AuthState>()(
       token: null,
       role: null,
 
-      // Establecer solo el userId
       setUserId: (id) => {
         console.log('🔹 setUserId llamado con:', id);
         set({ userId: id });
       },
 
-      // Establecer todos los datos del usuario de una vez
       setUser: (user) => {
         console.log('🔹 setUser llamado con:', user);
         set({
@@ -38,10 +36,13 @@ export const useAuthStore = create<AuthState>()(
           token: user.token || null,
           role: user.role || null,
         });
+        // ✅ Guardar token también en localStorage directamente
+        if (user.token) {
+          localStorage.setItem('token', user.token);
+        }
         console.log('✅ Estado actualizado. Nuevo userId:', get().userId);
       },
 
-      // Limpiar toda la sesión
       clearToken: () => {
         console.log('🔹 clearToken llamado - limpiando sesión');
         localStorage.removeItem('token');
@@ -59,20 +60,19 @@ export const useAuthStore = create<AuthState>()(
         console.log('✅ Sesión limpiada');
       },
 
-      // Verificar si el usuario está autenticado
       isAuthenticated: () => {
         const authenticated = get().userId !== null && get().token !== null;
         return authenticated;
       },
     }),
     {
-      name: 'auth-storage', // Nombre en localStorage
+      name: 'auth-storage',
       storage: createJSONStorage(() => localStorage),
     }
   )
 );
 
-// 🔍 Debug helper - puedes llamar esto desde la consola del navegador
+// 🔍 Debug helper
 if (typeof window !== 'undefined') {
   (window as any).debugAuth = () => {
     const state = useAuthStore.getState();

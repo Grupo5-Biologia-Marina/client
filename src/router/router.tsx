@@ -76,7 +76,7 @@ export default function AppRoutes() {
       <Route path="/categories/problems-threats" element={<ProblemsThreatsPage />} />
       <Route path="/categories/science-exploration" element={<ScienceExplorationPage />} />
       <Route path="/categories/world-regions" element={<WorldRegionsPage />} />
-      <Route path="/categories/:slug" element={<CategoryPostsPage />} />
+      <Route path="/category-posts/:slug" element={<CategoryPostsPage />} />
 
       {/* 👩‍💻 CREATORS - PÚBLICA */}
       <Route path="/creators" element={<Creators />} />

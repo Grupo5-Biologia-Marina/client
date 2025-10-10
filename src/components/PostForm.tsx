@@ -22,11 +22,11 @@ export default function PostForm({ userId, onPostCreated }: PostFormProps) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const allCategories: string[] = [
-    "🦈 Vida Marina",
+    "🐠 Vida Marina",
     "🌊 Ecosistemas Oceánicos",
-    "🤿 Ciencia y Exploración",
+    "🔬 Ciencia y Exploración",
     "⚠️ Problemas y Amenazas",
-    "🌎 Regiones y Océanos del Mundo",
+    "🌍 Regiones y Océanos del Mundo",
   ];
 
   const toggleCategory = (cat: string) => {
@@ -55,20 +55,27 @@ export default function PostForm({ userId, onPostCreated }: PostFormProps) {
   // Subir todas las imágenes al enviar el formulario
   const uploadAllImages = async () => {
     const uploadedUrls: string[] = [];
+    
+    if (images.length === 0) {
+      return uploadedUrls; // Sin imágenes, retorna array vacío
+    }
+
     for (const file of images) {
       const formData = new FormData();
       formData.append("file", file);
       formData.append("upload_preset", import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET);
 
       try {
+        console.log("📤 Subiendo imagen a Cloudinary...");
         const res = await axios.post(
           `https://api.cloudinary.com/v1_1/${import.meta.env.VITE_CLOUDINARY_CLOUD_NAME}/upload`,
           formData
         );
+        console.log("✅ Imagen subida:", res.data.secure_url);
         uploadedUrls.push(res.data.secure_url);
-      } catch (err) {
-        console.error("Error subiendo imagen:", err);
-        setError("Error al subir alguna imagen");
+      } catch (err: any) {
+        console.error("❌ Error subiendo imagen:", err);
+        throw new Error(`Error al subir imagen: ${err.message}`);
       }
     }
     return uploadedUrls;
@@ -100,8 +107,7 @@ export default function PostForm({ userId, onPostCreated }: PostFormProps) {
           categories,
           images: imageUrls,
           userId: userIdStored,
-        },
-        { headers: { Authorization: `Bearer ${token}` } }
+        }
       );
 
       console.log("Post creado:", res.data);
@@ -164,7 +170,7 @@ export default function PostForm({ userId, onPostCreated }: PostFormProps) {
                 type="button"
                 className="btn-remove"
                 onClick={(e) => {
-                  e.stopPropagation(); // ❌ Evita que se abra el selector al eliminar
+                  e.stopPropagation();
                   removeImage(file);
                 }}
               >
@@ -175,7 +181,6 @@ export default function PostForm({ userId, onPostCreated }: PostFormProps) {
         </div>
       </div>
 
-
       {error && <p className="form-error">{error}</p>}
 
       <button type="submit" className="form-button" disabled={loading}>
@@ -184,4 +189,3 @@ export default function PostForm({ userId, onPostCreated }: PostFormProps) {
     </form>
   );
 }
-

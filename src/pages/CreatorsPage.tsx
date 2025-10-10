@@ -59,20 +59,20 @@ const creators: Creator[] = [
     description: 'Desarrolladora versátil con experiencia en todo el stack tecnológico.',
   },
   {
-    name: 'Julia Zarco',
-    role: 'Full Stack Developer',
-    photo: julia,
-    github: 'https://github.com/juliazmor',
-    linkedin: 'https://linkedin.com',
-    description: 'Contribuye en el desarrollo y soporte de la aplicación.',
-  },
-  {
     name: 'Aday Álvarez',
     role: 'Full Stack Developer',
     photo: aday,
     github: 'https://github.com/Aday25',
     linkedin: 'https://www.linkedin.com/in/adayasc',
     description: 'Perfeccionista y perseverante, en busca conseguir códigos eficientes y diseños únicos. ',
+  },
+  {
+    name: 'Julia Zarco',
+    role: 'Full Stack Developer',
+    photo: julia,
+    github: 'https://github.com/juliazmor',
+    linkedin: 'https://linkedin.com',
+    description: 'Contribuye en el desarrollo y soporte de la aplicación.',
   },
 ];
 
@@ -81,7 +81,7 @@ const Creadoras: React.FC = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
   // 👉 Estado para guardar el nombre del usuario
-  const [userName, setUserName] = useState<string>(''); 
+  const [userName, setUserName] = useState<string>('');
 
   useEffect(() => {
     const fetchUser = async () => {
