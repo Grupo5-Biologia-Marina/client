@@ -4,7 +4,6 @@ import "./index.css";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import { useState } from "react";
-
 /**
  * AppContent vive dentro del BrowserRouter para poder usar useLocation.
  * Encapsulamos la lógica de "ocultar navbar/footer en ciertas rutas" aquí.

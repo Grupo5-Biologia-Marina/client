@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from "react";
-import { useDropzone } from "react-dropzone";
+//import { useDropzone } from "react-dropzone";
 import { api } from "../services/api";
 import axios from "axios";
 import type { FormEvent } from "react";
