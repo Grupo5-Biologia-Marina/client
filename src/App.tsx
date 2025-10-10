@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { BrowserRouter, useLocation } from "react-router-dom";
 import AppRoutes from "./router/router";
 import "./index.css";
@@ -28,12 +29,15 @@ function AppContent() {
     console.log("Cerrar sesión");
     // aquí borrar token / contexto y redirigir si procede
   };
+=======
+import './App.css'
+
+function App() {
+>>>>>>> b3bc6610332a579c058605cfbd149e19f8e62d36
 
   return (
     <>
-      {!shouldHide && <Navbar username={username} onLogout={handleLogout} />}
-      <AppRoutes />
-      {!shouldHide && <Footer />}
+     
     </>
   );
 }
