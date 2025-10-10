@@ -1,63 +1,61 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { Box, Typography } from "@mui/material";
 import { PostCard } from "../../components/PostCard";
-import type { Post } from "../../store/postsStore";
-import { usePostsStore } from "../../store/postsStore";
+import { getPostsByCategory } from "../../redux/actions/postActions";
 
 export const CategoryPostsPage: React.FC = () => {
-  console.log("🎯 CategoryPostsPage component rendering");
-  
   const { slug } = useParams<{ slug: string }>();
-  console.log("📍 useParams slug:", slug);
-  
-  const posts = usePostsStore((state) => state.posts);
-  const loading = usePostsStore((state) => state.loading);
-  const fetchPostsByCategory = usePostsStore((state) => state.fetchPostsByCategory);
-  
-  console.log("📦 Store state - posts:", posts, "loading:", loading);
+  const dispatch = useDispatch();
+  const posts = useSelector((state: any) => state.postReducer.postsByCategory);
 
   useEffect(() => {
-    console.log("🔍 useEffect triggered, slug:", slug);
-    console.log("🔍 fetchPostsByCategory function:", typeof fetchPostsByCategory);
-    
     if (slug) {
-      console.log("✅ Calling fetchPostsByCategory with slug:", slug);
-      fetchPostsByCategory(slug);
-    } else {
-      console.log("❌ slug is undefined or empty");
+      // @ts-ignore -> para evitar errores de tipo en el dispatch
+      dispatch(getPostsByCategory(slug));
     }
-  }, [slug, fetchPostsByCategory]);
+  }, [slug, dispatch]);
 
   return (
     <Box sx={{ py: 6, px: 3 }}>
       <Typography
         variant="h3"
         align="center"
-        sx={{ mb: 4, fontWeight: "bold", color: "#004d61", textTransform: "uppercase" }}
+        sx={{
+          mb: 4,
+          fontWeight: "bold",
+          color: "#004d61",
+          textTransform: "uppercase",
+        }}
       >
         {slug?.replace("-", " ")}
       </Typography>
 
-      {loading ? (
-        <Typography align="center">Cargando posts...</Typography>
-      ) : posts.length > 0 ? (
+      {posts?.length > 0 ? (
         <Box
           sx={{
-            display: "flex",
-            flexWrap: "wrap",
+            display: "grid",
+            gridTemplateColumns: {
+              xs: "1fr",
+              sm: "1fr 1fr",
+              md: "1fr 1fr 1fr",
+            },
             gap: 3,
-            justifyContent: "center",
           }}
         >
-          {posts.map((post: Post) => (
-            <Box key={post.id} sx={{ flex: "1 1 300px", maxWidth: 350 }}>
+          {posts.map((post: any) => (
+            <Box key={post.id}>
               <PostCard post={post} />
             </Box>
           ))}
         </Box>
       ) : (
-        <Typography variant="h6" align="center" sx={{ color: "#777", mt: 4 }}>
+        <Typography
+          variant="h6"
+          align="center"
+          sx={{ color: "#777", mt: 4 }}
+        >
           No hay publicaciones disponibles en esta categoría todavía 🐚
         </Typography>
       )}

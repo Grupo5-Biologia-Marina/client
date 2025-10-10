@@ -1,26 +1,21 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useAuthStore } from "../store/authStore";
 import OceanBG from "../assets/ocean-bg.png";
 import "./AuthPage.css";
 
 export default function RegisterPage() {
   const navigate = useNavigate();
-  const setUser = useAuthStore((state) => state.setUser);
-  
   const [username, setUsername] = useState("");
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-    setLoading(true);
 
     try {
       const response = await axios.post("http://localhost:4000/auth/register", {
@@ -34,40 +29,26 @@ export default function RegisterPage() {
       if (response.status === 201 && response.data.success) {
         const { token, data: user } = response.data;
 
-        // ✅ Guardamos en localStorage (por compatibilidad)
+        // Guardamos datos en localStorage
         localStorage.setItem("token", token);
-        localStorage.setItem("userId", user.id?.toString() || user.user_id?.toString());
         localStorage.setItem("username", user.username);
         localStorage.setItem("email", user.email);
-        localStorage.setItem("role", user.role || "user");
 
-        // ✅ Guardamos en Zustand (esto sincroniza el navbar automáticamente)
-        setUser({
-          id: user.id?.toString() || user.user_id?.toString(),
-          name: user.username || `${firstname} ${lastname}`,
-          email: user.email,
-          token: token,
-        });
-
-        // ✅ Redirigimos a discoveries
+        // Redirigimos a descubrimientos
         navigate("/discoveries");
       }
     } catch (err: any) {
       console.error("Error al registrar:", err);
-      setError(err.response?.data?.message || "Error al registrarse. Por favor, intenta de nuevo.");
-    } finally {
-      setLoading(false);
+      setError(err.response?.data?.message || "Error al registrarse");
     }
   };
+
 
   return (
     <div className="auth-container">
       <img src={OceanBG} alt="Ocean background" className="auth-bg" />
       <div className="auth-card">
         <h2>Registro</h2>
-        
-        {error && <div className="auth-error">{error}</div>}
-
         <form onSubmit={handleRegister}>
           <input
             type="text"
@@ -75,21 +56,18 @@ export default function RegisterPage() {
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
-            disabled={loading}
           />
           <input
             type="text"
             placeholder="Nombre"
             value={firstname}
             onChange={(e) => setFirstname(e.target.value)}
-            disabled={loading}
           />
           <input
             type="text"
             placeholder="Apellido"
             value={lastname}
             onChange={(e) => setLastname(e.target.value)}
-            disabled={loading}
           />
           <input
             type="email"
@@ -97,7 +75,6 @@ export default function RegisterPage() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            disabled={loading}
           />
           <input
             type="password"
@@ -105,13 +82,11 @@ export default function RegisterPage() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            minLength={6}
-            disabled={loading}
           />
-          <button type="submit" disabled={loading}>
-            {loading ? "Creando cuenta..." : "Registrarse"}
-          </button>
+          <button type="submit">Registrarse</button>
         </form>
+
+        {error && <p className="error-text">{error}</p>}
 
         <p>
           ¿Ya tienes cuenta?{" "}
