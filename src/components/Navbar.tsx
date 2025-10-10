@@ -29,7 +29,6 @@ const Navbar: React.FC = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const navigate = useNavigate();
 
-  // Handlers
   const handleMenuOpen =
     (setter: React.Dispatch<React.SetStateAction<HTMLElement | null>>) =>
     (event: React.MouseEvent<HTMLElement>) => {
@@ -61,6 +60,14 @@ const Navbar: React.FC = () => {
       transform: 'translateY(-2px)',
     },
   };
+
+  const categories = [
+    { text: '🦈 Vida Marina', slug: 'marine-life' },
+    { text: '🌊 Ecosistemas Oceánicos', slug: 'ocean-ecosystems' },
+    { text: '🤿 Ciencia y Exploración', slug: 'science-exploration' },
+    { text: '⚠️ Problemas y Amenazas', slug: 'problems-threats' },
+    { text: '🦭 Regiones y Océanos del Mundo', slug: 'world-regions' },
+  ];
 
   return (
     <>
@@ -111,11 +118,17 @@ const Navbar: React.FC = () => {
                 open={Boolean(anchorCategorias)}
                 onClose={handleMenuClose(setAnchorCategorias)}
               >
-                <MenuItem onClick={handleMenuClose(setAnchorCategorias)}>🦈 Vida Marina</MenuItem>
-                <MenuItem onClick={handleMenuClose(setAnchorCategorias)}>🌊 Ecosistemas Oceánicos</MenuItem>
-                <MenuItem onClick={handleMenuClose(setAnchorCategorias)}>🤿 Ciencia y Exploración</MenuItem>
-                <MenuItem onClick={handleMenuClose(setAnchorCategorias)}>⚠️ Problemas y Amenazas</MenuItem>
-                <MenuItem onClick={handleMenuClose(setAnchorCategorias)}>🌍 Regiones y Océanos del Mundo</MenuItem>
+                {categories.map((cat) => (
+                  <MenuItem
+                    key={cat.slug}
+                    onClick={() => {
+                      navigate(`/categories/${cat.slug}`);
+                      handleMenuClose(setAnchorCategorias)();
+                    }}
+                  >
+                    {cat.text}
+                  </MenuItem>
+                ))}
               </Menu>
 
               <Button color="inherit" component={RouterLink} to="/users/:id" sx={buttonStyle}>
@@ -137,7 +150,7 @@ const Navbar: React.FC = () => {
                 <MenuIcon />
               </IconButton>
               <Drawer anchor="right" open={mobileOpen} onClose={() => setMobileOpen(false)}>
-                <Box sx={{ width: 250 }} role="presentation" onClick={() => setMobileOpen(false)}>
+                <Box sx={{ width: 250 }} role="presentation">
                   <List>
                     <ListItem>
                       <ListItemButton component={RouterLink} to="/posts">
@@ -153,16 +166,10 @@ const Navbar: React.FC = () => {
                     <ListItem>
                       <ListItemText primary="📚 Categorías" />
                     </ListItem>
-                    {[
-                      '🦈 Vida Marina',
-                      '🪸 Ecosistemas Oceánicos',
-                      '🤿 Ciencia y Exploración',
-                      '⚠️ Problemas y Amenazas',
-                      '🦭 Regiones y Océanos del Mundo',
-                    ].map((text) => (
-                      <ListItem key={text}>
-                        <ListItemButton>
-                          <ListItemText primary={text} />
+                    {categories.map((cat) => (
+                      <ListItem key={cat.slug}>
+                        <ListItemButton onClick={() => navigate(`/categories/${cat.slug}`)}>
+                          <ListItemText primary={cat.text} />
                         </ListItemButton>
                       </ListItem>
                     ))}
