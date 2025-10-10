@@ -43,11 +43,11 @@ const creators: Creator[] = [
     description: 'Apasionada por crear interfaces intuitivas y experiencias de usuario memorables.',
   },
   {
-    name: 'Irina',
+    name: 'Irina Tiron',
     role: 'Full Stack Developer',
     photo: irina,
-    github: 'https://github.com',
-    linkedin: 'https://linkedin.com',
+    github: 'https://github.com/irinatiron',
+    linkedin: 'https://www.linkedin.com/in/irinatiron/',
     description: 'Especializada en arquitecturas escalables y optimización de bases de datos.',
   },
   {
@@ -59,10 +59,10 @@ const creators: Creator[] = [
     description: 'Desarrolladora versátil con experiencia en todo el stack tecnológico.',
   },
   {
-    name: 'Julia',
+    name: 'Julia Zarco',
     role: 'Full Stack Developer',
     photo: julia,
-    github: 'https://github.com',
+    github: 'https://github.com/juliazmor',
     linkedin: 'https://linkedin.com',
     description: 'Contribuye en el desarrollo y soporte de la aplicación.',
   },

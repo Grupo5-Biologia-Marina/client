@@ -16,10 +16,9 @@ const ProfilePage: React.FC = () => {
 
     const loggedUserId = localStorage.getItem("userId");
 
-    // Bloquear acceso si no es el usuario correcto
     if (!loggedUserId || id !== loggedUserId.toString()) {
       alert("No tienes permiso para ver este perfil");
-      navigate("/"); // redirige a home o a otra página
+      navigate("/");
       return;
     }
 
@@ -37,13 +36,12 @@ const ProfilePage: React.FC = () => {
     fetchUser();
   }, [id, navigate]);
 
-  // Logout con endpoint backend
   const handleLogout = async () => {
     try {
-      await api.post("/auth/logout"); // llama al backend
-      localStorage.removeItem("token");  // borra token
-      localStorage.removeItem("userId"); // borra id
-      navigate("/login");                // redirige a login
+      await api.post("/auth/logout");
+      localStorage.removeItem("token");
+      localStorage.removeItem("userId");
+      navigate("/login");
     } catch (err) {
       console.error("Error al cerrar sesión", err);
     }
@@ -55,8 +53,40 @@ const ProfilePage: React.FC = () => {
   return (
     <div className="profile-page">
       <h1>Hola {user?.username}</h1>
+
       {user ? (
         <div className="profile-info">
+          {/* Imagen de perfil */}
+          {user.img ? (
+            <img
+              src={user.img}
+              alt={`Foto de perfil de ${user.username}`}
+              className="profile-image"
+              style={{
+                width: "150px",
+                height: "150px",
+                borderRadius: "50%",
+                objectFit: "cover",
+                marginBottom: "1rem",
+              }}
+            />
+          ) : (
+            <div
+              style={{
+                width: "150px",
+                height: "150px",
+                borderRadius: "50%",
+                backgroundColor: "#ccc",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                marginBottom: "1rem",
+              }}
+            >
+              <span>Sin imagen</span>
+            </div>
+          )}
+
           <h2>Tu perfil:</h2>
           <p><strong>Username:</strong> {user.username}</p>
           <p><strong>Nombre:</strong> {user.firstname}</p>
@@ -67,6 +97,7 @@ const ProfilePage: React.FC = () => {
             <strong>Password:</strong>{" "}
             <input type="password" value="********" disabled />
           </p>
+
           <button onClick={handleLogout}>Cerrar sesión</button>
         </div>
       ) : (

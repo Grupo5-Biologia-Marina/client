@@ -1,16 +1,22 @@
 import React from "react";
 import { Box, Container, Typography, Button, useTheme, useMediaQuery } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 interface CategoryPageProps {
   title: string;
   intro: string;
-  onShowPosts: () => void;
-  background?: string; // opcional para que cada página pueda usar su fondo
+  slug: string; // <-- añadimos el slug de la categoría
+  background?: string; // opcional para fondo personalizado
 }
 
-const CategoryPage: React.FC<CategoryPageProps> = ({ title, intro, onShowPosts, background }) => {
+const CategoryPage: React.FC<CategoryPageProps> = ({ title, intro, slug, background }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+  const navigate = useNavigate();
+
+  const handleShowPosts = () => {
+    navigate(`/category/${slug}`);
+  };
 
   return (
     <Box
@@ -54,7 +60,7 @@ const CategoryPage: React.FC<CategoryPageProps> = ({ title, intro, onShowPosts, 
         <Button
           variant="contained"
           size={isMobile ? "medium" : "large"}
-          onClick={onShowPosts}
+          onClick={handleShowPosts}
           sx={{
             backgroundColor: "rgba(0, 77, 102, 0.85)",
             "&:hover": {

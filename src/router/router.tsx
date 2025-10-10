@@ -22,6 +22,7 @@ import OceanEcosystemsPage from "../pages/categories/OceanEcosystemsPage.tsx";
 import ProblemsThreatsPage from "../pages/categories/ProblemsThreatsPage.tsx";
 import ScienceExplorationPage from "../pages/categories/ScienceExplorationPage";
 import WorldRegionsPage from "../pages/categories/WorldRegionsPage.tsx";
+import { CategoryPostsPage } from "../pages/categories/CategoryPostsPage.tsx";
 
 // Common
 import NotFoundPage from "../pages/NotFoundPage";
@@ -54,6 +55,7 @@ export default function AppRoutes() {
       <Route path="/categories/problems-threats" element={<ProblemsThreatsPage />} />
       <Route path="/categories/science-exploration" element={<ScienceExplorationPage />} />
       <Route path="/categories/world-regions" element={<WorldRegionsPage />} />
+      <Route path="/category/:slug" element={<CategoryPostsPage />} />
 
       {/* Fallback */}
       <Route path="*" element={<NotFoundPage />} />
