@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Box, Card, CardMedia, CardContent, Typography } from "@mui/material";
+import VirtualAssistant from '../components/VirtualAssistant';
 
 // Imágenes
 import marineLifeImg from "../assets/categories/marine-life.png";
@@ -143,6 +144,7 @@ export default function DiscoveriesPage() {
           </Card>
         ))}
       </Box>
+      <VirtualAssistant/>
     </Box>
   );
 }
