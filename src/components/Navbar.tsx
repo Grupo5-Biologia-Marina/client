@@ -19,6 +19,7 @@ import {
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { api } from "../services/api";
 
 const Navbar: React.FC = () => {
   const [anchorPosts, setAnchorPosts] = useState<null | HTMLElement>(null);
@@ -43,9 +44,15 @@ const Navbar: React.FC = () => {
       setter(null);
     };
 
-  const handleLogout = () => {
-    console.log('Cerrando sesión...');
-    navigate('/login');
+  const handleLogout = async () => {
+    try {
+      await api.post("/auth/logout");
+      localStorage.removeItem("token");
+      localStorage.removeItem("userId");
+      navigate("/discoveries");
+    } catch (err) {
+      console.error("Error al cerrar sesión", err);
+    }
   };
 
   const navbarStyle = {
