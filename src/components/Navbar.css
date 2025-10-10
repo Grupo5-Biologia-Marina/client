@@ -1,0 +1,19 @@
+/* Navbar gradient animation */
+.navbar-gradient {
+  background: linear-gradient(-45deg, #001f2f, #003d5c, #005f80, #0077aa);
+  background-size: 400% 400%;
+  animation: gradientMove 15s ease infinite;
+}
+
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Text shadows for better readability */
+.navbar-gradient h1,
+.navbar-gradient button,
+.navbar-gradient span {
+  text-shadow: 0 0 5px rgba(0,0,0,0.7);
+}

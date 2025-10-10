@@ -1,0 +1,34 @@
+.footer {
+  background-color: #003f5c;
+  color: white;
+  align-items: center;
+  padding: 8px 30px;
+  
+  height: auto;
+  display:flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.footer-logo {
+    width: 120px;
+    height: auto;
+}
+.factoria-f5 {
+    color: orange;
+}
+@media (max-width: 600px) {
+    .footer {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    .footer-logo {
+        width: 60%;
+        max-width: 120px;
+        margin-bottom: 15px;
+    }
+    .footer-text {
+        text-align: center;
+        font-size: 14px;
+    }
+}

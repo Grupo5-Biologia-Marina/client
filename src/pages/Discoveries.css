@@ -1,0 +1,207 @@
+/* ==================== CONTENEDOR PRINCIPAL ==================== */
+.discoveries-container {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  overflow-x: hidden; /* Solo ocultar scroll horizontal */
+  overflow-y: auto; /* CRÍTICO: Permitir scroll vertical */
+  background: url("/assets/ocean.gif") center center / cover no-repeat fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 60px 20px 120px; /* Espacio superior, lateral y EXTRA para footer */
+}
+
+/* ==================== OVERLAY SEMITRANSPARENTE ==================== */
+.discoveries-overlay {
+  background: rgba(0, 20, 40, 0.7);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  padding: 50px 40px;
+  border-radius: 20px;
+  max-width: 1500px;
+  width: 95%;
+  text-align: center;
+  color: white;
+  box-shadow: 
+    0 0 30px rgba(0, 150, 200, 0.4),
+    0 10px 40px rgba(0, 0, 0, 0.3);
+  animation: fadeIn 0.8s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ==================== TÍTULO PRINCIPAL ==================== */
+.discoveries-title {
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 700;
+  margin-bottom: 15px;
+  text-shadow: 
+    0 0 20px rgba(0, 207, 255, 0.8),
+    0 4px 10px rgba(0, 0, 0, 0.5);
+  color: #e0f7fa;
+  letter-spacing: 0.5px;
+}
+
+/* ==================== SUBTÍTULO ==================== */
+.discoveries-subtitle {
+  font-size: clamp(1rem, 2.5vw, 1.3rem);
+  margin-bottom: 50px;
+  color: #b2ebf2;
+  line-height: 1.6;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+}
+
+/* ==================== GRID DE TARJETAS ==================== */
+.discoveries-grid {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: stretch;
+  gap: 25px;
+  width: 100%;
+  padding: 20px 0;
+}
+
+/* ==================== TARJETAS ==================== */
+.discoveries-card {
+  flex: 1 1 0;
+  min-width: 220px;
+  max-width: 280px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+
+.discoveries-card:hover {
+  transform: scale(1.08) translateY(-12px);
+  box-shadow: 
+    0 0 35px rgba(0, 242, 255, 0.8),
+    0 12px 30px rgba(0, 0, 0, 0.4);
+  z-index: 10;
+  background: rgba(255, 255, 255, 1);
+}
+
+/* Efecto: oscurecer las demás tarjetas */
+.discoveries-grid:hover .discoveries-card:not(:hover) {
+  filter: brightness(0.6);
+  transform: scale(0.95);
+}
+
+/* ==================== IMAGEN DE LA TARJETA ==================== */
+.discoveries-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.discoveries-card:hover img {
+  transform: scale(1.1);
+}
+
+/* ==================== CONTENIDO DE LA TARJETA ==================== */
+.discoveries-card-content {
+  padding: 20px;
+  text-align: center;
+}
+
+.discoveries-card-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #004d61;
+  margin-bottom: 10px;
+}
+
+.discoveries-card-description {
+  font-size: 0.95rem;
+  color: #555;
+  line-height: 1.5;
+}
+
+/* ==================== RESPONSIVE ==================== */
+@media (max-width: 1200px) {
+  .discoveries-grid {
+    gap: 20px;
+  }
+  
+  .discoveries-card {
+    min-width: 200px;
+  }
+}
+
+@media (max-width: 768px) {
+  .discoveries-container {
+    padding: 40px 15px 100px;
+  }
+
+  .discoveries-overlay {
+    padding: 30px 20px;
+    width: 98%;
+  }
+
+  .discoveries-grid {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 20px;
+  }
+
+  .discoveries-card {
+    max-width: 100%;
+    min-width: 100%;
+  }
+
+  .discoveries-card:hover {
+    transform: scale(1.03) translateY(-5px);
+  }
+}
+
+@media (max-width: 480px) {
+  .discoveries-title {
+    font-size: 1.8rem;
+  }
+
+  .discoveries-subtitle {
+    font-size: 1rem;
+    margin-bottom: 30px;
+  }
+
+  .discoveries-overlay {
+    padding: 25px 15px;
+  }
+}
+
+/* ==================== SCROLLBAR PERSONALIZADO ==================== */
+.discoveries-container::-webkit-scrollbar {
+  width: 10px;
+}
+
+.discoveries-container::-webkit-scrollbar-track {
+  background: rgba(0, 20, 40, 0.3);
+}
+
+.discoveries-container::-webkit-scrollbar-thumb {
+  background: rgba(0, 191, 255, 0.5);
+  border-radius: 5px;
+}
+
+.discoveries-container::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 191, 255, 0.8);
+}
