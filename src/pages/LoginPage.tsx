@@ -1,37 +1,69 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { api } from "../services/api";
+import { useAuthStore } from "../store/authStore";
 import OceanBG from "../assets/ocean-bg.png";
 import "./AuthPage.css";
 
 export default function LoginPage() {
   const navigate = useNavigate();
+  const setUser = useAuthStore((state) => state.setUser);
+  
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleLogin = async (e: React.FormEvent) => {
-  e.preventDefault();
+    e.preventDefault();
+    setError("");
+    setLoading(true);
 
-  try {
-    const res = await api.post("/auth/login", { email, password });
-    console.log("Login exitoso:", res.data);
+    try {
+      const res = await api.post("/auth/login", { email, password });
+      console.log("Login exitoso:", res.data);
 
-    // Guardar token, userId y rol en localStorage
-    localStorage.setItem("token", res.data.data.token);
-    localStorage.setItem("userId", res.data.data.id.toString());
-    localStorage.setItem("role", res.data.data.role); 
+      const userData = res.data.data;
 
-    navigate("/discoveries"); // redirige después de login
-  } catch (err: any) {
-    console.error(err.response?.data || "Error al iniciar sesión");
-  }
-};
+      // ✅ Guardar en localStorage (por compatibilidad)
+      localStorage.setItem("token", userData.token);
+      localStorage.setItem("userId", userData.id.toString());
+      localStorage.setItem("role", userData.role);
+
+      // ✅ CRÍTICO: Guardar en Zustand para que el navbar se actualice
+      setUser({
+        id: userData.id.toString(),
+        name: userData.username || userData.name,
+        email: userData.email,
+        token: userData.token,
+        role: userData.role,
+      });
+
+      console.log("✅ Usuario guardado en Zustand");
+      console.log("📊 Estado actual:", useAuthStore.getState());
+
+      // Redirigir a discoveries
+      navigate("/discoveries");
+    } catch (err: any) {
+      console.error(err.response?.data || "Error al iniciar sesión");
+      setError(err.response?.data?.message || "Error al iniciar sesión. Verifica tus credenciales.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="auth-container">
       <img src={OceanBG} alt="Ocean background" className="auth-bg" />
       <div className="auth-card">
         <h2>Iniciar sesión</h2>
+
+        {error && (
+          <div className="auth-error">
+            {error}
+          </div>
+        )}
+
         <form onSubmit={handleLogin}>
           <input
             type="email"
@@ -39,6 +71,7 @@ export default function LoginPage() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
+            disabled={loading}
           />
           <input
             type="password"
@@ -46,9 +79,13 @@ export default function LoginPage() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
+            disabled={loading}
           />
-          <button type="submit">Iniciar sesión</button>
+          <button type="submit" disabled={loading}>
+            {loading ? "Iniciando sesión..." : "Iniciar sesión"}
+          </button>
         </form>
+
         <p>
           ¿No tienes cuenta?{" "}
           <span className="auth-link" onClick={() => navigate("/register")}>
