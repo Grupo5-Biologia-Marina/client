@@ -1,14 +1,27 @@
 import React, { useEffect, useState } from "react";
+import { Box, Typography } from "@mui/material";
 import { api } from "../services/api";
+import { PostCard } from "../components/PostCard";
+
+interface Category {
+  id: number;
+  name: string;
+}
+
+interface PostImage {
+  id: number;
+  url: string;
+}
 
 interface Post {
   id: number;
   title: string;
   content: string;
   credits?: string;
-  categories?: string[];
-  images?: string[];
+  categories?: Category[];
+  images?: PostImage[];
   createdAt: string;
+  userId: number;
 }
 
 export default function AllDiscoveriesPage() {
@@ -18,9 +31,8 @@ export default function AllDiscoveriesPage() {
 
   const fetchPosts = async () => {
     try {
-      const res = await api.get("/api/posts"); // endpoint GET /posts
+      const res = await api.get("/api/posts");
 
-      // Los posts reales están en res.data.data
       if (Array.isArray(res.data.data)) {
         setPosts(res.data.data);
       } else {
@@ -39,45 +51,68 @@ export default function AllDiscoveriesPage() {
     fetchPosts();
   }, []);
 
-  if (loading) return <p>Cargando descubrimientos...</p>;
-  if (error) return <p>{error}</p>;
+  if (loading) {
+    return (
+      <Box sx={{ py: 6, textAlign: "center" }}>
+        <Typography>Cargando descubrimientos...</Typography>
+      </Box>
+    );
+  }
+
+  if (error) {
+    return (
+      <Box sx={{ py: 6, textAlign: "center" }}>
+        <Typography color="error">{error}</Typography>
+      </Box>
+    );
+  }
 
   return (
-    <div className="all-discoveries-page">
-      <h1>🌊 Todos los Descubrimientos</h1>
+    <Box sx={{ py: 6, px: 3, minHeight: "100vh", backgroundColor: "#f5f5f5" }}>
+      <Typography
+        variant="h3"
+        align="center"
+        sx={{
+          mb: 4,
+          fontWeight: "bold",
+          color: "#004d61",
+          textTransform: "uppercase",
+        }}
+      >
+        🌊 Todos los Descubrimientos
+      </Typography>
 
       {posts.length === 0 ? (
-        <p>No hay descubrimientos aún.</p>
+        <Typography variant="h6" align="center" sx={{ color: "#777", mt: 4 }}>
+          No hay descubrimientos aún 🐚
+        </Typography>
       ) : (
-        <div className="posts-grid">
+        <Box
+          sx={{
+            display: "flex",
+            flexWrap: "wrap",
+            gap: 3,
+            justifyContent: "center",
+            maxWidth: "1400px",
+            margin: "0 auto",
+          }}
+        >
           {posts.map((post) => (
-            <div key={post.id} className="post-card">
-              <h2>{post.title}</h2>
-              <p>{post.content}</p>
-              {post.credits && (
-                <p>
-                  <strong>Créditos:</strong> {post.credits}
-                </p>
-              )}
-              {post.categories && post.categories.length > 0 && (
-                <p>
-                  <strong>Categorías:</strong> {post.categories.join(", ")}
-                </p>
-              )}
-              <div className="images">
-                {post.images &&
-                  post.images.map((url, i) => (
-                    <img key={i} src={url} alt={`Imagen ${i}`} />
-                  ))}
-              </div>
-
-
-            </div>
+            <Box key={post.id} sx={{ flex: "1 1 300px", maxWidth: 350 }}>
+              <PostCard
+                post={{
+                  id: String(post.id),
+                  title: post.title,
+                  image: post.images?.[0]?.url || "",
+                  likes: 0,
+                  author: `Usuario ${post.userId}`,
+                  date: post.createdAt,
+                }}
+              />
+            </Box>
           ))}
-        </div>
+        </Box>
       )}
-    </div>
+    </Box>
   );
 }
-
-
