@@ -1,8 +1,15 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Box, Typography } from "@mui/material";
 import { PostCard } from "../../components/PostCard";
 import { api } from "../../services/api";
+import '../../styles/PostsPage.css'; // CSS compartido
+
+interface User {
+  id: number;
+  username: string;
+  email: string;
+}
 
 interface Category {
   id: number;
@@ -18,9 +25,10 @@ interface Post {
   images?: { url: string }[];
   createdAt: string;
   userId: number;
+  user?: User;
 }
 
-// Mapeo de slug a categoría real
+// Mapeo de slug a nombre de categoría
 const categoryMap: Record<string, string> = {
   "marine-life": "🐠 Vida Marina",
   "ocean-ecosystems": "🌊 Ecosistemas Oceánicos",
@@ -29,7 +37,7 @@ const categoryMap: Record<string, string> = {
   "world-regions": "🌍 Regiones y Océanos del Mundo",
 };
 
-export const CategoryPostsPage: React.FC = () => {
+export const CategoryPostsPage = () => {
   const { slug } = useParams<{ slug: string }>();
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
@@ -41,99 +49,58 @@ export const CategoryPostsPage: React.FC = () => {
     const fetchPosts = async () => {
       try {
         setLoading(true);
-        console.log("📡 Fetching all posts from API...");
-        
         const res = await api.get("/api/posts");
-        console.log("✅ API Response:", res.data);
-
         const allPosts: Post[] = Array.isArray(res.data.data) ? res.data.data : [];
-        console.log("📦 All posts:", allPosts);
 
         if (!categoryName) {
-          console.warn("⚠️ No category name found for slug:", slug);
           setPosts([]);
           return;
         }
 
-        // Filtrar posts por categoría
-        const filteredPosts = allPosts.filter((post) => {
-          if (post.categories && Array.isArray(post.categories)) {
-            const hasCategory = post.categories.some(
-              (cat) => cat.name === categoryName
-            );
-            console.log(
-              `🔍 Post "${post.title}" categories:`,
-              post.categories.map((c) => c.name),
-              "- Has category:",
-              hasCategory
-            );
-            return hasCategory;
-          }
-          return false;
-        });
+        const filteredPosts = allPosts.filter((post) =>
+          post.categories?.some((c) => c.name === categoryName)
+        );
 
-        console.log("✅ Filtered posts:", filteredPosts);
         setPosts(filteredPosts);
       } catch (err: any) {
-        console.error("❌ Error fetching posts:", err);
+        console.error("Error fetching posts:", err);
         setError("No se pudieron cargar los posts");
       } finally {
         setLoading(false);
       }
     };
 
-    if (slug) {
-      fetchPosts();
-    }
+    if (slug) fetchPosts();
   }, [slug, categoryName]);
 
   return (
-    <Box sx={{ py: 6, px: 3 }}>
-      <Typography
-        variant="h3"
-        align="center"
-        sx={{
-          mb: 4,
-          fontWeight: "bold",
-          color: "#004d61",
-          textTransform: "uppercase",
-        }}
-      >
+    <Box className="page-container">
+      <Typography variant="h3" align="center" sx={{ mb: 4, fontWeight: "bold", textTransform: "uppercase" }}>
         {categoryName || slug?.replace("-", " ")}
       </Typography>
 
       {loading ? (
         <Typography align="center">Cargando posts...</Typography>
       ) : error ? (
-        <Typography align="center" color="error">
-          {error}
-        </Typography>
+        <Typography align="center" color="error">{error}</Typography>
       ) : posts.length > 0 ? (
-        <Box
-          sx={{
-            display: "flex",
-            flexWrap: "wrap",
-            gap: 3,
-            justifyContent: "center",
-          }}
-        >
+        <Box className="cards-grid">
           {posts.map((post) => (
-            <Box key={post.id} sx={{ flex: "1 1 300px", maxWidth: 350 }}>
-              <PostCard 
-                post={{
-                  id: String(post.id),
-                  title: post.title,
-                  image: post.images?.[0]?.url || '',
-                  likes: 0,
-                  author: `Usuario ${post.userId}`,
-                  date: post.createdAt
-                }}
-              />
-            </Box>
+            <PostCard
+              key={post.id}
+              post={{
+                id: String(post.id),
+                title: post.title,
+                image: post.images?.[0]?.url || "",
+                likes: 0,
+                author: post.user?.username || `Usuario ${post.userId}`,
+                date: post.createdAt,
+              }}
+            />
           ))}
         </Box>
       ) : (
-        <Typography variant="h6" align="center" sx={{ color: "#777", mt: 4 }}>
+        <Typography variant="h6" align="center" sx={{ mt: 4 }}>
           No hay publicaciones disponibles en esta categoría todavía 🐚
         </Typography>
       )}
