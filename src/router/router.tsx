@@ -37,11 +37,11 @@ interface ProtectedRouteProps {
 
 function ProtectedRoute({ children }: ProtectedRouteProps) {
   const userId = useAuthStore((state) => state.userId);
-  
+
   if (!userId) {
     return <Navigate to="/login" replace />;
   }
-  
+
   return <>{children}</>;
 }
 
@@ -51,11 +51,11 @@ function ProtectedRoute({ children }: ProtectedRouteProps) {
  */
 function PublicOnlyRoute({ children }: ProtectedRouteProps) {
   const userId = useAuthStore((state) => state.userId);
-  
+
   if (userId) {
     return <Navigate to="/discoveries" replace />;
   }
-  
+
   return <>{children}</>;
 }
 
