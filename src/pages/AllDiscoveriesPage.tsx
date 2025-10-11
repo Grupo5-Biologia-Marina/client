@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Box, Typography } from "@mui/material";
 import { api } from "../services/api";
 import { PostCard } from "../components/PostCard";
+import '../styles/PostsPage.css'; // CSS compartido
 
-interface Category {
+interface User {
   id: number;
-  name: string;
+  username: string;
 }
 
 interface PostImage {
@@ -16,12 +17,10 @@ interface PostImage {
 interface Post {
   id: number;
   title: string;
-  content: string;
-  credits?: string;
-  categories?: Category[];
   images?: PostImage[];
   createdAt: string;
   userId: number;
+  user?: User;
 }
 
 export default function AllDiscoveriesPage() {
@@ -31,14 +30,8 @@ export default function AllDiscoveriesPage() {
 
   const fetchPosts = async () => {
     try {
-      const res = await api.get("/api/posts");
-
-      if (Array.isArray(res.data.data)) {
-        setPosts(res.data.data);
-      } else {
-        console.warn("Los datos recibidos no son un array:", res.data);
-        setPosts([]);
-      }
+      const res = await api.get<{ data: Post[] }>("/api/posts");
+      setPosts(res.data.data || []);
     } catch (err: any) {
       console.error("Error al obtener los descubrimientos:", err);
       setError("No se pudieron cargar los descubrimientos. Intenta más tarde.");
@@ -51,66 +44,37 @@ export default function AllDiscoveriesPage() {
     fetchPosts();
   }, []);
 
-  if (loading) {
-    return (
-      <Box sx={{ py: 6, textAlign: "center" }}>
-        <Typography>Cargando descubrimientos...</Typography>
-      </Box>
-    );
-  }
-
-  if (error) {
-    return (
-      <Box sx={{ py: 6, textAlign: "center" }}>
-        <Typography color="error">{error}</Typography>
-      </Box>
-    );
-  }
+  if (loading) return <Typography align="center" sx={{ py: 6 }}>Cargando descubrimientos...</Typography>;
+  if (error) return <Typography align="center" sx={{ py: 6 }} color="error">{error}</Typography>;
 
   return (
-    <Box sx={{ py: 6, px: 3, minHeight: "100vh", backgroundColor: "#f5f5f5" }}>
-      <Typography
-        variant="h3"
-        align="center"
-        sx={{
-          mb: 4,
-          fontWeight: "bold",
-          color: "#004d61",
-          textTransform: "uppercase",
-        }}
-      >
+    <Box className="page-container">
+      <Typography variant="h3" align="center" sx={{ mb: 4, fontWeight: "bold", textTransform: "uppercase" }}>
         🌊 Todos los Descubrimientos
       </Typography>
 
       {posts.length === 0 ? (
-        <Typography variant="h6" align="center" sx={{ color: "#777", mt: 4 }}>
+        <Typography variant="h6" align="center" sx={{ mt: 4 }}>
           No hay descubrimientos aún 🐚
         </Typography>
       ) : (
-        <Box
-          sx={{
-            display: "flex",
-            flexWrap: "wrap",
-            gap: 3,
-            justifyContent: "center",
-            maxWidth: "1400px",
-            margin: "0 auto",
-          }}
-        >
-          {posts.map((post) => (
-            <Box key={post.id} sx={{ flex: "1 1 300px", maxWidth: 350 }}>
+        <Box className="cards-grid">
+          {posts.map((post) => {
+            const author = post.user?.username || `Usuario ${post.userId}`;
+            return (
               <PostCard
+                key={post.id}
                 post={{
                   id: String(post.id),
                   title: post.title,
                   image: post.images?.[0]?.url || "",
                   likes: 0,
-                  author: `Usuario ${post.userId}`,
+                  author,
                   date: post.createdAt,
                 }}
               />
-            </Box>
-          ))}
+            );
+          })}
         </Box>
       )}
     </Box>

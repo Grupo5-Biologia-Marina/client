@@ -1,6 +1,7 @@
-import React from 'react';
-import { Card, CardMedia, CardContent, Typography, Box } from '@mui/material';
-import sealLike from '../assets/icons/seal-like.png';
+import React from "react";
+import { Card, CardContent, CardMedia, Typography, Box } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 
 interface PostCardProps {
   post: {
@@ -8,32 +9,50 @@ interface PostCardProps {
     title: string;
     image: string;
     likes: number;
+    author?: string; // opcional
+    date: string;
   };
 }
 
 export const PostCard: React.FC<PostCardProps> = ({ post }) => {
+  const navigate = useNavigate();
 
-  const numFormatter = (num: number) => {
-    if(num > 999 && num < 1000000) return (num/1000).toFixed(1) + 'K';
-    else if(num >= 1000000) return (num/1000000).toFixed(1) + 'M';
-    else return num.toString();
+  const handleCardClick = () => {
+    console.log("Navigating to post ID:", post.id);
+    navigate(`/post/${post.id}`);
   };
 
   return (
-    <Card sx={{ borderRadius: 3, overflow: 'hidden', cursor: 'pointer', boxShadow: 3 }}>
+    <Card className="post-card"
+      onClick={handleCardClick}
+      sx={{
+        cursor: "pointer",
+        transition: "transform 0.2s, box-shadow 0.2s",
+        "&:hover": {
+          transform: "translateY(-4px)",
+          boxShadow: 6,
+        },
+      }}
+    >
       <CardMedia
         component="img"
-        height="180"
-        image={post.image}
+        height="200"
+        image={post.image || "https://via.placeholder.com/400x200?text=Sin+imagen"}
         alt={post.title}
       />
       <CardContent>
-        <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 1 }}>
+        <Typography variant="h6" gutterBottom>
           {post.title}
         </Typography>
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <img src={sealLike} alt="Like" style={{ width: 20, marginRight: 4 }} />
-          <Typography>{numFormatter(post.likes)}</Typography>
+        <Typography variant="body2" color="text.secondary">
+          Por {post.author ?? `Usuario desconocido`}
+        </Typography>
+        <Typography variant="caption" color="text.secondary">
+          {new Date(post.date).toLocaleDateString("es-ES")}
+        </Typography>
+        <Box sx={{ display: "flex", alignItems: "center", mt: 1 }}>
+          <FavoriteIcon sx={{ fontSize: 16, color: "red", mr: 0.5 }} />
+          <Typography variant="body2">{post.likes}</Typography>
         </Box>
       </CardContent>
     </Card>

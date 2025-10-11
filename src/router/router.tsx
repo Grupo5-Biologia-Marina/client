@@ -68,7 +68,7 @@ export default function AppRoutes() {
 
       {/* 🔍 DISCOVERIES - PÚBLICAS (sin login necesario) */}
       <Route path="/discoveries" element={<DiscoveriesPage />} />
-      <Route path="/posts/:id" element={<PostDetailPage />} />
+      <Route path="/post/:id" element={<PostDetailPage />} />
 
       {/* 🧭 CATEGORÍAS - PÚBLICAS */}
       <Route path="/categories/marine-life" element={<MarineLifePage />} />

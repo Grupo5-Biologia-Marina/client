@@ -1,17 +1,24 @@
 /* === CONTENEDOR PRINCIPAL DE PÁGINA === */
 .page-container {
-  background: url('/assets/ocean-bg.jpg') no-repeat center/cover;
-  background-size: cover;
   min-height: 100vh;
   padding: 2rem;
   font-family: "Inter", sans-serif;
   color: #f0f9ff;
+  background: linear-gradient(270deg, #0099ff, #00ccff, #0066cc, #003366);
+  background-size: 800% 800%;
+  animation: oceanWave 20s ease infinite;
+}
+
+@keyframes oceanWave {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 /* === TÍTULO PRINCIPAL === */
-.page-container h1, .page-container h2 {
+.page-container h1, .page-container h2, .page-container h3 {
   text-align: center;
-  color: #004b8e;
+  color: #ffffff;
   margin-bottom: 2rem;
   font-weight: 700;
   letter-spacing: 0.5px;
@@ -28,7 +35,7 @@
 
 /* === TARJETA DE POST === */
 .post-card {
-  background: rgba(0, 100, 180, 0.08); /* azul acuático semi-transparente */
+  background: rgba(0, 100, 180, 0.08);
   border-radius: 16px;
   border: 1px solid rgba(0, 120, 220, 0.3);
   box-shadow: 0 4px 20px rgba(0, 120, 220, 0.2);
