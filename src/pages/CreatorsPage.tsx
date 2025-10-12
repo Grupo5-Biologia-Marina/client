@@ -70,7 +70,8 @@ const creators: Creator[] = [
   },
   { name: 'Aday Álvarez', 
     role: 'Full Stack Developer', 
-    photo: aday, github: 'https://github.com/Aday25', 
+    photo: aday, 
+    github: 'https://github.com/Aday25', 
     linkedin: 'https://www.linkedin.com/in/adayasc', 
     description: 'Perfeccionista y perseverante, en busca de códigos eficientes y diseños únicos.', 
     animal: shark1 
