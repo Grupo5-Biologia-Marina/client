@@ -35,7 +35,7 @@ const categories = [
       "Comprende los desafíos ambientales que enfrentan los océanos del planeta.",
   },
   {
-    title: "🌍 Regiones y Océanos del Mundo",
+    title: "🌍 Regiones y Océanos",
     image: regionsImg,
     description:
       "Sumérgete en las distintas regiones marinas que conforman el planeta azul.",
