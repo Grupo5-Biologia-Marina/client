@@ -110,7 +110,7 @@ export default function DiscoveriesPage() {
             sx={{
               flex: { xs: "1", md: "1 1 0" },
               borderRadius: 3,
-              bgcolor: "rgba(255,255,255,0.95)",
+              bgcolor: "rgba(49, 67, 85, 0.95)",
               transition: "all 0.3s ease",
               cursor: "pointer",
               transform:
@@ -127,20 +127,31 @@ export default function DiscoveriesPage() {
             <CardMedia component="img" height="180" image={cat.image} alt={cat.title} />
             <CardContent>
               <Typography
-                variant="h6"
+                variant="h5"
                 fontWeight={600}
-                sx={{ color: "#004d61", mb: 1, textAlign: "center" }}
+                sx={{
+                  color: "#69c9dfff",
+                  mb: 1,
+                  textAlign: "center",
+                  textShadow: "1px 1px 2px rgba(0,0,0,0.5)",
+                  transition: "all 0.2s ease",
+                  "&:hover": {
+                    color: "#00e5ff",
+                    transform: "scale(1.03)",
+                    textShadow: "2px 2px 4px rgba(0,0,0,0.6)",
+                  }
+                }}
               >
                 {cat.title}
               </Typography>
-              <Typography variant="body2" color="text.secondary" sx={{ textAlign: "center" }}>
+              <Typography variant="body2" sx={{ color: "#ffffffff", textAlign: "center" }}>
                 {cat.description}
               </Typography>
             </CardContent>
           </Card>
         ))}
       </Box>
-      <VirtualAssistant/>
+      <VirtualAssistant />
     </Box>
   );
 }
