@@ -23,6 +23,7 @@ import irina from "../assets/creators/irina.png";
 import valentina from "../assets/creators/valentina.png";
 import julia from "../assets/creators/julia.png";
 import aday from "../assets/creators/aday.png";
+import codersImg from "../assets/creators/coders.png";
 
 interface Creator {
   name: string;
@@ -137,6 +138,26 @@ const Creadoras: React.FC = () => {
           >
             {userName ? `¡${userName}, estamos encantadas de tenerte aquí! 🦀` : 'Cargando...'}
           </Typography>
+        </Box>
+
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            marginY: 5, // separación arriba y abajo
+          }}
+        >
+          <Box
+            component="img"
+            src={codersImg}
+            alt="Coders"
+            sx={{
+              maxWidth: '90%',
+              height: 'auto',
+              borderRadius: 3,
+              boxShadow: '0 8px 24px rgba(0,0,0,0.2)',
+            }}
+          />
         </Box>
 
         {/* Resto de la página igual */}
