@@ -96,7 +96,7 @@ export default function WelcomePage() {
 
         <motion.button
           className="start-btn"
-          onClick={() => navigate("/discoveries")} // 🔹 Ahora todos pueden entrar sin login
+          onClick={() => navigate("/login")}
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: title.length * 0.15 + 1.2, duration: 0.6 }}
