@@ -88,7 +88,7 @@ const Creadoras: React.FC = () => {
       try {
         const userId = localStorage.getItem('userId');
         if (!userId) {
-          setUserName('invitado/a');
+          setUserName('Invitad@');
           return;
         }
 
@@ -97,7 +97,7 @@ const Creadoras: React.FC = () => {
         setUserName(userData.firstname || userData.username);
       } catch (error) {
         console.error('Error al obtener el usuario:', error);
-        setUserName('invitado/a');
+        setUserName('Invitad@');
       }
     };
 
