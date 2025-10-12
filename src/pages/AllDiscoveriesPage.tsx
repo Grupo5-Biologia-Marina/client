@@ -1,42 +1,82 @@
 import { useEffect, useState } from "react";
-import { fakePosts, Post } from "../services/FakePosts";
+import { Box, Typography } from "@mui/material";
+import { api } from "../services/api";
+import { PostCard } from "../components/PostCard";
+import '../styles/PostsPage.css'; // CSS compartido
 
-export default function PostsPage() {
+interface User {
+  id: number;
+  username: string;
+}
+
+interface PostImage {
+  id: number;
+  url: string;
+}
+
+interface Post {
+  id: number;
+  title: string;
+  images?: PostImage[];
+  createdAt: string;
+  userId: number;
+  user?: User;
+}
+
+export default function AllDiscoveriesPage() {
   const [posts, setPosts] = useState<Post[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  const fetchPosts = async () => {
+    try {
+      const res = await api.get<{ data: Post[] }>("/api/posts");
+      setPosts(res.data.data || []);
+    } catch (err: any) {
+      console.error("Error al obtener los descubrimientos:", err);
+      setError("No se pudieron cargar los descubrimientos. Intenta más tarde.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    // Simula una llamada a API
-    const fetchPosts = async () => {
-      await new Promise(res => setTimeout(res, 500)); // retraso simulado
-      setPosts(fakePosts);
-    };
     fetchPosts();
   }, []);
 
+  if (loading) return <Typography align="center" sx={{ py: 6 }}>Cargando descubrimientos...</Typography>;
+  if (error) return <Typography align="center" sx={{ py: 6 }} color="error">{error}</Typography>;
+
   return (
-    <div className="posts-container">
-      <h1 className="posts-title">Descubrimientos Marinos 🐚</h1>
+    <Box className="page-container">
+      <Typography variant="h3" align="center" sx={{ mb: 4, fontWeight: "bold", textTransform: "uppercase" }}>
+        🌊 Todos los Descubrimientos
+      </Typography>
 
-      <div className="posts-grid">
-        {posts.map(post => (
-          <div key={post.id} className="post-card">
-            <h2 className="post-title">{post.title}</h2>
-            <p className="post-content">{post.content}</p>
-
-            {post.images.map((img, idx) => (
-              <img key={idx} src={img} alt={post.title} className="post-image" />
-            ))}
-
-            <p className="post-credits">Créditos: {post.credits}</p>
-            <p className="post-categories">
-              Categorías: {post.categories.join(", ")}
-            </p>
-            <p className="post-date">
-              {new Date(post.createdAt).toLocaleDateString()}
-            </p>
-          </div>
-        ))}
-      </div>
-    </div>
+      {posts.length === 0 ? (
+        <Typography variant="h6" align="center" sx={{ mt: 4 }}>
+          No hay descubrimientos aún 🐚
+        </Typography>
+      ) : (
+        <Box className="cards-grid">
+          {posts.map((post) => {
+            const author = post.user?.username || `Usuario ${post.userId}`;
+            return (
+              <PostCard
+                key={post.id}
+                post={{
+                  id: String(post.id),
+                  title: post.title,
+                  image: post.images?.[0]?.url || "",
+                  likes: 0,
+                  author,
+                  date: post.createdAt,
+                }}
+              />
+            );
+          })}
+        </Box>
+      )}
+    </Box>
   );
 }

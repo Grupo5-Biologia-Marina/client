@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
+import { api } from "../services/api";
 import "../styles/PostDetailPage.css";
 
 interface User {
@@ -28,39 +29,42 @@ interface Post {
   user?: User;
   categories?: Category[];
   images?: PostImage[];
+  createdAt?: string;
 }
 
 export default function PostDetailPage() {
   const { id } = useParams<{ id: string }>();
   const [post, setPost] = useState<Post | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    // Datos de prueba
-    const mockPost: Post = {
-      id: Number(id) || 1,
-      title: "Nuevo Descubrimiento en el Océano Antártico",
-      content: `Científicos han encontrado una nueva especie de medusa que brilla bajo el agua fría. 
-Se espera que su estudio ayude a entender mejor los ecosistemas marinos polares.`,
-      credits: "Foto: Oceanic Research Team",
-      user: { id: 1, username: "marine_researcher", email: "research@example.com" },
-      categories: [
-        { id: 1, name: "Vida Marina" },
-        { id: 2, name: "Ecosistemas Oceánicos" }
-      ],
-      images: [
-        { id: 1, url: "https://placekitten.com/800/400", caption: "Medusa recién descubierta", credit: "Oceanic Research Team" },
-        { id: 2, url: "https://placekitten.com/800/401", caption: "Vista submarina", credit: "Oceanic Research Team" }
-      ]
+    const fetchPost = async () => {
+      try {
+        setLoading(true);
+        console.log("📡 Fetching post with ID:", id);
+        
+        const res = await api.get(`/api/posts/${id}`);
+        console.log("✅ Post fetched:", res.data);
+        
+        // El post viene en res.data.data
+        const postData = res.data.data || res.data;
+        setPost(postData);
+      } catch (err: any) {
+        console.error("❌ Error fetching post:", err);
+        setError("No se pudo cargar el descubrimiento");
+      } finally {
+        setLoading(false);
+      }
     };
 
-    // Simulamos fetch async
-    setPost(mockPost);
-    setLoading(false);
-    console.log("Mock post cargado:", mockPost);
+    if (id) {
+      fetchPost();
+    }
   }, [id]);
 
   if (loading) return <p className="loading">Cargando descubrimiento...</p>;
+  if (error) return <p className="error">{error}</p>;
   if (!post) return <p className="error">No se encontró el descubrimiento.</p>;
 
   return (
@@ -74,35 +78,67 @@ Se espera que su estudio ayude a entender mejor los ecosistemas marinos polares.
           </p>
         )}
 
-        {post.categories && post.categories.length > 0 && (
-          <p className="post-categories">
-            Categorías:{" "}
-            {post.categories.map((c) => (
-              <span key={c.id} className="category">{c.name}</span>
-            ))}
+        {post.createdAt && (
+          <p className="post-date">
+            Fecha: {new Date(post.createdAt).toLocaleDateString('es-ES', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric'
+            })}
           </p>
         )}
 
-        <article className="post-content">{post.content}</article>
+        {post.categories && post.categories.length > 0 && (
+          <div className="post-categories">
+            <strong>Categorías: </strong>
+            {post.categories.map((c, index) => (
+              <span key={c.id}>
+                <span className="category">{c.name}</span>
+                {index < post.categories!.length - 1 && ", "}
+              </span>
+            ))}
+          </div>
+        )}
 
-        {post.credits && <p className="post-credits">Créditos: {post.credits}</p>}
+        <article className="post-content">
+          {post.content.split('\n').map((paragraph, index) => (
+            <p key={index}>{paragraph}</p>
+          ))}
+        </article>
+
+        {post.credits && (
+          <p className="post-credits">
+            <strong>Créditos:</strong> {post.credits}
+          </p>
+        )}
 
         {post.images && post.images.length > 0 && (
           <section className="post-images">
-            <h3>Imágenes</h3>
+            <h3>Galería de imágenes</h3>
             {post.images.map((img) => (
               <figure key={img.id} className="post-image-item">
-                <img src={img.url} alt={img.caption || "Imagen del descubrimiento"} />
+                <img 
+                  src={img.url} 
+                  alt={img.caption || post.title} 
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).src = "https://via.placeholder.com/800x400?text=Imagen+no+disponible";
+                  }}
+                />
                 {img.caption && <figcaption>{img.caption}</figcaption>}
-                {img.credit && <small className="image-credit">{img.credit}</small>}
+                {img.credit && <small className="image-credit">Crédito: {img.credit}</small>}
               </figure>
             ))}
           </section>
         )}
 
-        <Link to="/posts" className="back-link">
-          ← Volver a todos los descubrimientos
-        </Link>
+        <div className="post-actions">
+          <Link to="/discoveries" className="back-link">
+            ← Volver a descubrimientos
+          </Link>
+          <Link to="/posts" className="back-link">
+            Ver todos los posts
+          </Link>
+        </div>
       </main>
     </div>
   );
