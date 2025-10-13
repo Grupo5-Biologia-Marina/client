@@ -19,6 +19,12 @@ import {
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { useAuthStore } from '../store/authStore';
+
+interface Category {
+  text: string;
+  slug: string;
+}
 
 const Navbar: React.FC = () => {
   const [anchorPosts, setAnchorPosts] = useState<null | HTMLElement>(null);
@@ -29,14 +35,15 @@ const Navbar: React.FC = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const navigate = useNavigate();
 
-  const loggedUserId = localStorage.getItem("userId");
+  // ✅ Obtener userId desde Zustand para saber si está autenticado
+  const userId = useAuthStore((state) => state.userId);
+  const clearToken = useAuthStore((state) => state.clearToken);
 
-  // Handlers
   const handleMenuOpen =
     (setter: React.Dispatch<React.SetStateAction<HTMLElement | null>>) =>
-      (event: React.MouseEvent<HTMLElement>) => {
-        setter(event.currentTarget);
-      };
+    (event: React.MouseEvent<HTMLElement>) => {
+      setter(event.currentTarget);
+    };
 
   const handleMenuClose =
     (setter: React.Dispatch<React.SetStateAction<HTMLElement | null>>) => () => {
@@ -44,7 +51,7 @@ const Navbar: React.FC = () => {
     };
 
   const handleLogout = () => {
-    console.log('Cerrando sesión...');
+    clearToken(); // Limpia el estado de Zustand y localStorage
     navigate('/login');
   };
 
@@ -56,42 +63,25 @@ const Navbar: React.FC = () => {
   };
 
   const buttonStyle = {
-    position: 'relative',
-    fontWeight: 600,
-    letterSpacing: '1px',
-    textTransform: 'uppercase',
-    background: 'linear-gradient(90deg, #ffffff, #cce9ff, #a7e0ff)',
-    WebkitBackgroundClip: 'text',
-    WebkitTextFillColor: 'transparent',
-    textShadow: '0 0 10px rgba(255, 255, 255, 0.6), 0 0 15px rgba(0, 180, 255, 0.4)',
-    transition: 'all 0.4s ease',
-
-    '&:after': {
-      content: '""',
-      position: 'absolute',
-      left: 0,
-      bottom: 0,
-      width: 0,
-      height: '2px',
-      background: 'linear-gradient(90deg, #ffffff, #6ec9ff)',
-      transition: 'width 0.3s ease',
-      borderRadius: '2px',
-    },
-
+    textShadow: '0 0 5px rgba(0,0,0,0.7)',
+    transition: 'all 0.3s ease',
     '&:hover': {
-      transform: 'translateY(-2px) scale(1.05)',
-      textShadow: '0 0 15px rgba(255, 255, 255, 0.9), 0 0 25px rgba(0, 200, 255, 0.8)',
-      '&:after': {
-        width: '100%',
-      },
+      backgroundColor: 'rgba(255, 255, 255, 0.1)',
+      transform: 'translateY(-2px)',
     },
   };
 
+  const categories: Category[] = [
+    { text: '🦈 Vida Marina', slug: 'marine-life' },
+    { text: '🌊 Ecosistemas Oceánicos', slug: 'ocean-ecosystems' },
+    { text: '🤿 Ciencia y Exploración', slug: 'science-exploration' },
+    { text: '⚠️ Problemas y Amenazas', slug: 'problems-threats' },
+    { text: '🌍 Regiones y Océanos del Mundo', slug: 'world-regions' },
+  ];
 
   return (
     <>
-      <AppBar position="static" sx={{ ...navbarStyle, minHeight: '80px', paddingY: '0.3rem' }}>
-
+      <AppBar position="static" sx={navbarStyle}>
         <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
           <Typography
             variant="h6"
@@ -100,65 +90,38 @@ const Navbar: React.FC = () => {
             sx={{
               textDecoration: 'none',
               color: 'white',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'center',
-              textAlign: 'center',
-              textShadow: '0 0 8px rgba(0,0,0,0.8)',
               fontWeight: 'bold',
-              lineHeight: 1,
-              paddingY: '0.5rem',
+              textShadow: '0 0 5px rgba(0,0,0,0.7)',
             }}
           >
-            <Box
-              component="span"
-              sx={{
-                fontSize: '1.7rem', // un poco más grande
-                marginBottom: '-6px', // elimina cualquier espacio
-              }}
-            >
-              El Gran
-            </Box>
-            <Box
-              component="span"
-              sx={{
-                fontSize: '3rem',
-                letterSpacing: '1px', // más compacto
-                fontWeight: 900,
-                transform: 'scaleY(1.25)', // alargado verticalmente
-                lineHeight: 1,
-              }}
-            >
-              AZUL
-            </Box>
+            El Gran Azul
           </Typography>
-
-
 
           {/* Desktop */}
           {!isMobile && (
             <Box>
-              <Button color="inherit" onClick={handleMenuOpen(setAnchorPosts)} sx={buttonStyle}>
-                Posts
-              </Button>
-              <Menu
-                anchorEl={anchorPosts}
-                open={Boolean(anchorPosts)}
-                onClose={handleMenuClose(setAnchorPosts)}
-              >
-                <MenuItem component={RouterLink} to="/posts" onClick={handleMenuClose(setAnchorPosts)}>
-                  Ver todos
-                </MenuItem>
-                <MenuItem
-                  component={RouterLink}
-                  to="/posts/new"
-                  onClick={handleMenuClose(setAnchorPosts)}
-                >
-                  Crear nuevo post
-                </MenuItem>
-              </Menu>
+              {/* 🔒 POSTS - Solo visible si está autenticado */}
+              {userId && (
+                <>
+                  <Button color="inherit" onClick={handleMenuOpen(setAnchorPosts)} sx={buttonStyle}>
+                    Posts
+                  </Button>
+                  <Menu
+                    anchorEl={anchorPosts}
+                    open={Boolean(anchorPosts)}
+                    onClose={handleMenuClose(setAnchorPosts)}
+                  >
+                    <MenuItem component={RouterLink} to="/posts" onClick={handleMenuClose(setAnchorPosts)}>
+                      Ver todos
+                    </MenuItem>
+                    <MenuItem component={RouterLink} to="/posts/new" onClick={handleMenuClose(setAnchorPosts)}>
+                      Crear nuevo post
+                    </MenuItem>
+                  </Menu>
+                </>
+              )}
 
+              {/* 🌊 CATEGORÍAS - Siempre visible */}
               <Button color="inherit" onClick={handleMenuOpen(setAnchorCategorias)} sx={buttonStyle}>
                 Categorías
               </Button>
@@ -167,28 +130,45 @@ const Navbar: React.FC = () => {
                 open={Boolean(anchorCategorias)}
                 onClose={handleMenuClose(setAnchorCategorias)}
               >
-                <MenuItem onClick={handleMenuClose(setAnchorCategorias)}>🦈 Vida Marina</MenuItem>
-                <MenuItem onClick={handleMenuClose(setAnchorCategorias)}>🌊 Ecosistemas Oceánicos</MenuItem>
-                <MenuItem onClick={handleMenuClose(setAnchorCategorias)}>🤿 Ciencia y Exploración</MenuItem>
-                <MenuItem onClick={handleMenuClose(setAnchorCategorias)}>⚠️ Problemas y Amenazas</MenuItem>
-                <MenuItem onClick={handleMenuClose(setAnchorCategorias)}>🌍 Regiones y Océanos del Mundo</MenuItem>
+                {categories.map((cat) => (
+                  <MenuItem
+                    key={cat.slug}
+                    component={RouterLink}
+                    to={`/categories/${cat.slug}`}
+                    onClick={handleMenuClose(setAnchorCategorias)}
+                  >
+                    {cat.text}
+                  </MenuItem>
+                ))}
               </Menu>
 
-              <Button
-                color="inherit"
-                component={RouterLink}
-                to={loggedUserId ? `/users/${loggedUserId}` : '/login'}
-                sx={buttonStyle}
-              >
-                Mi Cuenta
-              </Button>
-
+              {/* 👩‍💻 CREADORAS - Siempre visible */}
               <Button color="inherit" component={RouterLink} to="/creators" sx={buttonStyle}>
                 Creadoras
               </Button>
-              <Button color="inherit" onClick={handleLogout} sx={buttonStyle}>
-                Cerrar Sesión
-              </Button>
+
+              {/* 🚪 BOTONES según autenticación */}
+              {!userId ? (
+                // Usuario NO autenticado
+                <>
+                  <Button color="inherit" component={RouterLink} to="/login" sx={buttonStyle}>
+                    Iniciar Sesión
+                  </Button>
+                  <Button color="inherit" component={RouterLink} to="/register" sx={buttonStyle}>
+                    Registrarse
+                  </Button>
+                </>
+              ) : (
+                // Usuario autenticado
+                <>
+                  <Button color="inherit" component={RouterLink} to={`/users/${userId}`} sx={buttonStyle}>
+                    Mi Cuenta
+                  </Button>
+                  <Button color="inherit" onClick={handleLogout} sx={buttonStyle}>
+                    Cerrar Sesión
+                  </Button>
+                </>
+              )}
             </Box>
           )}
 
@@ -201,49 +181,74 @@ const Navbar: React.FC = () => {
               <Drawer anchor="right" open={mobileOpen} onClose={() => setMobileOpen(false)}>
                 <Box sx={{ width: 250 }} role="presentation" onClick={() => setMobileOpen(false)}>
                   <List>
-                    <ListItem>
-                      <ListItemButton component={RouterLink} to="/posts">
-                        <ListItemText primary="📄 Ver todos los Posts" />
-                      </ListItemButton>
-                    </ListItem>
-                    <ListItem>
-                      <ListItemButton component={RouterLink} to="/posts/new">
-                        <ListItemText primary="📝 Crear nuevo post" />
-                      </ListItemButton>
-                    </ListItem>
-                    <Divider />
+                    {/* 🔒 POSTS - Solo si está autenticado */}
+                    {userId && (
+                      <>
+                        <ListItem disablePadding>
+                          <ListItemButton component={RouterLink} to="/posts">
+                            <ListItemText primary="📄 Ver todos los Posts" />
+                          </ListItemButton>
+                        </ListItem>
+                        <ListItem disablePadding>
+                          <ListItemButton component={RouterLink} to="/posts/new">
+                            <ListItemText primary="📝 Crear nuevo post" />
+                          </ListItemButton>
+                        </ListItem>
+                        <Divider />
+                      </>
+                    )}
+
+                    {/* 🌊 CATEGORÍAS */}
                     <ListItem>
                       <ListItemText primary="📚 Categorías" />
                     </ListItem>
-                    {[
-                      '🦈 Vida Marina',
-                      '🪸 Ecosistemas Oceánicos',
-                      '🤿 Ciencia y Exploración',
-                      '⚠️ Problemas y Amenazas',
-                      '🦭 Regiones y Océanos del Mundo',
-                    ].map((text) => (
-                      <ListItem key={text}>
-                        <ListItemButton>
-                          <ListItemText primary={text} />
+                    {categories.map((cat) => (
+                      <ListItem key={cat.slug} disablePadding>
+                        <ListItemButton component={RouterLink} to={`/categories/${cat.slug}`}>
+                          <ListItemText primary={cat.text} />
                         </ListItemButton>
                       </ListItem>
                     ))}
                     <Divider />
-                    <ListItem>
-                      <ListItemButton component={RouterLink} to="/users/:id">
-                        <ListItemText primary="👤 Mi Cuenta" />
-                      </ListItemButton>
-                    </ListItem>
-                    <ListItem>
+
+                    {/* 👩‍💻 CREADORAS */}
+                    <ListItem disablePadding>
                       <ListItemButton component={RouterLink} to="/creators">
                         <ListItemText primary="👩‍💻 Creadoras" />
                       </ListItemButton>
                     </ListItem>
-                    <ListItem>
-                      <ListItemButton onClick={handleLogout}>
-                        <ListItemText primary="🚪 Cerrar Sesión" />
-                      </ListItemButton>
-                    </ListItem>
+                    <Divider />
+
+                    {/* 🚪 BOTONES según autenticación */}
+                    {!userId ? (
+                      // Usuario NO autenticado
+                      <>
+                        <ListItem disablePadding>
+                          <ListItemButton component={RouterLink} to="/login">
+                            <ListItemText primary="🔐 Iniciar Sesión" />
+                          </ListItemButton>
+                        </ListItem>
+                        <ListItem disablePadding>
+                          <ListItemButton component={RouterLink} to="/register">
+                            <ListItemText primary="📝 Registrarse" />
+                          </ListItemButton>
+                        </ListItem>
+                      </>
+                    ) : (
+                      // Usuario autenticado
+                      <>
+                        <ListItem disablePadding>
+                          <ListItemButton component={RouterLink} to={`/users/${userId}`}>
+                            <ListItemText primary="👤 Mi Cuenta" />
+                          </ListItemButton>
+                        </ListItem>
+                        <ListItem disablePadding>
+                          <ListItemButton onClick={handleLogout}>
+                            <ListItemText primary="🚪 Cerrar Sesión" />
+                          </ListItemButton>
+                        </ListItem>
+                      </>
+                    )}
                   </List>
                 </Box>
               </Drawer>
