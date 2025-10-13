@@ -5,7 +5,7 @@ function VirtualAssistant () {
   const navigate = useNavigate();
 
   const irAOtraPagina = () => {
-    navigate('/newbutterfly'); 
+    navigate('/Test'); 
   };
 
 return (
@@ -17,7 +17,7 @@ return (
         onClick={irAOtraPagina}
         className="imagen-boton"
       />
-       <p>¿Que post eres<br />según este test?</p>
+       <p>¿Que post eres<br/>según este test?</p>
     </div>
   </div>
 );

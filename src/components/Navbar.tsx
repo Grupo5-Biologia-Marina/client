@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   AppBar,
   Toolbar,
@@ -16,10 +16,10 @@ import {
   Divider,
   useTheme,
   useMediaQuery,
-} from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
-import { useAuthStore } from '../store/authStore';
+} from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
+import { useAuthStore } from "../store/authStore";
 
 interface Category {
   text: string;
@@ -32,10 +32,9 @@ const Navbar: React.FC = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const navigate = useNavigate();
 
-  // ✅ Obtener userId desde Zustand para saber si está autenticado
   const userId = useAuthStore((state) => state.userId);
   const clearToken = useAuthStore((state) => state.clearToken);
 
@@ -51,56 +50,85 @@ const Navbar: React.FC = () => {
     };
 
   const handleLogout = () => {
-    clearToken(); // Limpia el estado de Zustand y localStorage
-    navigate('/login');
+    clearToken();
+    navigate("/login");
   };
 
+  // 🌊 Estilos visuales brillantes tipo "El Gran AZUL"
   const navbarStyle = {
-    background: 'linear-gradient(-45deg, #001f2f, #003d5c, #005f80, #0077aa)',
-    backgroundSize: '400% 400%',
-    animation: 'gradientMove 15s ease infinite',
-    boxShadow: '0 4px 20px rgba(0, 119, 170, 0.3)',
+    background: "linear-gradient(-45deg, #001f2f, #003d5c, #0077aa, #00bfff)",
+    backgroundSize: "400% 400%",
+    animation: "gradientMove 15s ease infinite",
+    boxShadow: "0 4px 25px rgba(0, 191, 255, 0.4)",
+    borderBottom: "2px solid rgba(0, 191, 255, 0.5)",
   };
 
   const buttonStyle = {
-    textShadow: '0 0 5px rgba(0,0,0,0.7)',
-    transition: 'all 0.3s ease',
-    '&:hover': {
-      backgroundColor: 'rgba(255, 255, 255, 0.1)',
-      transform: 'translateY(-2px)',
+    color: "#e0f7ff",
+    textShadow: "0 0 8px rgba(0, 191, 255, 0.8)",
+    fontWeight: "bold",
+    letterSpacing: "0.5px",
+    borderRadius: "8px",
+    marginX: "0.4rem",
+    paddingX: "1rem",
+    transition: "all 0.3s ease",
+    boxShadow: "0 0 8px rgba(0, 191, 255, 0.4)",
+    "&:hover": {
+      background:
+        "radial-gradient(circle at center, rgba(0,191,255,0.3) 0%, rgba(0,119,170,0.2) 80%)",
+      transform: "translateY(-2px) scale(1.05)",
+      boxShadow: "0 0 15px rgba(0, 191, 255, 0.7)",
+      textShadow: "0 0 12px rgba(0,255,255,1)",
+    },
+    "&:active": {
+      transform: "scale(0.97)",
+    },
+  };
+
+  const titleStyle = {
+    textDecoration: "none",
+    color: "white",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    textAlign: "center",
+    textShadow: "0 0 15px rgba(0,191,255,0.9)",
+    fontWeight: "bold",
+    lineHeight: 1,
+    paddingY: "0.5rem",
+    "& span:first-of-type": {
+      fontSize: "1.6rem",
+    },
+    "& span:last-of-type": {
+      fontSize: "3.1rem",
+      letterSpacing: "1px",
+      fontWeight: 900,
+      transform: "scaleY(1.25)",
+      color: "#00e5ff",
     },
   };
 
   const categories: Category[] = [
-    { text: '🦈 Vida Marina', slug: 'marine-life' },
-    { text: '🌊 Ecosistemas Oceánicos', slug: 'ocean-ecosystems' },
-    { text: '🤿 Ciencia y Exploración', slug: 'science-exploration' },
-    { text: '⚠️ Problemas y Amenazas', slug: 'problems-threats' },
-    { text: '🌍 Regiones y Océanos del Mundo', slug: 'world-regions' },
+    { text: "🦈 Vida Marina", slug: "marine-life" },
+    { text: "🌊 Ecosistemas Oceánicos", slug: "ocean-ecosystems" },
+    { text: "🤿 Ciencia y Exploración", slug: "science-exploration" },
+    { text: "⚠️ Problemas y Amenazas", slug: "problems-threats" },
+    { text: "🌍 Regiones y Océanos del Mundo", slug: "world-regions" },
   ];
 
   return (
     <>
       <AppBar position="static" sx={navbarStyle}>
-        <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
-          <Typography
-            variant="h6"
-            component={RouterLink}
-            to="/discoveries"
-            sx={{
-              textDecoration: 'none',
-              color: 'white',
-              fontWeight: 'bold',
-              textShadow: '0 0 5px rgba(0,0,0,0.7)',
-            }}
-          >
-            El Gran Azul
+        <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
+          <Typography variant="h6" component={RouterLink} to="/discoveries" sx={titleStyle}>
+            <Box component="span">El Gran</Box>
+            <Box component="span">AZUL</Box>
           </Typography>
 
           {/* Desktop */}
           {!isMobile && (
             <Box>
-              {/* 🔒 POSTS - Solo visible si está autenticado */}
               {userId && (
                 <>
                   <Button color="inherit" onClick={handleMenuOpen(setAnchorPosts)} sx={buttonStyle}>
@@ -111,17 +139,24 @@ const Navbar: React.FC = () => {
                     open={Boolean(anchorPosts)}
                     onClose={handleMenuClose(setAnchorPosts)}
                   >
-                    <MenuItem component={RouterLink} to="/posts" onClick={handleMenuClose(setAnchorPosts)}>
+                    <MenuItem
+                      component={RouterLink}
+                      to="/posts"
+                      onClick={handleMenuClose(setAnchorPosts)}
+                    >
                       Ver todos
                     </MenuItem>
-                    <MenuItem component={RouterLink} to="/posts/new" onClick={handleMenuClose(setAnchorPosts)}>
+                    <MenuItem
+                      component={RouterLink}
+                      to="/posts/new"
+                      onClick={handleMenuClose(setAnchorPosts)}
+                    >
                       Crear nuevo post
                     </MenuItem>
                   </Menu>
                 </>
               )}
 
-              {/* 🌊 CATEGORÍAS - Siempre visible */}
               <Button color="inherit" onClick={handleMenuOpen(setAnchorCategorias)} sx={buttonStyle}>
                 Categorías
               </Button>
@@ -142,14 +177,11 @@ const Navbar: React.FC = () => {
                 ))}
               </Menu>
 
-              {/* 👩‍💻 CREADORAS - Siempre visible */}
               <Button color="inherit" component={RouterLink} to="/creators" sx={buttonStyle}>
                 Creadoras
               </Button>
 
-              {/* 🚪 BOTONES según autenticación */}
               {!userId ? (
-                // Usuario NO autenticado
                 <>
                   <Button color="inherit" component={RouterLink} to="/login" sx={buttonStyle}>
                     Iniciar Sesión
@@ -159,7 +191,6 @@ const Navbar: React.FC = () => {
                   </Button>
                 </>
               ) : (
-                // Usuario autenticado
                 <>
                   <Button color="inherit" component={RouterLink} to={`/users/${userId}`} sx={buttonStyle}>
                     Mi Cuenta
@@ -179,9 +210,8 @@ const Navbar: React.FC = () => {
                 <MenuIcon />
               </IconButton>
               <Drawer anchor="right" open={mobileOpen} onClose={() => setMobileOpen(false)}>
-                <Box sx={{ width: 250 }} role="presentation" onClick={() => setMobileOpen(false)}>
+                <Box sx={{ width: 250, backgroundColor: "#001f2f", color: "#e0f7ff" }}>
                   <List>
-                    {/* 🔒 POSTS - Solo si está autenticado */}
                     {userId && (
                       <>
                         <ListItem disablePadding>
@@ -197,8 +227,6 @@ const Navbar: React.FC = () => {
                         <Divider />
                       </>
                     )}
-
-                    {/* 🌊 CATEGORÍAS */}
                     <ListItem>
                       <ListItemText primary="📚 Categorías" />
                     </ListItem>
@@ -210,18 +238,13 @@ const Navbar: React.FC = () => {
                       </ListItem>
                     ))}
                     <Divider />
-
-                    {/* 👩‍💻 CREADORAS */}
                     <ListItem disablePadding>
                       <ListItemButton component={RouterLink} to="/creators">
                         <ListItemText primary="👩‍💻 Creadoras" />
                       </ListItemButton>
                     </ListItem>
                     <Divider />
-
-                    {/* 🚪 BOTONES según autenticación */}
                     {!userId ? (
-                      // Usuario NO autenticado
                       <>
                         <ListItem disablePadding>
                           <ListItemButton component={RouterLink} to="/login">
@@ -235,7 +258,6 @@ const Navbar: React.FC = () => {
                         </ListItem>
                       </>
                     ) : (
-                      // Usuario autenticado
                       <>
                         <ListItem disablePadding>
                           <ListItemButton component={RouterLink} to={`/users/${userId}`}>
@@ -257,6 +279,7 @@ const Navbar: React.FC = () => {
         </Toolbar>
       </AppBar>
 
+      {/* 🎨 Animación del fondo */}
       <style>
         {`
           @keyframes gradientMove {
