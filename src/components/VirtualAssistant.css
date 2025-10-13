@@ -34,7 +34,7 @@ body, html {
 }
 
 .boton-imagen p {
-  margin: 0 auto; /* 🔽 CAMBIADO: eliminado el margin-top */
+  margin: 0 auto;
   font-weight: normal;
   font-family: sans-serif;
   font-size: 13px;
@@ -45,7 +45,6 @@ body, html {
   line-height: 1.2;
 }
 
-/* Responsive tablet */
 @media (max-width: 768px) {
   .boton-imagen {
     top: 10px;
@@ -58,7 +57,7 @@ body, html {
 
   .boton-imagen p {
     font-size: 11px;
-    margin-top: 0; /* 🔽 CAMBIADO: eliminado el margin-top */
+    margin-top: 0; 
   }
 }
 
@@ -75,6 +74,6 @@ body, html {
 
   .boton-imagen p {
     font-size: 9px;
-    margin-top: 0; /* 🔽 CAMBIADO: eliminado el margin-top */
+    margin-top: 0; 
   }
 }
