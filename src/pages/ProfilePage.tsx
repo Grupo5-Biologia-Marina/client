@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { getUserById } from "../services/userService";
 import type { User } from "../types/userTypes";
 import { api } from "../services/api";
+import './ProfilePage.css'; 
 
 const ProfilePage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -73,14 +74,14 @@ const ProfilePage: React.FC = () => {
           ) : (
             <div
               style={{
-                width: "150px",
-                height: "150px",
+                width: "200px",
+                height: "200px",
                 borderRadius: "50%",
-                backgroundColor: "#ccc",
+                backgroundColor: "#a4a4a4ff",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                marginBottom: "1rem",
+                 margin: "0 auto 1rem auto", 
               }}
             >
               <span>Sin imagen</span>
@@ -103,6 +104,30 @@ const ProfilePage: React.FC = () => {
       ) : (
         <p>No se encontró información del usuario.</p>
       )}
+      
+      <div className="bubbles">
+    <div className="bubble"></div>
+    <div className="bubble"></div>
+    <div className="bubble"></div>
+    <div className="bubble"></div>
+    <div className="bubble"></div>
+    <div className="bubble"></div>
+    <div className="bubble"></div>
+      <div className="bubble"></div>
+    <div className="bubble"></div>
+    <div className="bubble"></div>
+    <div className="bubble"></div>
+    <div className="bubble"></div>
+    <div className="bubble"></div>
+    <div className="bubble"></div>
+     <div className="bubble"></div>
+    <div className="bubble"></div>
+    <div className="bubble"></div>
+    <div className="bubble"></div>
+    <div className="bubble"></div>
+    <div className="bubble"></div>
+  </div>
+
     </div>
   );
 };
