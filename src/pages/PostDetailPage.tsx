@@ -1,34 +1,18 @@
 import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { api } from "../services/api";
+import { useAuthStore } from "../store/authStore";
 import "../styles/PostDetailPage.css";
 
-interface User {
-  id: number;
-  username: string;
-  email: string;
-}
-
-interface Category {
-  id: number;
-  name: string;
-}
-
-interface PostImage {
-  id: number;
-  url: string;
-  caption?: string;
-  credit?: string;
-}
-
 interface Post {
-  id: number;
+  id: string;
   title: string;
   content: string;
   credits?: string;
-  user?: User;
-  categories?: Category[];
-  images?: PostImage[];
+  userId: number;
+  username?: string;
+  categories?: { id: number; name: string }[];
+  images?: { id: number; url: string; caption?: string; credit?: string }[];
   createdAt?: string;
 }
 
@@ -37,18 +21,25 @@ export default function PostDetailPage() {
   const [post, setPost] = useState<Post | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const navigate = useNavigate();
+
+  const role = useAuthStore((state) => state.role);
+  const userId = useAuthStore((state) => state.userId);
+
+  const canEditOrDelete = () => {
+    if (!post || !userId) return false;
+    if (role === "admin") return true;
+    if (role === "user" && post.userId === userId) return true;
+    return false;
+  };
 
   useEffect(() => {
     const fetchPost = async () => {
+      if (!id) return;
       try {
         setLoading(true);
-        console.log("📡 Fetching post with ID:", id);
-        
         const res = await api.get(`/api/posts/${id}`);
-        console.log("✅ Post fetched:", res.data);
-        
-        // El post viene en res.data.data
-        const postData = res.data.data || res.data;
+        const postData = res.data.data;
         setPost(postData);
       } catch (err: any) {
         console.error("❌ Error fetching post:", err);
@@ -57,11 +48,30 @@ export default function PostDetailPage() {
         setLoading(false);
       }
     };
-
-    if (id) {
-      fetchPost();
-    }
+    fetchPost();
   }, [id]);
+
+  const handleDelete = async () => {
+    if (!post) return;
+    if (!confirm("¿Seguro que quieres eliminar este post?")) return;
+
+    try {
+      const token = localStorage.getItem("token");
+      await api.delete(`/api/posts/${post.id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      alert("Post eliminado correctamente");
+      navigate("/posts");
+    } catch (err: any) {
+      console.error(err);
+      const errorMessage = err.response?.data?.message || "Error al eliminar el post";
+      alert(errorMessage);
+    }
+  };
+
+  const handleEdit = () => {
+    navigate(`/post/edit/${post?.id}`);
+  };
 
   if (loading) return <p className="loading">Cargando descubrimiento...</p>;
   if (error) return <p className="error">{error}</p>;
@@ -72,18 +82,19 @@ export default function PostDetailPage() {
       <main className="post-detail-container">
         <h1 className="post-title">{post.title}</h1>
 
-        {post.user && (
+        {post.username && (
           <p className="post-author">
-            Publicado por <strong>{post.user.username}</strong>
+            Publicado por <strong>{post.username}</strong>
           </p>
         )}
 
         {post.createdAt && (
           <p className="post-date">
-            Fecha: {new Date(post.createdAt).toLocaleDateString('es-ES', {
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric'
+            Fecha:{" "}
+            {new Date(post.createdAt).toLocaleDateString("es-ES", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
             })}
           </p>
         )}
@@ -94,15 +105,15 @@ export default function PostDetailPage() {
             {post.categories.map((c, index) => (
               <span key={c.id}>
                 <span className="category">{c.name}</span>
-                {index < post.categories!.length - 1 && ", "}
+                {index < post.categories.length - 1 && ", "}
               </span>
             ))}
           </div>
         )}
 
         <article className="post-content">
-          {post.content.split('\n').map((paragraph, index) => (
-            <p key={index}>{paragraph}</p>
+          {post.content.split("\n").map((p, i) => (
+            <p key={i}>{p}</p>
           ))}
         </article>
 
@@ -117,11 +128,12 @@ export default function PostDetailPage() {
             <h3>Galería de imágenes</h3>
             {post.images.map((img) => (
               <figure key={img.id} className="post-image-item">
-                <img 
-                  src={img.url} 
-                  alt={img.caption || post.title} 
+                <img
+                  src={img.url}
+                  alt={img.caption || post.title}
                   onError={(e) => {
-                    (e.target as HTMLImageElement).src = "https://via.placeholder.com/800x400?text=Imagen+no+disponible";
+                    (e.target as HTMLImageElement).src =
+                      "https://via.placeholder.com/800x400?text=Imagen+no+disponible";
                   }}
                 />
                 {img.caption && <figcaption>{img.caption}</figcaption>}
@@ -131,12 +143,18 @@ export default function PostDetailPage() {
           </section>
         )}
 
+        {/* Botones Editar y Eliminar */}
+        {canEditOrDelete() && (
+          <div className="post-actions-admin">
+            <button className="btn btn-edit" onClick={handleEdit}>Editar</button>
+            <button className="btn btn-delete" onClick={handleDelete}>Eliminar</button>
+          </div>
+        )}
+
+        {/* Botón Volver debajo */}
         <div className="post-actions">
-          <Link to="/discoveries" className="back-link">
+          <Link to="/posts" className="btn btn-back">
             ← Volver a descubrimientos
-          </Link>
-          <Link to="/posts" className="back-link">
-            Ver todos los posts
           </Link>
         </div>
       </main>
