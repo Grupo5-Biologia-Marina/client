@@ -9,7 +9,7 @@ interface Post {
   title: string;
   content: string;
   credits?: string;
-  userId: number;
+  userId: number; // userId como número
   username?: string;
   categories?: { id: number; name: string }[];
   images?: { id: number; url: string; caption?: string; credit?: string }[];
@@ -26,10 +26,11 @@ export default function PostDetailPage() {
   const role = useAuthStore((state) => state.role);
   const userId = useAuthStore((state) => state.userId);
 
+  // ✅ Comparación correcta: convierte ambos a número
   const canEditOrDelete = () => {
     if (!post || !userId) return false;
     if (role === "admin") return true;
-    if (role === "user" && post.userId === userId) return true;
+    if (role === "user" && Number(post.userId) === Number(userId)) return true;
     return false;
   };
 
@@ -105,7 +106,7 @@ export default function PostDetailPage() {
             {post.categories.map((c, index) => (
               <span key={c.id}>
                 <span className="category">{c.name}</span>
-                {index < post.categories.length - 1 && ", "}
+                {index < (post.categories?.length ?? 0) - 1 && ", "}
               </span>
             ))}
           </div>
@@ -143,11 +144,15 @@ export default function PostDetailPage() {
           </section>
         )}
 
-        {/* Botones Editar y Eliminar */}
+        {/* Botones Editar y Eliminar en la misma línea */}
         {canEditOrDelete() && (
           <div className="post-actions-admin">
-            <button className="btn btn-edit" onClick={handleEdit}>Editar</button>
-            <button className="btn btn-delete" onClick={handleDelete}>Eliminar</button>
+            <button className="btn btn-edit" onClick={handleEdit}>
+              Editar
+            </button>
+            <button className="btn btn-delete" onClick={handleDelete}>
+              Eliminar
+            </button>
           </div>
         )}
 
