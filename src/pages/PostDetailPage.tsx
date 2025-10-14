@@ -1,21 +1,22 @@
 import { useEffect, useState } from "react";
-import { useParams, Link, useNavigate } from "react-router-dom";
+import { useParams, Link, useNavigate, useLocation } from "react-router-dom";
 import { api } from "../services/api";
 import { useAuthStore } from "../store/authStore";
 import LikeButton from "../components/LikeButton";
 import "../styles/PostDetailPage.css";
 
 interface Post {
-  id: string;
+  id: number;
   title: string;
   content: string;
   credits?: string;
-  userId: number;
+  userId: number; 
   username?: string;
   categories?: { id: number; name: string }[];
   images?: { id: number; url: string; caption?: string; credit?: string }[];
   createdAt?: string;
 }
+
 
 export default function PostDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -26,6 +27,9 @@ export default function PostDetailPage() {
 
   const role = useAuthStore((state) => state.role);
   const userId = useAuthStore((state) => state.userId);
+  const location = useLocation();
+const backPath = location.state?.from || "/posts"; // fallback a posts
+const backText = backPath.includes("/my-posts") ? "Volver a mis descubrimientos" : "Volver a descubrimientos";
 
   // ✅ Comparación correcta: convierte ambos a número
   const canEditOrDelete = () => {
@@ -161,9 +165,10 @@ export default function PostDetailPage() {
 
         {/* Botón Volver debajo */}
         <div className="post-actions">
-          <Link to="/posts" className="btn btn-back">
-            ← Volver a descubrimientos
+          <Link to={backPath} className="btn btn-back">
+            ← {backText}
           </Link>
+
         </div>
       </main>
     </div>

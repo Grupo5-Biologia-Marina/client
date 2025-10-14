@@ -81,7 +81,7 @@ export default function AllDiscoveriesPage() {
               <PostCard
                 key={post.id}
                 post={{
-                  id: String(post.id),
+                  id: post.id,
                   title: post.title,
                   image: post.images?.[0]?.url || "",
                   likes: post.likes ?? 0, // 👈 usamos el valor real

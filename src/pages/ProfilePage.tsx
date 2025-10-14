@@ -4,7 +4,7 @@ import { getUserById } from "../services/userService";
 import type { User } from "../types/userTypes";
 import { api } from "../services/api";
 import axios from "axios";
-import './ProfilePage.css'; 
+import './ProfilePage.css';
 
 const ProfilePage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -119,13 +119,13 @@ const ProfilePage: React.FC = () => {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  margin: "0 auto 1rem auto", 
+                  margin: "0 auto 1rem auto",
                 }}
               >
                 <span>Sin imagen</span>
               </div>
             )}
-            
+
             {/* Input de archivo oculto */}
             <input
               type="file"
@@ -134,7 +134,7 @@ const ProfilePage: React.FC = () => {
               onChange={handleImageUpload}
               style={{ display: "none" }}
             />
-            
+
             {/* Botón para cambiar imagen */}
             <button
               type="button"
@@ -163,11 +163,13 @@ const ProfilePage: React.FC = () => {
           </p>
 
           <button onClick={handleLogout}>Cerrar sesión</button>
+          <button onClick={() => navigate(`/my-posts/${id}`)}>Mis publicaciones</button>
+
         </div>
       ) : (
         <p>No se encontró información del usuario.</p>
       )}
-      
+
       <div className="bubbles">
         <div className="bubble"></div>
         <div className="bubble"></div>
