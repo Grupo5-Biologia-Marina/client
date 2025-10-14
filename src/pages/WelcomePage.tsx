@@ -95,19 +95,24 @@ export default function WelcomePage() {
         </motion.p>
 
         <motion.button
-          className="start-btn"
-          onClick={() => navigate("/login")}
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: title.length * 0.15 + 1.2, duration: 0.6 }}
-          whileHover={{
-            scale: 1.1,
-            boxShadow: "0 0 30px rgba(0,255,255,0.9)",
-          }}
-          whileTap={{ scale: 0.95 }}
-        >
-          Comenzar
-        </motion.button>
+  className="start-btn"
+  onClick={() => {
+    // Pequeña animación antes de navegar
+    document.querySelector(".start-btn")?.classList.add("clicked");
+    setTimeout(() => navigate("/login"), 400);
+  }}
+  initial={{ opacity: 0, scale: 0.8 }}
+  animate={{ opacity: 1, scale: 1 }}
+  transition={{ delay: title.length * 0.15 + 1.2, duration: 0.6 }}
+  whileHover={{
+    scale: 1.1,
+    boxShadow: "0 0 30px rgba(0,255,255,0.9)",
+  }}
+  whileTap={{ scale: 0.95 }}
+>
+  Comenzar
+</motion.button>
+
       </div>
 
       {/* 🐋 Ballena SUPERIOR */}

@@ -8,12 +8,13 @@ import "./AuthPage.css";
 export default function RegisterPage() {
   const navigate = useNavigate();
   const setUser = useAuthStore((state) => state.setUser);
-  
+
   const [username, setUsername] = useState("");
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -34,14 +35,15 @@ export default function RegisterPage() {
       if (response.status === 201 && response.data.success) {
         const { token, data: user } = response.data;
 
-        // ✅ Guardamos en localStorage (por compatibilidad)
         localStorage.setItem("token", token);
-        localStorage.setItem("userId", user.id?.toString() || user.user_id?.toString());
+        localStorage.setItem(
+          "userId",
+          user.id?.toString() || user.user_id?.toString()
+        );
         localStorage.setItem("username", user.username);
         localStorage.setItem("email", user.email);
         localStorage.setItem("role", user.role || "user");
 
-        // ✅ Guardamos en Zustand (esto sincroniza el navbar automáticamente)
         setUser({
           id: user.id?.toString() || user.user_id?.toString(),
           name: user.username || `${firstname} ${lastname}`,
@@ -49,12 +51,14 @@ export default function RegisterPage() {
           token: token,
         });
 
-        // ✅ Redirigimos a discoveries
         navigate("/discoveries");
       }
     } catch (err: any) {
       console.error("Error al registrar:", err);
-      setError(err.response?.data?.message || "Error al registrarse. Por favor, intenta de nuevo.");
+      setError(
+        err.response?.data?.message ||
+          "Error al registrarse. Por favor, intenta de nuevo."
+      );
     } finally {
       setLoading(false);
     }
@@ -65,7 +69,7 @@ export default function RegisterPage() {
       <img src={OceanBG} alt="Ocean background" className="auth-bg" />
       <div className="auth-card">
         <h2>Registro</h2>
-        
+
         {error && <div className="auth-error">{error}</div>}
 
         <form onSubmit={handleRegister}>
@@ -99,15 +103,26 @@ export default function RegisterPage() {
             required
             disabled={loading}
           />
-          <input
-            type="password"
-            placeholder="Contraseña"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            minLength={6}
-            disabled={loading}
-          />
+
+          {/* Campo de contraseña con mostrar/ocultar */}
+          <div className="password-container">
+            <input
+              type={showPassword ? "text" : "password"}
+              placeholder="Contraseña"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              minLength={6}
+              disabled={loading}
+            />
+            <span
+              className="toggle-password"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? "Ocultar" : "Ver"}
+            </span>
+          </div>
+
           <button type="submit" disabled={loading}>
             {loading ? "Creando cuenta..." : "Registrarse"}
           </button>

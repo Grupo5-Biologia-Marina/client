@@ -361,7 +361,6 @@
   transform: scale(1.05);
 }
 
-/* === Botones con efectos espectaculares === */
 .profile-info button {
   margin-top: 1.5rem;
   padding: 1rem 2rem;
@@ -417,7 +416,6 @@
   transform: scale(0.95) translateY(0);
 }
 
-/* === Animaciones de entrada mejoradas === */
 @keyframes fadeInDown {
   from {
     opacity: 0;
