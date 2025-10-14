@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, Link, useNavigate, useLocation } from "react-router-dom";
 import { api } from "../services/api";
 import { useAuthStore } from "../store/authStore";
+import LikeButton from "../components/LikeButton";
 import "../styles/PostDetailPage.css";
 
 interface Post {
@@ -61,10 +62,7 @@ const backText = backPath.includes("/my-posts") ? "Volver a mis descubrimientos"
     if (!confirm("¿Seguro que quieres eliminar este post?")) return;
 
     try {
-      const token = localStorage.getItem("token");
-      await api.delete(`/api/posts/${post.id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      await api.delete(`/api/posts/${post.id}`);
       alert("Post eliminado correctamente");
       navigate("/posts");
     } catch (err: any) {
@@ -121,6 +119,11 @@ const backText = backPath.includes("/my-posts") ? "Volver a mis descubrimientos"
             <p key={i}>{p}</p>
           ))}
         </article>
+
+        {/* ❤️ Botón de Like */}
+        <div className="post-like-section">
+          <LikeButton postId={post.id} variant="default" />
+        </div>
 
         {post.credits && (
           <p className="post-credits">
