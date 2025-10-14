@@ -4,19 +4,19 @@ import { api } from "../services/api";
 import { useAuthStore } from "../store/authStore";
 import LikeButton from "../components/LikeButton";
 import "../styles/PostDetailPage.css";
+import { useAlertContext } from "../context/AlertContext";
 
 interface Post {
   id: number;
   title: string;
   content: string;
   credits?: string;
-  userId: number; 
+  userId: number;
   username?: string;
   categories?: { id: number; name: string }[];
   images?: { id: number; url: string; caption?: string; credit?: string }[];
   createdAt?: string;
 }
-
 
 export default function PostDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -24,14 +24,18 @@ export default function PostDetailPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const navigate = useNavigate();
-
+  const location = useLocation();
   const role = useAuthStore((state) => state.role);
   const userId = useAuthStore((state) => state.userId);
-  const location = useLocation();
-const backPath = location.state?.from || "/posts"; // fallback a posts
-const backText = backPath.includes("/my-posts") ? "Volver a mis descubrimientos" : "Volver a descubrimientos";
+  const { showAlert } = useAlertContext();
 
-  // ✅ Comparación correcta: convierte ambos a número
+  const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
+
+  const backPath = location.state?.from || "/posts";
+  const backText = backPath.includes("/my-posts")
+    ? "Volver a mis descubrimientos"
+    : "Volver a descubrimientos";
+
   const canEditOrDelete = () => {
     if (!post || !userId) return false;
     if (role === "admin") return true;
@@ -45,8 +49,7 @@ const backText = backPath.includes("/my-posts") ? "Volver a mis descubrimientos"
       try {
         setLoading(true);
         const res = await api.get(`/api/posts/${id}`);
-        const postData = res.data.data;
-        setPost(postData);
+        setPost(res.data.data);
       } catch (err: any) {
         console.error("❌ Error fetching post:", err);
         setError("No se pudo cargar el descubrimiento");
@@ -59,22 +62,25 @@ const backText = backPath.includes("/my-posts") ? "Volver a mis descubrimientos"
 
   const handleDelete = async () => {
     if (!post) return;
-    if (!confirm("¿Seguro que quieres eliminar este post?")) return;
-
     try {
       await api.delete(`/api/posts/${post.id}`);
-      alert("Post eliminado correctamente");
+      showAlert("Post eliminado correctamente", "success");
       navigate("/posts");
     } catch (err: any) {
       console.error(err);
       const errorMessage = err.response?.data?.message || "Error al eliminar el post";
-      alert(errorMessage);
+      showAlert(errorMessage, "error");
+    } finally {
+      setConfirmDeleteOpen(false);
     }
   };
 
   const handleEdit = () => {
     navigate(`/post/edit/${post?.id}`);
   };
+
+  const openConfirmDelete = () => setConfirmDeleteOpen(true);
+  const cancelDelete = () => setConfirmDeleteOpen(false);
 
   if (loading) return <p className="loading">Cargando descubrimiento...</p>;
   if (error) return <p className="error">{error}</p>;
@@ -120,7 +126,6 @@ const backText = backPath.includes("/my-posts") ? "Volver a mis descubrimientos"
           ))}
         </article>
 
-        {/* ❤️ Botón de Like */}
         <div className="post-like-section">
           <LikeButton postId={post.id} variant="default" />
         </div>
@@ -145,31 +150,46 @@ const backText = backPath.includes("/my-posts") ? "Volver a mis descubrimientos"
                   }}
                 />
                 {img.caption && <figcaption>{img.caption}</figcaption>}
-                {img.credit && <small className="image-credit">Crédito: {img.credit}</small>}
+                {img.credit && (
+                  <small className="image-credit">Crédito: {img.credit}</small>
+                )}
               </figure>
             ))}
           </section>
         )}
 
-        {/* Botones Editar y Eliminar en la misma línea */}
         {canEditOrDelete() && (
           <div className="post-actions-admin">
             <button className="btn btn-edit" onClick={handleEdit}>
               Editar
             </button>
-            <button className="btn btn-delete" onClick={handleDelete}>
+            <button className="btn btn-delete" onClick={openConfirmDelete}>
               Eliminar
             </button>
           </div>
         )}
 
-        {/* Botón Volver debajo */}
         <div className="post-actions">
           <Link to={backPath} className="btn btn-back">
             ← {backText}
           </Link>
-
         </div>
+
+        {confirmDeleteOpen && (
+          <div className="confirm-overlay">
+            <div className="confirm-box">
+              <p>¿Seguro que quieres eliminar este post?</p>
+              <div className="confirm-actions">
+                <button className="btn btn-confirm" onClick={handleDelete}>
+                  Sí, eliminar
+                </button>
+                <button className="btn btn-cancel" onClick={cancelDelete}>
+                  Cancelar
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </main>
     </div>
   );
