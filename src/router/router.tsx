@@ -16,6 +16,7 @@ import PostDetailPage from "../pages/PostDetailPage";   // GET /posts/:id
 import CreatePostPage from "../pages/CreatePostPage";   // POST /posts
 import AllDiscoveriesPage from "../pages/AllDiscoveriesPage"; // GET /posts
 import EditPostPage from "../pages/EditPostPage";
+import MyPostsPage from "../pages/MyPostsPage";
 
 // Categories
 import MarineLifePage from "../pages/categories/MarineLifePage";
@@ -117,15 +118,25 @@ export default function AppRoutes() {
           </ProtectedRoute>
         }
       />
-{/*🔒 EDITAR POST (solo admins)*/}
-<Route
-  path="/post/edit/:id"
-  element={
-    <ProtectedRoute>
-      <EditPostPage />
-    </ProtectedRoute>
-  }
-/>
+      <Route
+        path="/my-posts/:userId"
+        element={
+          <ProtectedRoute>
+            <MyPostsPage />
+          </ProtectedRoute>
+        }
+      />
+
+
+      {/*🔒 EDITAR POST (solo admins)*/}
+      <Route
+        path="/post/edit/:id"
+        element={
+          <ProtectedRoute>
+            <EditPostPage />
+          </ProtectedRoute>
+        }
+      />
 
       {/* 🔒 USUARIOS - PROTEGIDAS */}
       <Route
