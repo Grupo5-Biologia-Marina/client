@@ -1,7 +1,13 @@
 .title-post {
-    text-align: center;
-
+  text-align: center;
+  font-size: 2.5rem;         /* Grande y llamativo */
+  font-weight: 700;           /* Negrita */
+  color: #ffffff;             /* Blanco para contraste */
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6); /* Sombra para destacar sobre el fondo */
+  margin-bottom: 2rem;        /* Separación del formulario */
+  letter-spacing: 1px;        /* Espaciado entre letras */
 }
+
 
 .create-post-page {
    display: flex;

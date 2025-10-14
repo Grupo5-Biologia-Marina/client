@@ -1,30 +1,49 @@
-import { Box, Container, Typography, Link as MuiLink } from '@mui/material';
-import { Link as RouterLink } from 'react-router-dom';
-import logoFactoria from '../assets/logo-factoria.png'; // Nuevo logo
+import { Box, Container, Typography, Link as MuiLink } from "@mui/material";
+import logoFactoria from "../assets/logo-factoria.png";
 
 export default function Footer() {
   return (
     <Box
       component="footer"
       sx={{
-        background: `linear-gradient(135deg, #0f2027, #203a43, #2c5364)`,
-        backgroundSize: '400% 400%',
-        animation: 'moveBg 20s ease infinite',
-        color: 'white',
+        background: "linear-gradient(90deg, #001f2f, #003d5c)",
+        boxShadow: "0 -2px 15px rgba(0, 191, 255, 0.2)",
+        borderTop: "1px solid rgba(0, 191, 255, 0.3)",
+        color: "#e0f7ff",
         py: 4,
-        mt: 'auto',
+        mt: "auto",
+        textAlign: "center",
+        position: "relative",
+        overflow: "hidden",
       }}
     >
+      {/* Luz animada sutil al fondo */}
+      <Box
+        sx={{
+          content: '""',
+          position: "absolute",
+          top: 0,
+          left: "-50%",
+          width: "200%",
+          height: "100%",
+          background:
+            "linear-gradient(120deg, transparent, rgba(0,255,255,0.1), transparent)",
+          animation: "shine 8s linear infinite",
+          pointerEvents: "none",
+        }}
+      />
+
       <Container
         maxWidth="lg"
         sx={{
-          display: 'flex',
-          flexDirection: { xs: 'column', md: 'row' },
-          alignItems: 'center',
-          justifyContent: 'center',
+          display: "flex",
+          flexDirection: { xs: "column", md: "row" },
+          alignItems: "center",
+          justifyContent: "center",
           gap: 2,
-          textAlign: 'center',
-          flexWrap: 'wrap',
+          flexWrap: "wrap",
+          zIndex: 2,
+          position: "relative",
         }}
       >
         {/* Logo Factoría F5 */}
@@ -33,19 +52,45 @@ export default function Footer() {
             src={logoFactoria}
             alt="Logo Factoría F5"
             style={{
-              height: '50px',
+              height: "50px",
+              filter: "drop-shadow(0 0 6px rgba(0,191,255,0.5))",
             }}
           />
         </Box>
 
-        {/* Texto */}
-        <Typography variant="body2" sx={{ maxWidth: 600 }}>
-          © 2025 Proyecto colaborativo desarrollado por 5 coders del bootcamp{' '}
+        {/* Texto principal */}
+        <Typography variant="body2" sx={{ maxWidth: 600, lineHeight: 1.6 }}>
+          © 2025 Proyecto colaborativo desarrollado por 5 coders del bootcamp{" "}
           <MuiLink
             href="https://factoriaf5.org"
             target="_blank"
             rel="noopener noreferrer"
-            sx={{ color: '#FFA500', textDecoration: 'underline' }}
+            sx={{
+              color: "#00eaff",
+              textDecoration: "none",
+              fontWeight: 600,
+              position: "relative",
+              "&::after": {
+                content: '""',
+                position: "absolute",
+                bottom: -2,
+                left: "50%",
+                width: "0%",
+                height: "2px",
+                background: "linear-gradient(90deg, #00bfff, #00eaff)",
+                borderRadius: "1px",
+                transform: "translateX(-50%)",
+                transition: "width 0.3s ease",
+                boxShadow: "0 0 6px rgba(0,191,255,0.6)",
+              },
+              "&:hover": {
+                color: "#00ffff",
+                textShadow: "0 0 6px rgba(0,255,255,0.6)",
+              },
+              "&:hover::after": {
+                width: "90%",
+              },
+            }}
           >
             Factoría F5
           </MuiLink>
@@ -53,13 +98,13 @@ export default function Footer() {
         </Typography>
       </Container>
 
-      {/* Animación del fondo */}
+      {/* Animaciones */}
       <style>
         {`
-          @keyframes moveBg {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+          @keyframes shine {
+            0% { left: -50%; }
+            50% { left: 0%; }
+            100% { left: -50%; }
           }
         `}
       </style>

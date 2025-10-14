@@ -15,6 +15,7 @@ import DiscoveriesPage from "../pages/DiscoveriesPage"; // GET /posts visibles
 import PostDetailPage from "../pages/PostDetailPage";   // GET /posts/:id
 import CreatePostPage from "../pages/CreatePostPage";   // POST /posts
 import AllDiscoveriesPage from "../pages/AllDiscoveriesPage"; // GET /posts
+import EditPostPage from "../pages/EditPostPage";
 
 // Categories
 import MarineLifePage from "../pages/categories/MarineLifePage";
@@ -116,6 +117,15 @@ export default function AppRoutes() {
           </ProtectedRoute>
         }
       />
+{/*🔒 EDITAR POST (solo admins)*/}
+<Route
+  path="/post/edit/:id"
+  element={
+    <ProtectedRoute>
+      <EditPostPage />
+    </ProtectedRoute>
+  }
+/>
 
       {/* 🔒 USUARIOS - PROTEGIDAS */}
       <Route
