@@ -2,10 +2,11 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { api } from "../services/api";
 import { PostCard } from "../components/PostCard";
-import '../styles/PostsPage.css'
+import '../pages/Discoveries.css';
 
 interface MyPost {
-  _id: string;
+  id?: number;       
+  _id?: number | string; 
   title: string;
   content: string;
   createdAt: string;
@@ -20,14 +21,28 @@ const MyPostsPage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchMyPosts = async () => {
-      if (!userId) return;
+    if (!userId) {
+      setError("Usuario no válido");
+      setLoading(false);
+      return;
+    }
 
+    const fetchMyPosts = async () => {
       try {
         const res = await api.get(`/api/posts/user/${userId}`);
-        setPosts(res.data);
+        const fetchedPosts: MyPost[] = res.data;
+
+        console.log("Posts recibidos del backend:", fetchedPosts);
+
+        // Mapeamos para asegurar que cada post tenga un id numérico
+        const mappedPosts = fetchedPosts.map(post => ({
+          ...post,
+          id: post.id ?? Number(post._id), // ⚠ usar id o convertir _id a número
+        }));
+
+        setPosts(mappedPosts);
       } catch (err) {
-        console.error(err);
+        console.error("Error al cargar tus publicaciones:", err);
         setError("Error al cargar tus publicaciones");
       } finally {
         setLoading(false);
@@ -49,15 +64,16 @@ const MyPostsPage: React.FC = () => {
       <div className="cards-grid">
         {posts.map(post => (
           <PostCard
-            key={post._id}
+            key={post.id}
             post={{
-              id: post._id,
+              id: post.id!, 
               title: post.title,
-              image: post.image || "", 
+              image: post.image || "",
               likes: post.likes?.length || 0,
               author: "Tú",
               date: post.createdAt,
             }}
+            from={`/my-posts/${userId}`}
           />
         ))}
       </div>
