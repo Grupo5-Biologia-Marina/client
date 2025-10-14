@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Box, Typography } from "@mui/material";
 import { api } from "../services/api";
 import { PostCard } from "../components/PostCard";
-import '../styles/PostsPage.css'; // CSS compartido
+import '../styles/PostsPage.css';
 
 interface User {
   id: number;
@@ -21,7 +21,7 @@ interface Post {
   createdAt: string;
   userId: number;
   user?: User;
-  likes?: number; // 👈 añadimos esta propiedad
+  likesCount?: number; // ✅ Cambiado de 'likes' a 'likesCount' (viene del backend)
 }
 
 export default function AllDiscoveriesPage() {
@@ -45,11 +45,11 @@ export default function AllDiscoveriesPage() {
     fetchPosts();
   }, []);
 
-  // 🧠 esta función actualiza el número de likes del post que cambió
-  const handleLikeUpdate = (postId: string, newLikes: number) => {
+  // ✅ Actualiza el conteo de likes localmente
+  const handleLikeUpdate = (postId: number, newLikesCount: number) => {
     setPosts((prevPosts) =>
       prevPosts.map((post) =>
-        String(post.id) === postId ? { ...post, likes: newLikes } : post
+        post.id === postId ? { ...post, likesCount: newLikesCount } : post
       )
     );
   };
@@ -81,14 +81,14 @@ export default function AllDiscoveriesPage() {
               <PostCard
                 key={post.id}
                 post={{
-                  id: post.id,
+                  id: String(post.id), // ✅ Convertir a string para compatibilidad
                   title: post.title,
                   image: post.images?.[0]?.url || "",
-                  likes: post.likes ?? 0, // 👈 usamos el valor real
+                  likes: post.likesCount ?? 0, // ✅ Usar likesCount del backend
                   author,
                   date: post.createdAt,
                 }}
-                onLikeUpdate={handleLikeUpdate} // 👈 le pasamos la función
+                onLikeUpdate={(newCount) => handleLikeUpdate(post.id, newCount)} // ✅ Pasar id como número
               />
             );
           })}
