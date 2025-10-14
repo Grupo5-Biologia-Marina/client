@@ -21,6 +21,7 @@ interface Post {
   createdAt: string;
   userId: number;
   user?: User;
+  likes?: number; // 👈 añadimos esta propiedad
 }
 
 export default function AllDiscoveriesPage() {
@@ -44,12 +45,27 @@ export default function AllDiscoveriesPage() {
     fetchPosts();
   }, []);
 
-  if (loading) return <Typography align="center" sx={{ py: 6 }}>Cargando descubrimientos...</Typography>;
-  if (error) return <Typography align="center" sx={{ py: 6 }} color="error">{error}</Typography>;
+  // 🧠 esta función actualiza el número de likes del post que cambió
+  const handleLikeUpdate = (postId: string, newLikes: number) => {
+    setPosts((prevPosts) =>
+      prevPosts.map((post) =>
+        String(post.id) === postId ? { ...post, likes: newLikes } : post
+      )
+    );
+  };
+
+  if (loading)
+    return <Typography align="center" sx={{ py: 6 }}>Cargando descubrimientos...</Typography>;
+  if (error)
+    return <Typography align="center" sx={{ py: 6 }} color="error">{error}</Typography>;
 
   return (
     <Box className="page-container">
-      <Typography variant="h3" align="center" sx={{ mb: 4, fontWeight: "bold", textTransform: "uppercase" }}>
+      <Typography
+        variant="h3"
+        align="center"
+        sx={{ mb: 4, fontWeight: "bold", textTransform: "uppercase" }}
+      >
         🌊 Todos los Descubrimientos
       </Typography>
 
@@ -68,10 +84,11 @@ export default function AllDiscoveriesPage() {
                   id: String(post.id),
                   title: post.title,
                   image: post.images?.[0]?.url || "",
-                  likes: 0,
+                  likes: post.likes ?? 0, // 👈 usamos el valor real
                   author,
                   date: post.createdAt,
                 }}
+                onLikeUpdate={handleLikeUpdate} // 👈 le pasamos la función
               />
             );
           })}
