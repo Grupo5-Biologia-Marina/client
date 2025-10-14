@@ -1,40 +1,34 @@
 import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { api } from "../services/api";
-import '../pages/Discoveries.css';
+import { PostCard } from "../components/PostCard";
+import '../styles/PostsPage.css'
 
-interface Post {
+interface MyPost {
   _id: string;
   title: string;
   content: string;
   createdAt: string;
+  image?: string;
+  likes?: any[];
 }
 
 const MyPostsPage: React.FC = () => {
   const { userId } = useParams<{ userId: string }>();
-  const navigate = useNavigate();
-  const [posts, setPosts] = useState<Post[]>([]);
+  const [posts, setPosts] = useState<MyPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchMyPosts = async () => {
-      if (!userId) {
-        setError("Usuario no válido");
-        setLoading(false);
-        return;
-      }
+      if (!userId) return;
 
       try {
         const res = await api.get(`/api/posts/user/${userId}`);
         setPosts(res.data);
-      } catch (err: any) {
+      } catch (err) {
         console.error(err);
-        if (err.response?.status === 404) {
-          setError("No se encontraron publicaciones para este usuario");
-        } else {
-          setError("Error al cargar tus publicaciones");
-        }
+        setError("Error al cargar tus publicaciones");
       } finally {
         setLoading(false);
       }
@@ -43,27 +37,30 @@ const MyPostsPage: React.FC = () => {
     fetchMyPosts();
   }, [userId]);
 
-  if (loading) return <p>Cargando publicaciones...</p>;
-  if (error) return <p>{error}</p>;
+  if (loading) return <p style={{ textAlign: "center" }}>Cargando publicaciones...</p>;
+  if (error) return <p style={{ textAlign: "center" }}>{error}</p>;
 
   return (
-    <div className="my-posts-page">
+    <div className="page-container">
       <h1>Mis publicaciones</h1>
-      <button onClick={() => navigate(-1)}>⬅ Volver</button>
 
-      {posts.length === 0 ? (
-        <p>No tienes publicaciones todavía.</p>
-      ) : (
-        <ul>
-          {posts.map(post => (
-            <li key={post._id} className="post-card">
-              <h3>{post.title}</h3>
-              <p>{post.content}</p>
-              <small>Creado el {new Date(post.createdAt).toLocaleDateString()}</small>
-            </li>
-          ))}
-        </ul>
-      )}
+      {posts.length === 0 && <p style={{ textAlign: "center" }}>No tienes publicaciones todavía.</p>}
+
+      <div className="cards-grid">
+        {posts.map(post => (
+          <PostCard
+            key={post._id}
+            post={{
+              id: post._id,
+              title: post.title,
+              image: post.image || "", 
+              likes: post.likes?.length || 0,
+              author: "Tú",
+              date: post.createdAt,
+            }}
+          />
+        ))}
+      </div>
     </div>
   );
 };
