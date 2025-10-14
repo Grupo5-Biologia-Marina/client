@@ -7,7 +7,11 @@ interface AlertData {
 }
 
 interface AlertContextProps {
-  showAlert: (message: string, type?: "success" | "error" | "info" | "warning") => void;
+  showAlert: (
+    message: string,
+    type?: "success" | "error" | "info" | "warning",
+    duration?: number
+  ) => void;
 }
 
 const AlertContext = createContext<AlertContextProps | undefined>(undefined);
@@ -23,9 +27,14 @@ export const useAlertContext = () => {
 export const AlertProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [alert, setAlert] = useState<AlertData | null>(null);
 
-  const showAlert = (message: string, type: "success" | "error" | "info" | "warning" = "info") => {
+  // showAlert ahora recibe un duration opcional en ms
+  const showAlert = (
+    message: string,
+    type: "success" | "error" | "info" | "warning" = "info",
+    duration: number = 2100
+  ) => {
     setAlert({ message, type });
-    setTimeout(() => setAlert(null), 3500);
+    setTimeout(() => setAlert(null), duration);
   };
 
   const backgroundImages: Record<string, string> = {
@@ -55,8 +64,9 @@ export const AlertProvider: React.FC<{ children: ReactNode }> = ({ children }) =
             alignItems: "center",
             textAlign: "center",
             fontWeight: "bold",
-            fontSize: "1.2rem",
+            fontSize: "2.1rem",
             color: "white",
+            textShadow: "4px 4px 6px #000000",
             borderRadius: "20px",
             backgroundImage:
               backgroundImages[alert.type] || "url('/src/assets/icons/alert.png')",
@@ -76,7 +86,7 @@ export const AlertProvider: React.FC<{ children: ReactNode }> = ({ children }) =
             overflow: "hidden",
           }}
         >
-          {/* Overlay para oscurecer un poco el fondo */}
+          {/* Overlay para oscurecer fondo */}
           <div
             style={{
               position: "absolute",

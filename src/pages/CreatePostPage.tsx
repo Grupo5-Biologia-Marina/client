@@ -17,7 +17,7 @@ export default function CreatePostPage() {
 
   // ✅ Mensaje de éxito + redirección automática
   const handlePostCreated = () => {
-    showAlert("🌊 ¡Descubrimiento creado con éxito!", "success");
+    showAlert("¡Descubrimiento creado con éxito!", "success");
     navigate("/posts"); // 👈 redirige a la página de todos los descubrimientos
   };
 
