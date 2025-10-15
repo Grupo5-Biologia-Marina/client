@@ -3,6 +3,7 @@ import { Box, Typography } from "@mui/material";
 import { api } from "../services/api";
 import { PostCard } from "../components/PostCard";
 import '../styles/PostsPage.css'; // CSS compartido
+import ScrollToTopButton from '../components/ScrollToTopButton';
 
 interface User {
   id: number;
@@ -49,6 +50,7 @@ export default function AllDiscoveriesPage() {
 
   return (
     <Box className="page-container">
+      <ScrollToTopButton />
       <Typography variant="h3" align="center" sx={{ mb: 4, fontWeight: "bold", textTransform: "uppercase" }}>
         🌊 Todos los Descubrimientos
       </Typography>
