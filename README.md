@@ -1,4 +1,4 @@
-# 🐬 Frontend - EL GRAN AZUL
+# 🦀 Frontend - EL GRAN AZUL 🦈
  
 En este repositorio del **frontend** de un proyecto fullstack dedicado a la exploración y divulgación de la **biología marina**, donde los usuarios pueden descubrir información fascinante sobre animales, ecosistemas y fenómenos oceánicos.  
 
@@ -198,6 +198,7 @@ Abrir en navegador en http://localhost:5173
 > Este proyecto forma parte del **bootcamp Fullstack JavaScript de Factoria F5**.  
 > Todos los recursos utilizados, incluidas imágenes y gráficos, tienen **fines educativos**.  
 > Algunas imágenes han sido recreadas o generadas con **IA** para ilustrar conceptos y enriquecer la experiencia visual.
+
 
 
 
