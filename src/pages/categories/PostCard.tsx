@@ -9,7 +9,7 @@ interface PostCardProps {
     title: string;
     image: string;
     likes: number;
-    author?: string; // opcional para TS
+    author?: string; 
     date: string;
   };
 }
