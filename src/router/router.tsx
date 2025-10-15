@@ -29,6 +29,7 @@ import { CategoryPostsPage } from "../pages/categories/CategoryPostsPage";
 // Common
 import NotFoundPage from "../pages/NotFoundPage";
 import Creators from "../pages/CreatorsPage";
+import TestPage from "../pages/TestGamePage";
 
 /**
  * ProtectedRoute: Solo permite acceso si el usuario está autenticado
@@ -82,6 +83,9 @@ export default function AppRoutes() {
 
       {/* 👩‍💻 CREATORS - PÚBLICA */}
       <Route path="/creators" element={<Creators />} />
+
+      {/* 🧪 TEST - PÚBLICA */}
+      <Route path="/test" element={<TestPage />} />
 
       {/* ✍️ AUTH - Solo accesible si NO estás logueado */}
       <Route

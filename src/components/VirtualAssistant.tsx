@@ -5,7 +5,7 @@ function VirtualAssistant () {
   const navigate = useNavigate();
 
   const irAOtraPagina = () => {
-    navigate('/Test'); 
+    navigate('/test'); 
   };
 
 return (
