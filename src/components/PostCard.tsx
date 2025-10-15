@@ -3,13 +3,18 @@ import { Card, CardContent, CardMedia, Typography, Box } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 
+interface User {
+  id: number;
+  username: string;
+}
+
 interface PostCardProps {
   post: {
     id: number;
     title: string;
     image: string;
     likes: number;
-    author?: string; // opcional
+    user?: User; 
     date: string;
   };
   from?: string;
@@ -19,12 +24,12 @@ export const PostCard: React.FC<PostCardProps> = ({ post, from }) => {
   const navigate = useNavigate();
 
   const handleCardClick = () => {
-    console.log("Navigating to post ID:", post.id);
     navigate(`/post/${post.id}`, { state: { from: from || "/posts" }});
   };
 
   return (
-    <Card className="post-card"
+    <Card
+      className="post-card"
       onClick={handleCardClick}
       sx={{
         cursor: "pointer",
@@ -46,7 +51,7 @@ export const PostCard: React.FC<PostCardProps> = ({ post, from }) => {
           {post.title}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          Por {post.author ?? `Usuario desconocido`}
+          Por {post.user?.username ?? "Usuario desconocido"}
         </Typography>
         <Typography variant="caption" color="text.secondary">
           {new Date(post.date).toLocaleDateString("es-ES")}

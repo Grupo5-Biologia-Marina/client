@@ -32,7 +32,8 @@ export default function AllDiscoveriesPage() {
   const fetchPosts = async () => {
     try {
       const res = await api.get<{ data: Post[] }>("/api/posts");
-      setPosts(res.data.data || []);
+      const postsData = res.data.data || [];
+      setPosts(postsData);
     } catch (err: any) {
       console.error("Error al obtener los descubrimientos:", err);
       setError("No se pudieron cargar los descubrimientos. Intenta más tarde.");
@@ -81,10 +82,10 @@ export default function AllDiscoveriesPage() {
                   title: post.title,
                   image: post.images?.[0]?.url || "",
                   likes: post.likesCount ?? 0, // ✅ Usar likesCount del backend
-                  author,
+                  user: post.user,
                   date: post.createdAt,
                 }}
-                onLikeUpdate={(newCount) => handleLikeUpdate(post.id, newCount)} // ✅ Pasar id como número
+                onLikeUpdate={(newCount) => handleLikeUpdate(post.id, newCount)}
               />
             );
           })}
