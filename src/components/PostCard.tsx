@@ -13,20 +13,22 @@ import { useNavigate } from "react-router-dom";
 
 interface PostCardProps {
   post: {
-    id: string;
+    id: number;
     title: string;
     image: string;
     likes: number;
     author?: string;
     date: string;
   };
+  from?: string;
 }
 
-export const PostCard: React.FC<PostCardProps> = ({ post }) => {
+export const PostCard: React.FC<PostCardProps> = ({ post, from }) => {
   const navigate = useNavigate();
 
   const handleCardClick = () => {
-    navigate(`/post/${post.id}`);
+    console.log("Navigating to post ID:", post.id);
+    navigate(`/post/${post.id}`, { state: { from: from || "/posts" }});
   };
 
   return (

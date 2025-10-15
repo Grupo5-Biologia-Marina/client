@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Box, Typography } from "@mui/material";
 import { api } from "../services/api";
 import { PostCard } from "../components/PostCard";
-import '../styles/PostsPage.css'; // CSS compartido
+import '../styles/PostsPage.css';
 
 interface User {
   id: number;
@@ -21,6 +21,7 @@ interface Post {
   createdAt: string;
   userId: number;
   user?: User;
+  likesCount?: number; // ✅ Cambiado de 'likes' a 'likesCount' (viene del backend)
 }
 
 export default function AllDiscoveriesPage() {
@@ -44,12 +45,27 @@ export default function AllDiscoveriesPage() {
     fetchPosts();
   }, []);
 
-  if (loading) return <Typography align="center" sx={{ py: 6 }}>Cargando descubrimientos...</Typography>;
-  if (error) return <Typography align="center" sx={{ py: 6 }} color="error">{error}</Typography>;
+  // ✅ Actualiza el conteo de likes localmente
+  const handleLikeUpdate = (postId: number, newLikesCount: number) => {
+    setPosts((prevPosts) =>
+      prevPosts.map((post) =>
+        post.id === postId ? { ...post, likesCount: newLikesCount } : post
+      )
+    );
+  };
+
+  if (loading)
+    return <Typography align="center" sx={{ py: 6 }}>Cargando descubrimientos...</Typography>;
+  if (error)
+    return <Typography align="center" sx={{ py: 6 }} color="error">{error}</Typography>;
 
   return (
     <Box className="page-container">
-      <Typography variant="h3" align="center" sx={{ mb: 4, fontWeight: "bold", textTransform: "uppercase" }}>
+      <Typography
+        variant="h3"
+        align="center"
+        sx={{ mb: 4, fontWeight: "bold", textTransform: "uppercase" }}
+      >
         🌊 Todos los Descubrimientos
       </Typography>
 
@@ -65,13 +81,14 @@ export default function AllDiscoveriesPage() {
               <PostCard
                 key={post.id}
                 post={{
-                  id: String(post.id),
+                  id: String(post.id), // ✅ Convertir a string para compatibilidad
                   title: post.title,
                   image: post.images?.[0]?.url || "",
-                  likes: 0,
+                  likes: post.likesCount ?? 0, // ✅ Usar likesCount del backend
                   author,
                   date: post.createdAt,
                 }}
+                onLikeUpdate={(newCount) => handleLikeUpdate(post.id, newCount)} // ✅ Pasar id como número
               />
             );
           })}
