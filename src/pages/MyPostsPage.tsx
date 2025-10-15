@@ -110,6 +110,7 @@ const MyPostsPage: React.FC = () => {
                 user: post.user,
                 date: post.createdAt,
               }}
+              from={`/my-posts/${userId}`}
               onLikeUpdate={(newCount) => handleLikeUpdate(post.id, newCount)}
             />
           );
