@@ -1,12 +1,13 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import { api } from "../services/api";
 import axios from "axios";
 import "../styles/PostForm.css";
+import { useAlertContext } from "../context/AlertContext";
 
 interface PostFormProps {
-  userId?: number; // ID del usuario que crea el post
-  postId?: string; // ID del post a editar (si existe)
+  userId?: number;
+  postId?: string;
   initialData?: {
     title?: string;
     content?: string;
@@ -14,20 +15,21 @@ interface PostFormProps {
     categories?: string[];
     images?: string[];
   };
-  onPostSaved?: () => void; // Callback después de crear o editar
+  onPostSaved?: () => void;
 }
 
 export default function PostForm({ userId, postId, initialData, onPostSaved }: PostFormProps) {
-  // Estados del formulario
   const [title, setTitle] = useState(initialData?.title || "");
   const [content, setContent] = useState(initialData?.content || "");
   const [credits, setCredits] = useState(initialData?.credits || "");
   const [categories, setCategories] = useState<string[]>(initialData?.categories || []);
-  const [images, setImages] = useState<File[]>([]); // nuevas imágenes
-  const [uploadedImages, setUploadedImages] = useState<string[]>(initialData?.images || []); // imágenes ya existentes
+  const [images, setImages] = useState<File[]>([]);
+  const [uploadedImages, setUploadedImages] = useState<string[]>(initialData?.images || []);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [dropdownOpen, setDropdownOpen] = useState(false);
+
+  const { showAlert } = useAlertContext(); // ⚡ Hook global de alertas
 
   const allCategories: string[] = [
     "🐠 Vida Marina",
@@ -45,7 +47,6 @@ export default function PostForm({ userId, postId, initialData, onPostSaved }: P
     }
   };
 
-  // Dropzone
   const onDrop = useCallback((acceptedFiles: File[]) => {
     setImages((prev) => [...prev, ...acceptedFiles]);
   }, []);
@@ -56,7 +57,6 @@ export default function PostForm({ userId, postId, initialData, onPostSaved }: P
   const removeUploadedImage = (url: string) =>
     setUploadedImages((prev) => prev.filter((img) => img !== url));
 
-  // Subir imágenes nuevas a Cloudinary
   const uploadAllImages = async () => {
     const uploadedUrls: string[] = [];
     if (images.length === 0) return uploadedUrls;
@@ -81,15 +81,17 @@ export default function PostForm({ userId, postId, initialData, onPostSaved }: P
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-  e.preventDefault();
-  setLoading(true);
-  setError("");
+    e.preventDefault();
+    setLoading(true);
+    setError("");
 
     try {
       const token = localStorage.getItem("token");
       const userIdStored = userId || Number(localStorage.getItem("userId"));
       if (!token || !userIdStored) {
-        setError("Debes iniciar sesión.");
+        const msg = "Debes iniciar sesión.";
+        setError(msg);
+        showAlert(msg, "error");
         setLoading(false);
         return;
       }
@@ -104,7 +106,7 @@ export default function PostForm({ userId, postId, initialData, onPostSaved }: P
           { title, content, credits, categories, images: allImages },
           { headers: { Authorization: `Bearer ${token}` } }
         );
-        alert("Post actualizado correctamente");
+        showAlert("Post actualizado correctamente", "success");
       } else {
         // CREAR POST
         await api.post(
@@ -118,13 +120,14 @@ export default function PostForm({ userId, postId, initialData, onPostSaved }: P
         setCategories([]);
         setImages([]);
         setUploadedImages([]);
-        alert("Post creado correctamente");
+        showAlert("Post creado correctamente", "success");
       }
 
       if (onPostSaved) onPostSaved();
     } catch (err: any) {
-      console.error(err);
-      setError(err?.response?.data?.message || "Error al guardar post");
+      const errorMessage = err?.response?.data?.message || "Error al guardar post";
+      setError(errorMessage);
+      showAlert(errorMessage, "error");
     } finally {
       setLoading(false);
     }
@@ -186,7 +189,6 @@ export default function PostForm({ userId, postId, initialData, onPostSaved }: P
         )}
 
         <div className="preview-images-dropzone">
-          {/* Imágenes nuevas */}
           {images.map((file, idx) => (
             <div key={idx} className="preview-image">
               <img src={URL.createObjectURL(file)} alt={`Imagen ${idx}`} />
@@ -203,7 +205,6 @@ export default function PostForm({ userId, postId, initialData, onPostSaved }: P
             </div>
           ))}
 
-          {/* Imágenes ya subidas */}
           {uploadedImages.map((url, idx) => (
             <div key={idx} className="preview-image">
               <img src={url} alt={`Imagen subida ${idx}`} />

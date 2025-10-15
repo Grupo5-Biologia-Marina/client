@@ -17,3 +17,25 @@ api.interceptors.request.use((config) => {
   }
   return config;
 });
+
+// ========================================
+// ❤️ LIKES API
+// ========================================
+
+/**
+ * Toggle like/unlike en un post (requiere autenticación)
+ * @param postId - ID del post
+ * @returns Promise con { success, data: { liked: boolean }, message }
+ */
+export const toggleLike = (postId: string | number) => {
+  return api.post(`/api/posts/${postId}/like`);
+};
+
+/**
+ * Obtener información de likes de un post
+ * @param postId - ID del post
+ * @returns Promise con { success, data: { likesCount: number, isLikedByUser: boolean }, message }
+ */
+export const getLikeInfo = (postId: string | number) => {
+  return api.get(`/api/posts/${postId}/likes`);
+};

@@ -22,6 +22,7 @@ interface Post {
   createdAt: string;
   userId: number;
   user?: User;
+  likesCount?: number; // ✅ Cambiado de 'likes' a 'likesCount' (viene del backend)
 }
 
 export default function AllDiscoveriesPage() {
@@ -45,8 +46,19 @@ export default function AllDiscoveriesPage() {
     fetchPosts();
   }, []);
 
-  if (loading) return <Typography align="center" sx={{ py: 6 }}>Cargando descubrimientos...</Typography>;
-  if (error) return <Typography align="center" sx={{ py: 6 }} color="error">{error}</Typography>;
+  // ✅ Actualiza el conteo de likes localmente
+  const handleLikeUpdate = (postId: number, newLikesCount: number) => {
+    setPosts((prevPosts) =>
+      prevPosts.map((post) =>
+        post.id === postId ? { ...post, likesCount: newLikesCount } : post
+      )
+    );
+  };
+
+  if (loading)
+    return <Typography align="center" sx={{ py: 6 }}>Cargando descubrimientos...</Typography>;
+  if (error)
+    return <Typography align="center" sx={{ py: 6 }} color="error">{error}</Typography>;
 
   return (
     <Box className="page-container">
@@ -67,13 +79,14 @@ export default function AllDiscoveriesPage() {
               <PostCard
                 key={post.id}
                 post={{
-                  id: String(post.id),
+                  id: String(post.id), // ✅ Convertir a string para compatibilidad
                   title: post.title,
                   image: post.images?.[0]?.url || "",
-                  likes: 0,
+                  likes: post.likesCount ?? 0, // ✅ Usar likesCount del backend
                   author,
                   date: post.createdAt,
                 }}
+                onLikeUpdate={(newCount) => handleLikeUpdate(post.id, newCount)} // ✅ Pasar id como número
               />
             );
           })}
