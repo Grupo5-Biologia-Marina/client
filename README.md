@@ -1,8 +1,20 @@
-# 🐬 EL GRAN AZUL
+# 🐬 Frontend - EL GRAN AZUL
+ 
+En este repositorio del **frontend** de un proyecto fullstack dedicado a la exploración y divulgación de la **biología marina**, donde los usuarios pueden descubrir información fascinante sobre animales, ecosistemas y fenómenos oceánicos.  
 
-Proyecto frontend del bootcamp **Fullstack JavaScript** de Factoria F5.  
-Es una aplicación interactiva sobre descubrimientos, animales y exploración, con funcionalidad completa de usuarios, posts y categorías.  
-Incluye animaciones, efectos visuales y un asistente virtual.
+La aplicación permite a los usuarios:  
+- Explorar **descubrimientos brillantes** relacionados con la biología marina.  
+- Consultar publicaciones organizadas en **categorías temáticas**:  
+  - 🐠 Vida Marina  
+  - 🌊 Ecosistemas Oceánicos  
+  - 🔬 Ciencia y Exploración  
+  - ⚠️ Problemas y Amenazas  
+  - 🌍 Regiones y Océanos del Mundo  
+- Crear, editar y eliminar sus propios **posts** con contenido, imágenes y créditos.  
+- Interactuar con los posts de otros usuarios mediante **likes**.  
+- Disfrutar de animaciones, efectos visuales y un **asistente virtual** que guía a través de tests interactivos.  
+
+La aplicación está diseñada con un enfoque **interactivo y visual**, usando animaciones, partículas y un diseño acuático que mejora la experiencia de navegación y aprendizaje sobre el mundo marino.
 
 ---
 
@@ -150,7 +162,7 @@ main.tsx # Entry point
 
 1. Clonar el repositorio
 ```
-git clone <url-del-repo>
+git clone https://github.com/Grupo5-Biologia-Marina/client.git
 Instalar dependencias
 ```
 
@@ -181,5 +193,12 @@ Abrir en navegador en http://localhost:5173
 🚢 Aday 🦈 • Irina 🐙 • Julia 🐠 • Luisa 🐬 • Valentina 🐡
 
 ---
+
+> **Nota:**  
+> Este proyecto forma parte del **bootcamp Fullstack JavaScript de Factoria F5**.  
+> Todos los recursos utilizados, incluidas imágenes y gráficos, tienen **fines educativos**.  
+> Algunas imágenes han sido recreadas o generadas con **IA** para ilustrar conceptos y enriquecer la experiencia visual.
+
+
 
 
