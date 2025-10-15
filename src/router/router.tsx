@@ -6,15 +6,15 @@ import LoginPage from "../pages/LoginPage";
 import RegisterPage from "../pages/RegisterPage";
 
 // Users
-import ProfilePage from "../pages/ProfilePage";       // GET /users/:id
-import UsersAdminPage from "../pages/UsersAdminPage"; // GET /users (admin)
+import ProfilePage from "../pages/ProfilePage";       
+import UsersAdminPage from "../pages/UsersAdminPage"; 
 
 // Posts
 import WelcomePage from "../pages/WelcomePage";
-import DiscoveriesPage from "../pages/DiscoveriesPage"; // GET /posts visibles
-import PostDetailPage from "../pages/PostDetailPage";   // GET /posts/:id
-import CreatePostPage from "../pages/CreatePostPage";   // POST /posts
-import AllDiscoveriesPage from "../pages/AllDiscoveriesPage"; // GET /posts
+import DiscoveriesPage from "../pages/DiscoveriesPage"; 
+import PostDetailPage from "../pages/PostDetailPage";   
+import CreatePostPage from "../pages/CreatePostPage";   
+import AllDiscoveriesPage from "../pages/AllDiscoveriesPage"; 
 import EditPostPage from "../pages/EditPostPage";
 import MyPostsPage from "../pages/MyPostsPage";
 
@@ -30,10 +30,9 @@ import { CategoryPostsPage } from "../pages/categories/CategoryPostsPage";
 import NotFoundPage from "../pages/NotFoundPage";
 import Creators from "../pages/CreatorsPage";
 import TestPage from "../pages/TestGamePage";
+import { useAlertContext } from "../context/AlertContext";
 
-/**
- * ProtectedRoute: Solo permite acceso si el usuario está autenticado
- */
+/** PROTECTED ROUTE NORMAL */
 interface ProtectedRouteProps {
   children: React.ReactNode;
 }
@@ -48,10 +47,7 @@ function ProtectedRoute({ children }: ProtectedRouteProps) {
   return <>{children}</>;
 }
 
-/**
- * PublicOnlyRoute: Redirige a discoveries si ya está autenticado
- * (para login/register)
- */
+/** PUBLIC ONLY ROUTE */
 function PublicOnlyRoute({ children }: ProtectedRouteProps) {
   const userId = useAuthStore((state) => state.userId);
 
@@ -62,18 +58,29 @@ function PublicOnlyRoute({ children }: ProtectedRouteProps) {
   return <>{children}</>;
 }
 
+/** ALERT PROTECTED ROUTE PARA EL TEST */
+function AlertProtectedRoute({ children }: ProtectedRouteProps) {
+  const isAuthenticated = useAuthStore((state) => !!state.token);
+  const { showAlert } = useAlertContext(); // asegúrate de importar esto
+  if (!isAuthenticated) {
+    showAlert("Debes iniciar sesión para hacer el test 🦭", "warning");
+    return <Navigate to="/login" replace />;
+  }
+  return <>{children}</>;
+}
+
 export default function AppRoutes() {
   return (
     <Routes>
-      {/* 👋 WELCOME - PÚBLICA */}
+      {/* 👋 WELCOME */}
       <Route path="/" element={<WelcomePage />} />
       <Route path="/welcome" element={<WelcomePage />} />
 
-      {/* 🔍 DISCOVERIES - PÚBLICAS (sin login necesario) */}
+      {/* 🔍 DISCOVERIES */}
       <Route path="/discoveries" element={<DiscoveriesPage />} />
       <Route path="/post/:id" element={<PostDetailPage />} />
 
-      {/* 🧭 CATEGORÍAS - PÚBLICAS */}
+      {/* 🧭 CATEGORÍAS */}
       <Route path="/categories/marine-life" element={<MarineLifePage />} />
       <Route path="/categories/ocean-ecosystems" element={<OceanEcosystemsPage />} />
       <Route path="/categories/problems-threats" element={<ProblemsThreatsPage />} />
@@ -81,13 +88,20 @@ export default function AppRoutes() {
       <Route path="/categories/world-regions" element={<WorldRegionsPage />} />
       <Route path="/category-posts/:slug" element={<CategoryPostsPage />} />
 
-      {/* 👩‍💻 CREATORS - PÚBLICA */}
+      {/* 👩‍💻 CREATORS */}
       <Route path="/creators" element={<Creators />} />
 
-      {/* 🧪 TEST - PÚBLICA */}
-      <Route path="/test" element={<TestPage />} />
+      {/* 🧪 TEST CON ALERT */}
+      <Route
+        path="/test"
+        element={
+          <AlertProtectedRoute>
+            <TestPage />
+          </AlertProtectedRoute>
+        }
+      />
 
-      {/* ✍️ AUTH - Solo accesible si NO estás logueado */}
+      {/* ✍️ AUTH */}
       <Route
         path="/login"
         element={
@@ -105,7 +119,7 @@ export default function AppRoutes() {
         }
       />
 
-      {/* 🔒 POSTS - PROTEGIDAS (requieren login) */}
+      {/* 🔒 POSTS */}
       <Route
         path="/posts"
         element={
@@ -131,8 +145,7 @@ export default function AppRoutes() {
         }
       />
 
-
-      {/*🔒 EDITAR POST (solo admins)*/}
+      {/* 🔒 EDITAR POST */}
       <Route
         path="/post/edit/:id"
         element={
@@ -142,7 +155,7 @@ export default function AppRoutes() {
         }
       />
 
-      {/* 🔒 USUARIOS - PROTEGIDAS */}
+      {/* 🔒 USUARIOS */}
       <Route
         path="/users/:id"
         element={
@@ -160,7 +173,7 @@ export default function AppRoutes() {
         }
       />
 
-      {/* 🚫 FALLBACK - Not Found */}
+      {/* 🚫 FALLBACK */}
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );

@@ -1,8 +1,29 @@
+import React from "react";
 import { Card, CardContent, Typography, Button, Stack } from "@mui/material";
 
-export default function QuestionCard({ question, onAnswer, selectedIndex }) {
+export interface Option {
+  text: string;
+  category: string;
+}
+
+export interface Question {
+  text: string;
+  options: Option[];
+}
+
+interface QuestionCardProps {
+  question: Question;
+  onAnswer: (index: number, option: Option) => void;
+  selectedIndex: number | null;
+}
+
+export default function QuestionCard({
+  question,
+  onAnswer,
+  selectedIndex,
+}: QuestionCardProps): JSX.Element {
   return (
-    <Card sx={{ maxWidth: 700, mx: "auto", p: 2, borderRadius: 3 }}>
+    <Card sx={{ maxWidth: 700, mx: "auto", p: 2, borderRadius: 3, background: "#e1f5fe" }}>
       <CardContent>
         <Typography variant="h6" mb={2}>
           {question.text}
@@ -17,8 +38,8 @@ export default function QuestionCard({ question, onAnswer, selectedIndex }) {
                 justifyContent: "flex-start",
                 borderRadius: 2,
                 textTransform: "none",
-                transition: "transform 0.2s ease",
-                "&:hover": { transform: "scale(1.03)" },
+                transition: "transform 0.2s ease, box-shadow 0.3s ease",
+                "&:hover": { transform: "scale(1.05)", boxShadow: "0 4px 20px rgba(0,0,0,0.15)" }
               }}
             >
               {opt.text}

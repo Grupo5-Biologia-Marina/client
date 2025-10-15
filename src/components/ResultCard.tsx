@@ -1,8 +1,20 @@
+import React from "react";
 import { Card, CardMedia, CardContent, Typography, CardActionArea } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { categoryMap } from "../constants/categoryMap"; // usa el tuyo
 
-export default function ResultCard({ post }) {
+export interface Post {
+  id: number | string;
+  title: string;
+  description?: string;
+  category: string;
+  image_url?: string;
+}
+
+interface ResultCardProps {
+  post: Post | null;
+}
+
+export default function ResultCard({ post }: ResultCardProps): JSX.Element | null {
   const navigate = useNavigate();
   if (!post) return null;
 
@@ -32,9 +44,6 @@ export default function ResultCard({ post }) {
           </Typography>
           <Typography variant="body2" color="text.secondary" mb={1}>
             {post.description}
-          </Typography>
-          <Typography variant="subtitle2">
-            {categoryMap[post.category] || "🌊 Categoría desconocida"}
           </Typography>
         </CardContent>
       </CardActionArea>
