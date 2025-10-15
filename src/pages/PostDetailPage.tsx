@@ -89,17 +89,23 @@ export default function PostDetailPage() {
   return (
     <div className="detail-background">
       <main className="post-detail-container">
-        <h1 className="post-title">{post.title}</h1>
-
-        {post.username && (
-          <p className="post-author">
-            Publicado por <strong>{post.username}</strong>
-          </p>
+        {post.images && post.images.length > 0 && (
+          <div className="post-main-image">
+            <img
+              src={post.images[0].url}
+              alt={post.images[0].caption || post.title}
+              onError={(e) => {
+                (e.target as HTMLImageElement).src =
+                  "https://via.placeholder.com/800x400?text=Imagen+no+disponible";
+              }}
+            />
+          </div>
         )}
+
+        <h1 className="post-title">{post.title}</h1>
 
         {post.createdAt && (
           <p className="post-date">
-            Fecha:{" "}
             {new Date(post.createdAt).toLocaleDateString("es-ES", {
               year: "numeric",
               month: "long",
@@ -110,11 +116,10 @@ export default function PostDetailPage() {
 
         {post.categories && post.categories.length > 0 && (
           <div className="post-categories">
-            <strong>Categorías: </strong>
             {post.categories.map((c, index) => (
-              <span key={c.id}>
-                <span className="category">{c.name}</span>
-                {index < (post.categories?.length ?? 0) - 1 && ", "}
+              <span key={c.id} className="category">
+                {c.name}
+                {index < (post.categories?.length ?? 0) - 1 ? ", " : ""}
               </span>
             ))}
           </div>
@@ -126,37 +131,11 @@ export default function PostDetailPage() {
           ))}
         </article>
 
+        {post.credits && <p className="post-credits">Créditos: {post.credits}</p>}
+
         <div className="post-like-section">
           <LikeButton postId={post.id} variant="default" />
         </div>
-
-        {post.credits && (
-          <p className="post-credits">
-            <strong>Créditos:</strong> {post.credits}
-          </p>
-        )}
-
-        {post.images && post.images.length > 0 && (
-          <section className="post-images">
-            <h3>Galería de imágenes</h3>
-            {post.images.map((img) => (
-              <figure key={img.id} className="post-image-item">
-                <img
-                  src={img.url}
-                  alt={img.caption || post.title}
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).src =
-                      "https://via.placeholder.com/800x400?text=Imagen+no+disponible";
-                  }}
-                />
-                {img.caption && <figcaption>{img.caption}</figcaption>}
-                {img.credit && (
-                  <small className="image-credit">Crédito: {img.credit}</small>
-                )}
-              </figure>
-            ))}
-          </section>
-        )}
 
         {canEditOrDelete() && (
           <div className="post-actions-admin">
@@ -174,23 +153,8 @@ export default function PostDetailPage() {
             ← {backText}
           </Link>
         </div>
-
-        {confirmDeleteOpen && (
-          <div className="confirm-overlay">
-            <div className="confirm-box">
-              <p>¿Seguro que quieres eliminar este post?</p>
-              <div className="confirm-actions">
-                <button className="btn btn-confirm" onClick={handleDelete}>
-                  Sí, eliminar
-                </button>
-                <button className="btn btn-cancel" onClick={cancelDelete}>
-                  Cancelar
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
       </main>
+
     </div>
   );
 }
