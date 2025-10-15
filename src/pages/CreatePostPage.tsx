@@ -1,4 +1,3 @@
-import React from "react";
 import PostForm from "../components/PostForm";
 import { useNavigate } from "react-router-dom";
 import "../pages/CreatePostPage.css";
