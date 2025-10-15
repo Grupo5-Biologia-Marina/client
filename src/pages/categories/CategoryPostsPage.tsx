@@ -25,8 +25,8 @@ interface Post {
   images?: { url: string }[];
   createdAt: string;
   userId: number;
-  user?: User;
-  likesCount?: number; // ✅ Añadido
+  user: User; 
+  likesCount?: number;
 }
 
 const categoryMap: Record<string, string> = {
@@ -49,7 +49,7 @@ export const CategoryPostsPage = () => {
     const fetchPosts = async () => {
       try {
         setLoading(true);
-        const res = await api.get("/api/posts");
+        const res = await api.get<{ data: Post[] }>("/api/posts");
         const allPosts: Post[] = Array.isArray(res.data.data) ? res.data.data : [];
 
         if (!categoryName) {
@@ -57,8 +57,8 @@ export const CategoryPostsPage = () => {
           return;
         }
 
-        const filteredPosts = allPosts.filter((post) =>
-          post.categories?.some((c) => c.name === categoryName)
+        const filteredPosts = allPosts.filter(post =>
+          post.categories?.some(c => c.name === categoryName)
         );
 
         setPosts(filteredPosts);
@@ -73,7 +73,7 @@ export const CategoryPostsPage = () => {
     if (slug) fetchPosts();
   }, [slug, categoryName]);
 
-  // ✅ Callback para actualizar likes localmente
+  // ✅ Actualiza el conteo de likes localmente
   const handleLikeUpdate = (postId: number, newLikesCount: number) => {
     setPosts(prevPosts =>
       prevPosts.map(post =>
@@ -94,18 +94,18 @@ export const CategoryPostsPage = () => {
         <Typography align="center" color="error">{error}</Typography>
       ) : posts.length > 0 ? (
         <Box className="cards-grid">
-          {posts.map((post) => (
+          {posts.map(post => (
             <PostCard
               key={post.id}
               post={{
                 id: String(post.id),
                 title: post.title,
                 image: post.images?.[0]?.url || "",
-                likes: post.likesCount || 0, // ✅ Usar likesCount del backend
-                author: post.user?.username || `Usuario ${post.userId}`,
+                likes: post.likesCount || 0,
+                user: post.user, 
                 date: post.createdAt,
               }}
-              onLikeUpdate={(newCount) => handleLikeUpdate(post.id, newCount)} // ✅ Pasar callback
+              onLikeUpdate={(newCount) => handleLikeUpdate(post.id, newCount)}
             />
           ))}
         </Box>

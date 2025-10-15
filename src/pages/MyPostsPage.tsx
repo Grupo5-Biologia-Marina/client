@@ -107,7 +107,7 @@ const MyPostsPage: React.FC = () => {
                 title: post.title,
                 image: getImageUrl(post.images?.[0]?.url),
                 likes: post.likesCount || 0,
-                author: author,
+                user: post.user,
                 date: post.createdAt,
               }}
               from={`/my-posts/${userId}`}
