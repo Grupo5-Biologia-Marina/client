@@ -85,6 +85,7 @@ export default function AllDiscoveriesPage() {
                   user: post.user,
                   date: post.createdAt,
                 }}
+                from="/posts" 
                 onLikeUpdate={(newCount) => handleLikeUpdate(post.id, newCount)}
               />
             );
