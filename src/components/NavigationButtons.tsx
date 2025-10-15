@@ -67,7 +67,7 @@ const NavigationButtons = () => {
         </Button>
         <Button 
           variant="contained" 
-          color="secondary" 
+          color="primary" 
           onClick={handleTop}
           sx={{
             px: 3,
