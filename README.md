@@ -195,9 +195,11 @@ Abrir en navegador en http://localhost:5173
 ---
 
 > **Nota:**  
-> Este proyecto forma parte del **bootcamp Fullstack JavaScript de Factoria F5**.  
+> Este proyecto forma parte del **bootcamp Fullstack de Factoria F5**.  
 > Todos los recursos utilizados, incluidas imágenes y gráficos, tienen **fines educativos**.  
 > Algunas imágenes han sido recreadas o generadas con **IA** para ilustrar conceptos y enriquecer la experiencia visual.
+> Se indican los enlaces de la fuente y los recursos de la información obtenida en la propia web.
+
 
 
 
