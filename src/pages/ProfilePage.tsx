@@ -151,6 +151,7 @@ const ProfilePage: React.FC = () => {
             </button>
           </div>
 
+          
           <h2>Tu perfil:</h2>
           <p><strong>Username:</strong> {user.username}</p>
           <p><strong>Nombre:</strong> {user.firstname}</p>
