@@ -4,7 +4,8 @@ import { getUserById } from "../services/userService";
 import type { User } from "../types/userTypes";
 import { api } from "../services/api";
 import axios from "axios";
-import './ProfilePage.css'; 
+import "./ProfilePage.css";
+import { useAlertContext } from "../context/AlertContext"; // ⚡ Hook global
 
 const ProfilePage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -13,6 +14,8 @@ const ProfilePage: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
+
+  const { showAlert } = useAlertContext(); // ⚡ Hook alert global
 
   useEffect(() => {
     if (!id) return;
@@ -29,14 +32,16 @@ const ProfilePage: React.FC = () => {
         const userData = await getUserById(id);
         setUser(userData);
       } catch {
-        setError("No se pudo cargar la información del perfil");
+        const msg = "No se pudo cargar la información del perfil";
+        setError(msg);
+        showAlert(msg, "error");
       } finally {
         setLoading(false);
       }
     };
 
     fetchUser();
-  }, [id, navigate]);
+  }, [id, navigate, showAlert]);
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -55,7 +60,6 @@ const ProfilePage: React.FC = () => {
 
       const imageUrl = res.data.secure_url;
 
-      // Actualizar el usuario con la nueva imagen
       const token = localStorage.getItem("token");
       await api.patch(
         `/users/${id}`,
@@ -63,12 +67,11 @@ const ProfilePage: React.FC = () => {
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
-      // Actualizar el estado local
       setUser(prev => prev ? { ...prev, img: imageUrl } : null);
-      alert("Imagen de perfil actualizada correctamente");
+      showAlert("Imagen de perfil actualizada correctamente", "success");
     } catch (err: any) {
       console.error("Error subiendo imagen:", err);
-      alert("Error al subir la imagen. Inténtalo de nuevo.");
+      showAlert("Error al subir la imagen. Inténtalo de nuevo.", "error");
     } finally {
       setUploading(false);
     }
@@ -82,6 +85,7 @@ const ProfilePage: React.FC = () => {
       navigate("/discoveries");
     } catch (err) {
       console.error("Error al cerrar sesión", err);
+      showAlert("Error al cerrar sesión", "error");
     }
   };
 
@@ -94,7 +98,6 @@ const ProfilePage: React.FC = () => {
 
       {user ? (
         <div className="profile-info">
-          {/* Imagen de perfil */}
           <div style={{ position: "relative", display: "inline-block" }}>
             {user.img ? (
               <img
@@ -119,14 +122,13 @@ const ProfilePage: React.FC = () => {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  margin: "0 auto 1rem auto", 
+                  margin: "0 auto 1rem auto",
                 }}
               >
                 <span>Sin imagen</span>
               </div>
             )}
-            
-            {/* Input de archivo oculto */}
+
             <input
               type="file"
               id="profile-image-input"
@@ -134,8 +136,7 @@ const ProfilePage: React.FC = () => {
               onChange={handleImageUpload}
               style={{ display: "none" }}
             />
-            
-            {/* Botón para cambiar imagen */}
+
             <button
               type="button"
               onClick={() => document.getElementById("profile-image-input")?.click()}
@@ -160,32 +161,16 @@ const ProfilePage: React.FC = () => {
           <p><strong>Rol:</strong> {user.role}</p>
 
           <button onClick={handleLogout}>Cerrar sesión</button>
+          <button onClick={() => navigate(`/my-posts/${id}`)}>Mis publicaciones</button>
         </div>
       ) : (
         <p>No se encontró información del usuario.</p>
       )}
-      
+
       <div className="bubbles">
-        <div className="bubble"></div>
-        <div className="bubble"></div>
-        <div className="bubble"></div>
-        <div className="bubble"></div>
-        <div className="bubble"></div>
-        <div className="bubble"></div>
-        <div className="bubble"></div>
-        <div className="bubble"></div>
-        <div className="bubble"></div>
-        <div className="bubble"></div>
-        <div className="bubble"></div>
-        <div className="bubble"></div>
-        <div className="bubble"></div>
-        <div className="bubble"></div>
-        <div className="bubble"></div>
-        <div className="bubble"></div>
-        <div className="bubble"></div>
-        <div className="bubble"></div>
-        <div className="bubble"></div>
-        <div className="bubble"></div>
+        {Array.from({ length: 20 }).map((_, i) => (
+          <div key={i} className="bubble"></div>
+        ))}
       </div>
     </div>
   );

@@ -1,0 +1,58 @@
+.like-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 50px;
+  background: white;
+  color: #666;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.like-button:hover {
+  border-color: #ff4757;
+  color: #ff4757;
+  transform: scale(1.05);
+}
+
+.like-button.liked {
+  background: #ff4757;
+  border-color: #ff4757;
+  color: white;
+}
+
+.like-button.liked .heart-icon {
+  animation: heartBeat 0.3s ease;
+}
+
+.like-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.heart-icon {
+  width: 20px;
+  height: 20px;
+  transition: all 0.2s ease;
+}
+
+/* Variante para cards (más pequeño) */
+.like-button.card {
+  padding: 0.4rem 0.8rem;
+  font-size: 0.9rem;
+}
+
+.like-button.card .heart-icon {
+  width: 18px;
+  height: 18px;
+}
+
+@keyframes heartBeat {
+  0%, 100% { transform: scale(1); }
+  25% { transform: scale(1.3); }
+  50% { transform: scale(1.1); }
+}

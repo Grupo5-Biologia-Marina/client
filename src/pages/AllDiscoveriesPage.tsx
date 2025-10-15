@@ -21,6 +21,7 @@ interface Post {
   createdAt: string;
   userId: number;
   user?: User;
+  likesCount?: number; // ✅ Cambiado de 'likes' a 'likesCount' (viene del backend)
 }
 
 export default function AllDiscoveriesPage() {
@@ -31,7 +32,8 @@ export default function AllDiscoveriesPage() {
   const fetchPosts = async () => {
     try {
       const res = await api.get<{ data: Post[] }>("/api/posts");
-      setPosts(res.data.data || []);
+      const postsData = res.data.data || [];
+      setPosts(postsData);
     } catch (err: any) {
       console.error("Error al obtener los descubrimientos:", err);
       setError("No se pudieron cargar los descubrimientos. Intenta más tarde.");
@@ -44,8 +46,19 @@ export default function AllDiscoveriesPage() {
     fetchPosts();
   }, []);
 
-  if (loading) return <Typography align="center" sx={{ py: 6 }}>Cargando descubrimientos...</Typography>;
-  if (error) return <Typography align="center" sx={{ py: 6 }} color="error">{error}</Typography>;
+  // ✅ Actualiza el conteo de likes localmente
+  const handleLikeUpdate = (postId: number, newLikesCount: number) => {
+    setPosts((prevPosts) =>
+      prevPosts.map((post) =>
+        post.id === postId ? { ...post, likesCount: newLikesCount } : post
+      )
+    );
+  };
+
+  if (loading)
+    return <Typography align="center" sx={{ py: 6 }}>Cargando descubrimientos...</Typography>;
+  if (error)
+    return <Typography align="center" sx={{ py: 6 }} color="error">{error}</Typography>;
 
   return (
     <Box className="page-container">
@@ -65,13 +78,14 @@ export default function AllDiscoveriesPage() {
               <PostCard
                 key={post.id}
                 post={{
-                  id: String(post.id),
+                  id: String(post.id), // ✅ Convertir a string para compatibilidad
                   title: post.title,
                   image: post.images?.[0]?.url || "",
-                  likes: 0,
-                  author,
+                  likes: post.likesCount ?? 0, // ✅ Usar likesCount del backend
+                  user: post.user,
                   date: post.createdAt,
                 }}
+                onLikeUpdate={(newCount) => handleLikeUpdate(post.id, newCount)}
               />
             );
           })}

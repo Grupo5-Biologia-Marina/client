@@ -1,20 +1,20 @@
 import { BrowserRouter, useLocation } from "react-router-dom";
 import AppRoutes from "./router/router";
 import "./index.css";
-import './App.css';
+import "./App.css";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import { AlertProvider } from "./context/AlertContext";
 
-/**
- * AppContent vive dentro del BrowserRouter para poder usar useLocation.
- * Controla qué rutas muestran navbar/footer.
- */
 function AppContent() {
   const location = useLocation();
 
+  // rutas donde no se muestran navbar/footer
   const hidePaths = ["/", "/welcome", "/login", "/register"];
-  const shouldHide = hidePaths.some(p =>
-    p === "/" ? location.pathname === "/" : location.pathname === p || location.pathname.startsWith(p)
+  const shouldHide = hidePaths.some((p) =>
+    p === "/"
+      ? location.pathname === "/"
+      : location.pathname === p || location.pathname.startsWith(p)
   );
 
   return (
@@ -29,7 +29,10 @@ function AppContent() {
 export default function App() {
   return (
     <BrowserRouter>
-      <AppContent />
+      {/* El provider envuelve todo el contenido, incluyendo rutas, navbar y footer */}
+      <AlertProvider>
+        <AppContent />
+      </AlertProvider>
     </BrowserRouter>
   );
 }

@@ -1,14 +1,9 @@
 .detail-background {
-  background-image: url('../assets/fondo-marino.png.png'); /* Ruta relativa desde /public */
+  background-image: url('../assets/fondo-marino.png.png');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  padding: 2rem; /* Ajusta según tu diseño */
-}
-
-
-
-.detail-background {
+  padding: 2rem;
   animation: fondoOndulante 30s linear infinite;
 }
 
@@ -16,8 +11,8 @@
   max-width: 900px;
   margin: 2rem auto;
   padding: 2rem;
-  background-color: #0b1e3d; /* Azul muy oscuro */
-  color: white; /* Azul claro para contraste */
+  background-color: #0b1e3d;
+  color: white;
   border-radius: 10px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
   font-family: 'Arial', sans-serif;
@@ -36,13 +31,18 @@
   color: white;
 }
 
+.post-date {
+  color: white;
+  margin-bottom: 1rem;
+}
+
 .post-categories {
   margin-bottom: 1rem;
 }
 
 .category {
   display: inline-block;
-  background-color: #134074; /* Azul oscuro medio */
+  background-color: #134074;
   color: #ffffff;
   padding: 0.2rem 0.6rem;
   border-radius: 4px;
@@ -53,13 +53,24 @@
 .post-content {
   line-height: 1.7;
   font-size: 1.1rem;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Sección del botón de like */
+.post-like-section {
+  margin: 2rem 0;
+  display: flex;
+  justify-content: center;
+  padding: 1rem 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .post-credits {
   font-size: 0.9rem;
   color: white;
   margin-bottom: 1rem;
+  margin-top: 1.5rem;
 }
 
 .post-images {
@@ -112,18 +123,19 @@
   margin-top: 2rem;
   color: #a0d8ef;
 }
-/* Contenedor de botones de admin (apilados verticalmente) */
+
+/* Contenedor de botones de admin */
 .post-actions-admin {
   display: flex;
-  gap: 15px; /* separación entre Editar y Eliminar */
+  gap: 15px;
   margin-bottom: 20px;
-  justify-content: flex-start; /* alineados a la izquierda */
+  justify-content: center; /* centrado */
 }
 
 .post-actions {
   margin-top: 20px;
   display: flex;
-  justify-content: center; /* centra el botón de volver */
+  justify-content: center;
 }
 
 .btn {
@@ -139,20 +151,73 @@
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   transition: all 0.2s ease;
   text-decoration: none;
+  display: inline-block;
 }
 
-.btn-edit { background-color: #28a745; }
-.btn-edit:hover { background-color: #218838; }
+.btn-edit { 
+  background-color: #28a745; 
+}
+.btn-edit:hover { 
+  background-color: #218838; 
+}
 
-.btn-delete { background-color: #dc3545; }
-.btn-delete:hover { background-color: #c82333; }
+.btn-delete { 
+  background-color: #dc3545; 
+}
+.btn-delete:hover { 
+  background-color: #c82333; 
+}
 
 .btn-back { 
   background-color: #007bff; 
   width: 200px; 
 }
-.btn-back:hover { background-color: #0056b3; }
+.btn-back:hover { 
+  background-color: #0056b3; 
+}
 
+/* Estilos overlay confirm delete */
+.confirm-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.confirm-box {
+  background-color: #0b1e3d;
+  padding: 2rem;
+  border-radius: 10px;
+  text-align: center;
+  color: white;
+  max-width: 400px;
+  width: 90%;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+}
+
+.confirm-actions {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 1.5rem;
+}
+
+.btn-confirm {
+  background-color: #dc3545;
+}
+.btn-confirm:hover {
+  background-color: #c82333;
+}
+
+.btn-cancel {
+  background-color: #6c757d;
+}
+.btn-cancel:hover {
+  background-color: #5a6268;
+}
 
 @media (max-width: 600px) {
   .post-detail-container {
@@ -164,5 +229,15 @@
   }
   .post-content {
     font-size: 1rem;
+  }
+  .post-actions-admin {
+    flex-direction: column;
+    align-items: center;
+  }
+  .btn {
+    width: 100%;
+  }
+  .confirm-actions {
+    flex-direction: column;
   }
 }

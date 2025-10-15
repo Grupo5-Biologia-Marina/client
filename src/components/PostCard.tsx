@@ -11,26 +11,44 @@ import {
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { useNavigate } from "react-router-dom";
 
+interface User {
+  id: number;
+  username: string;
+}
+
 interface PostCardProps {
   post: {
-    id: string;
+    id: number;
     title: string;
     image: string;
     likes: number;
+<<<<<<< HEAD
     author?: string;
+=======
+    user?: User; 
+>>>>>>> 2db2bdbd0a7b8a05dc4f0456f9ea71ac1fd9757a
     date: string;
   };
+  from?: string;
 }
 
-export const PostCard: React.FC<PostCardProps> = ({ post }) => {
+export const PostCard: React.FC<PostCardProps> = ({ post, from }) => {
   const navigate = useNavigate();
 
   const handleCardClick = () => {
+<<<<<<< HEAD
     navigate(`/post/${post.id}`);
+=======
+    navigate(`/post/${post.id}`, { state: { from: from || "/posts" }});
+>>>>>>> 2db2bdbd0a7b8a05dc4f0456f9ea71ac1fd9757a
   };
 
   return (
     <Card
+<<<<<<< HEAD
+=======
+      className="post-card"
+>>>>>>> 2db2bdbd0a7b8a05dc4f0456f9ea71ac1fd9757a
       onClick={handleCardClick}
       sx={{
         cursor: "pointer",
@@ -91,6 +109,7 @@ export const PostCard: React.FC<PostCardProps> = ({ post }) => {
         >
           {post.title}
         </Typography>
+<<<<<<< HEAD
 
         <Divider
           sx={{
@@ -103,6 +122,10 @@ export const PostCard: React.FC<PostCardProps> = ({ post }) => {
         {/* Autor y fecha */}
         <Typography variant="body2" sx={{ opacity: 0.9 }}>
           ✦ {post.author ?? "Usuario desconocido"} ✦
+=======
+        <Typography variant="body2" color="text.secondary">
+          Por {post.user?.username ?? "Usuario desconocido"}
+>>>>>>> 2db2bdbd0a7b8a05dc4f0456f9ea71ac1fd9757a
         </Typography>
         <Typography variant="caption" sx={{ color: "#b0e0ff" }}>
           {new Date(post.date).toLocaleDateString("es-ES", {

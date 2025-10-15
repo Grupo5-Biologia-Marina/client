@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { Box, Typography } from "@mui/material";
 import { PostCard } from "../../components/PostCard";
 import { api } from "../../services/api";
-import '../../styles/PostsPage.css'; // CSS compartido
+import '../../styles/PostsPage.css';
 
 interface User {
   id: number;
@@ -25,10 +25,10 @@ interface Post {
   images?: { url: string }[];
   createdAt: string;
   userId: number;
-  user?: User;
+  user: User; 
+  likesCount?: number;
 }
 
-// Mapeo de slug a nombre de categoría
 const categoryMap: Record<string, string> = {
   "marine-life": "🐠 Vida Marina",
   "ocean-ecosystems": "🌊 Ecosistemas Oceánicos",
@@ -49,7 +49,7 @@ export const CategoryPostsPage = () => {
     const fetchPosts = async () => {
       try {
         setLoading(true);
-        const res = await api.get("/api/posts");
+        const res = await api.get<{ data: Post[] }>("/api/posts");
         const allPosts: Post[] = Array.isArray(res.data.data) ? res.data.data : [];
 
         if (!categoryName) {
@@ -57,8 +57,8 @@ export const CategoryPostsPage = () => {
           return;
         }
 
-        const filteredPosts = allPosts.filter((post) =>
-          post.categories?.some((c) => c.name === categoryName)
+        const filteredPosts = allPosts.filter(post =>
+          post.categories?.some(c => c.name === categoryName)
         );
 
         setPosts(filteredPosts);
@@ -73,6 +73,15 @@ export const CategoryPostsPage = () => {
     if (slug) fetchPosts();
   }, [slug, categoryName]);
 
+  // ✅ Actualiza el conteo de likes localmente
+  const handleLikeUpdate = (postId: number, newLikesCount: number) => {
+    setPosts(prevPosts =>
+      prevPosts.map(post =>
+        post.id === postId ? { ...post, likesCount: newLikesCount } : post
+      )
+    );
+  };
+
   return (
     <Box className="page-container">
       <Typography variant="h3" align="center" sx={{ mb: 4, fontWeight: "bold", textTransform: "uppercase" }}>
@@ -85,17 +94,18 @@ export const CategoryPostsPage = () => {
         <Typography align="center" color="error">{error}</Typography>
       ) : posts.length > 0 ? (
         <Box className="cards-grid">
-          {posts.map((post) => (
+          {posts.map(post => (
             <PostCard
               key={post.id}
               post={{
                 id: String(post.id),
                 title: post.title,
                 image: post.images?.[0]?.url || "",
-                likes: 0,
-                author: post.user?.username || `Usuario ${post.userId}`,
+                likes: post.likesCount || 0,
+                user: post.user, 
                 date: post.createdAt,
               }}
+              onLikeUpdate={(newCount) => handleLikeUpdate(post.id, newCount)}
             />
           ))}
         </Box>
