@@ -28,7 +28,7 @@ api.interceptors.request.use((config) => {
  * @returns Promise con { success, data: { liked: boolean }, message }
  */
 export const toggleLike = (postId: string | number) => {
-  return api.post(`/api/posts/${postId}/like`);
+  return api.post(`/api/posts/${postId}/likes`);
 };
 
 /**

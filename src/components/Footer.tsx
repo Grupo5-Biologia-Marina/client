@@ -46,53 +46,40 @@ export default function Footer() {
           position: "relative",
         }}
       >
-        {/* Logo Factoría F5 */}
-        <Box sx={{ mb: { xs: 2, md: 0 } }}>
-          <img
-            src={logoFactoria}
-            alt="Logo Factoría F5"
-            style={{
-              height: "50px",
-              filter: "drop-shadow(0 0 6px rgba(0,191,255,0.5))",
-            }}
-          />
-        </Box>
-
-        {/* Texto principal */}
-        <Typography variant="body2" sx={{ maxWidth: 600, lineHeight: 1.6 }}>
+        {/* Texto principal con logo embebido */}
+        <Typography
+          variant="body2"
+          sx={{
+            maxWidth: 700,
+            lineHeight: 1.6,
+            display: "flex",
+            alignItems: "center",
+            flexWrap: "wrap",
+            justifyContent: "center",
+            gap: 0.5,
+          }}
+        >
           © 2025 Proyecto colaborativo desarrollado por 5 coders del bootcamp{" "}
           <MuiLink
             href="https://factoriaf5.org"
             target="_blank"
             rel="noopener noreferrer"
             sx={{
-              color: "#00eaff",
+              display: "inline-flex",
+              alignItems: "center",
               textDecoration: "none",
-              fontWeight: 600,
-              position: "relative",
-              "&::after": {
-                content: '""',
-                position: "absolute",
-                bottom: -2,
-                left: "50%",
-                width: "0%",
-                height: "2px",
-                background: "linear-gradient(90deg, #00bfff, #00eaff)",
-                borderRadius: "1px",
-                transform: "translateX(-50%)",
-                transition: "width 0.3s ease",
-                boxShadow: "0 0 6px rgba(0,191,255,0.6)",
+              "& img": {
+                height: "28px",
+                filter: "drop-shadow(0 0 6px rgba(0,191,255,0.5))",
+                transition: "transform 0.3s ease, filter 0.3s ease",
               },
-              "&:hover": {
-                color: "#00ffff",
-                textShadow: "0 0 6px rgba(0,255,255,0.6)",
-              },
-              "&:hover::after": {
-                width: "90%",
+              "&:hover img": {
+                transform: "scale(1.1)",
+                filter: "drop-shadow(0 0 8px rgba(0,255,255,0.8))",
               },
             }}
           >
-            Factoría F5
+            <img src={logoFactoria} alt="Logo Factoría F5" />
           </MuiLink>
           . Todos los derechos reservados.
         </Typography>
