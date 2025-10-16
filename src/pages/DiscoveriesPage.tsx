@@ -2,6 +2,7 @@ import * as React from "react";
 import { Box, Card, CardMedia, CardContent, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import VirtualAssistant from '../components/VirtualAssistant';
+import NavigationButtons from "../components/NavigationButtons";
 
 // Imágenes
 import marineLifeImg from "../assets/categories/marine-life.png";
@@ -152,6 +153,7 @@ export default function DiscoveriesPage() {
         ))}
       </Box>
       <VirtualAssistant />
+      <NavigationButtons />
     </Box>
   );
 }

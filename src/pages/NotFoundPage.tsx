@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import NavigationButtons from "../components/NavigationButtons";
 
 export default function NotFoundPage() {
   const navigate = useNavigate();
@@ -32,6 +33,7 @@ export default function NotFoundPage() {
       >
         Volver al inicio
       </button>
+      <NavigationButtons />
     </div>
   );
 }

@@ -4,6 +4,7 @@ import { Box, Typography } from "@mui/material";
 import { PostCard } from "../../components/PostCard";
 import { api } from "../../services/api";
 import '../../styles/PostsPage.css';
+import NavigationButtons from "../../components/NavigationButtons";
 
 interface User {
   id: number;
@@ -117,6 +118,7 @@ export const CategoryPostsPage = () => {
           No hay publicaciones disponibles en esta categoría todavía 🐚
         </Typography>
       )}
+      <NavigationButtons />
     </Box>
   );
 };

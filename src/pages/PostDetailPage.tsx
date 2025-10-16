@@ -5,6 +5,7 @@ import { useAuthStore } from "../store/authStore";
 import LikeButton from "../components/LikeButton";
 import "../styles/PostDetailPage.css";
 import { useAlertContext } from "../context/AlertContext";
+import NavigationButtons from "../components/NavigationButtons";
 
 interface Post {
   id: number;
@@ -161,7 +162,7 @@ export default function PostDetailPage() {
         </div>
 
       </main>
-
+      <NavigationButtons />
     </div>
   );
 }

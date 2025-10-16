@@ -33,6 +33,8 @@ import dolphin from "../assets/creators/animals/dolphin.png";
 import shark1 from "../assets/creators/animals/shark1.png";
 import turtle1 from "../assets/creators/animals/turtle1.png";
 
+import NavigationButtons from "../components/NavigationButtons";
+
 interface Creator {
   name: string;
   role: string;
@@ -203,6 +205,7 @@ const Creadoras: React.FC = () => {
           100% { background-position: 0% 50%; }
         }
       `}</style>
+      <NavigationButtons />
     </Box>
   );
 };
