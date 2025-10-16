@@ -2,6 +2,7 @@ import React from "react";
 import { Card, CardContent, CardMedia, Typography, Box } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import { useLike } from "../hooks/useLike";
 
 interface User {
   id: number;
@@ -26,6 +27,9 @@ export const PostCard: React.FC<PostCardProps> = ({ post, from }) => {
   const handleCardClick = () => {
     navigate(`/post/${post.id}`, { state: { from: from || "/posts" }});
   };
+
+  const { likesCount, isLiked, handleToggleLike } = useLike(post.id);
+
 
   return (
     <Card
@@ -58,7 +62,7 @@ export const PostCard: React.FC<PostCardProps> = ({ post, from }) => {
         </Typography>
         <Box sx={{ display: "flex", alignItems: "center", mt: 1 }}>
           <FavoriteIcon sx={{ fontSize: 16, color: "red", mr: 0.5 }} />
-          <Typography variant="body2">{post.likes}</Typography>
+          <Typography variant="body2">{likesCount}</Typography>
         </Box>
       </CardContent>
     </Card>
