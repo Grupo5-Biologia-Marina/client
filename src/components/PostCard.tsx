@@ -32,7 +32,6 @@ export const PostCard: React.FC<PostCardProps> = ({ post, from }) => {
   const navigate = useNavigate();
 
   const handleCardClick = () => {
-    console.log("Navigating to post ID:", post.id);
     navigate(`/post/${post.id}`, { state: { from: from || "/posts" }});
   };
 

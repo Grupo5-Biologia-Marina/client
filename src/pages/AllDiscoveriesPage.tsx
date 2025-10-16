@@ -63,7 +63,7 @@ export default function AllDiscoveriesPage() {
   return (
     <Box className="page-container">
       <Typography variant="h3" align="center" sx={{ mb: 4, fontWeight: "bold", textTransform: "uppercase" }}>
-        🌊 Todos los Descubrimientos
+        Todos los Descubrimientos
       </Typography>
 
       {posts.length === 0 ? (

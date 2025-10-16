@@ -1,27 +1,43 @@
-/* === CONTENEDOR PRINCIPAL DE PÁGINA === */
 .page-container {
   min-height: 100vh;
   padding: 2rem;
   font-family: "Inter", sans-serif;
   color: #f0f9ff;
-  background: linear-gradient(270deg, #0099ff, #00ccff, #0066cc, #003366);
-  background-size: 800% 800%;
-  animation: oceanWave 20s ease infinite;
+
+  background: linear-gradient(to top, #0077b6, #00b4d8);
+  position: relative;
+  overflow: hidden;
 }
 
-@keyframes oceanWave {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+.page-container::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 150px;
+  background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'><path fill='%23ffffff' fill-opacity='0.3' d='M0,160L40,138.7C80,117,160,75,240,85.3C320,96,400,160,480,176C560,192,640,160,720,144C800,128,880,128,960,154.7C1040,181,1120,235,1200,240C1280,245,1360,203,1400,181.3L1440,160V320H0Z'></path></svg>");
+  background-repeat: repeat-x;
+  animation: waveMove 10s linear infinite;
+}
+
+@keyframes waveMove {
+  from { background-position-x: 0; }
+  to { background-position-x: 1000px; }
 }
 
 /* === TÍTULO PRINCIPAL === */
 .page-container h1, .page-container h2, .page-container h3 {
   text-align: center;
-  color: #ffffff;
+  color: #004b8e;
   margin-bottom: 2rem;
   font-weight: 700;
   letter-spacing: 0.5px;
+
+  text-shadow:
+    0 2px 4px rgba(255, 255, 255, 0.5), /* sombra base */
+    0 4px 8px rgba(255, 255, 255, 0.3), /* sombra difusa */
+    0 0 12px rgba(255, 255, 255, 0.4); /* resplandor azul */
 }
 
 /* === GRID DE TARJETAS === */
