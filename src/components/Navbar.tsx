@@ -51,7 +51,7 @@ const Navbar: React.FC = () => {
 
   const handleLogout = () => {
     clearToken();
-    navigate("/login");
+    navigate("/discoveries");
   };
 
   const navbarStyle = {
