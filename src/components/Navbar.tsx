@@ -51,7 +51,7 @@ const Navbar: React.FC = () => {
 
   const handleLogout = () => {
     clearToken();
-    navigate("/login");
+    navigate("/discoveries");
   };
 
   // 🌊 Estilos visuales brillantes tipo "El Gran AZUL"

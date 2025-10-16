@@ -7,6 +7,7 @@ import axios from "axios";
 import "./ProfilePage.css";
 import { useAlertContext } from "../context/AlertContext"; 
 import NavigationButtons from "../components/NavigationButtons";
+import { useAuthStore } from "../store/authStore"
 
 const ProfilePage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -17,6 +18,7 @@ const ProfilePage: React.FC = () => {
   const [uploading, setUploading] = useState(false);
 
   const { showAlert } = useAlertContext(); // ⚡ Hook alert global
+  const clearToken = useAuthStore((state) => state.clearToken);
 
   useEffect(() => {
     if (!id) return;
@@ -81,6 +83,7 @@ const ProfilePage: React.FC = () => {
   const handleLogout = async () => {
     try {
       await api.post("/auth/logout");
+      clearToken();
       localStorage.removeItem("token");
       localStorage.removeItem("userId");
       navigate("/discoveries");
