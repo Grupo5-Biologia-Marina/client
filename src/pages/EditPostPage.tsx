@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { api } from "../services/api";
 import PostForm from "../components/PostForm";
 import { useAuthStore } from "../store/authStore";
-import "../pages/CreatePostPage.css"
+import "../pages/CreatePostPage.css";
+import NavigationButtons from "../components/NavigationButtons";
 
 interface PostData {
     title: string;
@@ -72,6 +73,7 @@ export default function EditPostPage() {
                 userId={userId ? Number(userId) : undefined}
                 onPostSaved={() => navigate("/posts")}
             />
+            <NavigationButtons />
         </div>
     );
 }

@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { PostCard } from "../components/PostCard";
 import '../pages/Discoveries.css';
 import { api } from "../services/api";
+import NavigationButtons from "../components/NavigationButtons";
 
 interface User {
   id: number;
@@ -116,6 +117,7 @@ const MyPostsPage: React.FC = () => {
           );
         })}
       </div>
+      <NavigationButtons />
     </div>
   );
 };
