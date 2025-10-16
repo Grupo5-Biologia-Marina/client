@@ -9,6 +9,7 @@ import {
   Divider,
 } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import { useLike } from "../hooks/useLike";
 import { useNavigate } from "react-router-dom";
 
 interface User {
@@ -34,6 +35,9 @@ export const PostCard: React.FC<PostCardProps> = ({ post, from }) => {
   const handleCardClick = () => {
     navigate(`/post/${post.id}`, { state: { from: from || "/posts" }});
   };
+
+  const { likesCount, isLiked, handleToggleLike } = useLike(post.id);
+
 
   return (
     <Card
@@ -141,7 +145,7 @@ export const PostCard: React.FC<PostCardProps> = ({ post, from }) => {
               textShadow: "0 0 6px rgba(0,255,255,0.4)",
             }}
           >
-            {post.likes}
+            {likesCount}
           </Typography>
         </Box>
       </CardContent>

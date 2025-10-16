@@ -27,7 +27,7 @@ function AppContent() {
       {!shouldHide && <Navbar />}
 
       <AppRoutes />
-      <NavigationButtons />
+      {/* <NavigationButtons /> */}
       {!shouldHide && <Footer />}
     </>
   );

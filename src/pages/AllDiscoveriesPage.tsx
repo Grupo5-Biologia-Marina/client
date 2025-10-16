@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { Box, Typography } from "@mui/material";
 import { api } from "../services/api";
 import { PostCard } from "../components/PostCard";
-import '../styles/PostsPage.css'; // CSS compartido
+import '../styles/PostsPage.css'; 
+import NavigationButtons from "../components/NavigationButtons";
 
 interface User {
   id: number;
@@ -21,7 +22,7 @@ interface Post {
   createdAt: string;
   userId: number;
   user?: User;
-  likesCount?: number; // ✅ Cambiado de 'likes' a 'likesCount' (viene del backend)
+  likesCount?: number; 
 }
 
 export default function AllDiscoveriesPage() {
@@ -46,7 +47,6 @@ export default function AllDiscoveriesPage() {
     fetchPosts();
   }, []);
 
-  // ✅ Actualiza el conteo de likes localmente
   const handleLikeUpdate = (postId: number, newLikesCount: number) => {
     setPosts((prevPosts) =>
       prevPosts.map((post) =>
@@ -81,7 +81,7 @@ export default function AllDiscoveriesPage() {
                   id: String(post.id), // ✅ Convertir a string para compatibilidad
                   title: post.title,
                   image: post.images?.[0]?.url || "",
-                  likes: post.likesCount ?? 0, // ✅ Usar likesCount del backend
+                  likes: post.likesCount ?? 0, 
                   user: post.user,
                   date: post.createdAt,
                 }}
@@ -92,6 +92,7 @@ export default function AllDiscoveriesPage() {
           })}
         </Box>
       )}
+      <NavigationButtons />
     </Box>
   );
 }

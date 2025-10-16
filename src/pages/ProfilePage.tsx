@@ -5,7 +5,8 @@ import type { User } from "../types/userTypes";
 import { api } from "../services/api";
 import axios from "axios";
 import "./ProfilePage.css";
-import { useAlertContext } from "../context/AlertContext"; // ⚡ Hook global
+import { useAlertContext } from "../context/AlertContext"; 
+import NavigationButtons from "../components/NavigationButtons";
 
 const ProfilePage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -172,6 +173,7 @@ const ProfilePage: React.FC = () => {
           <div key={i} className="bubble"></div>
         ))}
       </div>
+      <NavigationButtons />
     </div>
   );
 };
