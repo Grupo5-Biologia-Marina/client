@@ -27,7 +27,6 @@ export const useAlertContext = () => {
 export const AlertProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [alert, setAlert] = useState<AlertData | null>(null);
 
-  // showAlert ahora recibe un duration opcional en ms
   const showAlert = (
     message: string,
     type: "success" | "error" | "info" | "warning" = "info",
@@ -86,7 +85,6 @@ export const AlertProvider: React.FC<{ children: ReactNode }> = ({ children }) =
             overflow: "hidden",
           }}
         >
-          {/* Overlay para oscurecer fondo */}
           <div
             style={{
               position: "absolute",

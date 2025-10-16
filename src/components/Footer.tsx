@@ -6,10 +6,10 @@ export default function Footer() {
     <Box
       component="footer"
       sx={{
-        background: "linear-gradient(90deg, #001f2f, #003d5c)",
-        boxShadow: "0 -2px 15px rgba(0, 191, 255, 0.2)",
-        borderTop: "1px solid rgba(0, 191, 255, 0.3)",
-        color: "#e0f7ff",
+        background: "linear-gradient(90deg, #003d63 0%, #004d7a 50%, #006a99 100%)",
+        boxShadow: "0 -2px 15px rgba(0, 229, 255, 0.3), inset 0 1px 0 rgba(0, 229, 255, 0.15)",
+        borderTop: "2px solid rgba(0, 229, 255, 0.5)",
+        color: "#00e5ff",
         py: 4,
         mt: "auto",
         textAlign: "center",
@@ -17,7 +17,7 @@ export default function Footer() {
         overflow: "hidden",
       }}
     >
-      {/* Luz animada sutil al fondo */}
+    
       <Box
         sx={{
           content: '""',
@@ -27,7 +27,7 @@ export default function Footer() {
           width: "200%",
           height: "100%",
           background:
-            "linear-gradient(120deg, transparent, rgba(0,255,255,0.1), transparent)",
+            "linear-gradient(120deg, transparent, rgba(0,229,255,0.12), transparent)",
           animation: "shine 8s linear infinite",
           pointerEvents: "none",
         }}
@@ -46,7 +46,6 @@ export default function Footer() {
           position: "relative",
         }}
       >
-        {/* Texto principal con logo embebido */}
         <Typography
           variant="body2"
           sx={{
@@ -70,12 +69,12 @@ export default function Footer() {
               textDecoration: "none",
               "& img": {
                 height: "28px",
-                filter: "drop-shadow(0 0 6px rgba(0,191,255,0.5))",
+                filter: "drop-shadow(0 0 6px rgba(0,229,255,0.6))",
                 transition: "transform 0.3s ease, filter 0.3s ease",
               },
               "&:hover img": {
                 transform: "scale(1.1)",
-                filter: "drop-shadow(0 0 8px rgba(0,255,255,0.8))",
+                filter: "drop-shadow(0 0 8px rgba(0,255,255,0.9))",
               },
             }}
           >
@@ -85,7 +84,6 @@ export default function Footer() {
         </Typography>
       </Container>
 
-      {/* Animaciones */}
       <style>
         {`
           @keyframes shine {

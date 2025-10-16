@@ -1,7 +1,4 @@
-/* ==================== IMPORTAR TIPOGRAFÍA MARINA ==================== */
-@import url('https://fonts.googleapis.com/css2?family=Righteous&family=Audiowide&display=swap');
 
-/* ==================== CONTENEDOR PRINCIPAL ==================== */
 .welcome-container {
   position: fixed;
   top: 0;
@@ -18,8 +15,6 @@
   margin: 0 !important;
   padding: 0 !important;
 }
-
-/* ==================== FONDO OCEÁNICO ==================== */
 .ocean-bg {
   position: fixed;
   top: 0;
@@ -33,7 +28,6 @@
   pointer-events: none;
 }
 
-/* ==================== LUZ AMBIENTAL ==================== */
 .light-overlay {
   position: absolute;
   top: 0;
@@ -49,7 +43,6 @@
   pointer-events: none;
 }
 
-/* ==================== ZONA DE TEXTO ==================== */
 .text-zone {
   position: relative;
   z-index: 10;
@@ -63,7 +56,6 @@
   text-align: center;
 }
 
-/* ==================== TÍTULO ==================== */
 .title {
   font-family: 'Righteous', cursive;
   font-size: clamp(1.8rem, 8vw, 6rem);
@@ -89,7 +81,7 @@
   display: inline-block;
 }
 
-/* ==================== SUBTÍTULO ==================== */
+
 .subtitle {
   font-family: 'Audiowide', sans-serif;
   font-size: clamp(0.85rem, 3vw, 2rem);
@@ -107,7 +99,6 @@
   padding: 0.2rem 0.3rem;
 }
 
-/* ==================== BOTÓN ==================== */
 .start-btn {
   position: relative;
   display: inline-block;
@@ -166,7 +157,6 @@
   }
 }
 
-/* ==================== ANIMALES FLOTANTES - WRAPPERS ==================== */
 .animal-wrapper {
   position: absolute !important;
   z-index: 2 !important;
@@ -180,7 +170,6 @@
 .fishes-wrapper { bottom: 25% !important; }
 .nemo-dory-wrapper { bottom: 20% !important; }
 
-/* ==================== ANIMALES FLOTANTES ==================== */
 .animal-floating {
   position: relative !important;
   z-index: 2 !important;
@@ -197,7 +186,6 @@
 .nemo { width: 80px !important; }
 .dory { width: 80px !important; }
 
-/* ==================== RASTRO DE AGUA ==================== */
 .water-trail {
   position: absolute;
   top: 50%;
@@ -219,7 +207,6 @@
 
 .water-trail.small { width: 80px; height: 50px; }
 
-/* ==================== BURBUJAS ==================== */
 .bubble {
   position: absolute;
   bottom: 0;
@@ -238,7 +225,6 @@
   filter: blur(0.5px);
 }
 
-/* ==================== MEDUSAS ==================== */
 .jellyfish-floating {
   position: absolute !important;
   z-index: 3 !important;
@@ -249,7 +235,6 @@
   display: block !important;
 }
 
-/* ==================== RESPONSIVE ==================== */
 @media (max-width: 768px) {
   .title { font-size: clamp(1.5rem, 9vw, 2.5rem); }
   .subtitle { font-size: clamp(0.75rem, 3.5vw, 1.1rem); margin-bottom: 0.8rem; }
@@ -283,5 +268,4 @@
   .nemo, .dory { width: 40px !important; }
 }
 
-/* ==================== RESET SOLO DENTRO DE WELCOME ==================== */
 .welcome-container * { box-sizing: border-box; }

@@ -74,7 +74,6 @@ export const CategoryPostsPage = () => {
     if (slug) fetchPosts();
   }, [slug, categoryName]);
 
-  // ✅ Actualiza el conteo de likes localmente
   const handleLikeUpdate = (postId: number, newLikesCount: number) => {
     setPosts(prevPosts =>
       prevPosts.map(post =>

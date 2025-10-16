@@ -36,7 +36,7 @@ export const useAuthStore = create<AuthState>()(
           token: user.token || null,
           role: user.role || null,
         });
-        // ✅ Guardar token también en localStorage directamente
+        
         if (user.token) {
           localStorage.setItem('token', user.token);
         }
@@ -72,7 +72,6 @@ export const useAuthStore = create<AuthState>()(
   )
 );
 
-// 🔍 Debug helper
 if (typeof window !== 'undefined') {
   (window as any).debugAuth = () => {
     const state = useAuthStore.getState();
