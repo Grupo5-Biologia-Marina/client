@@ -3,30 +3,9 @@
   padding: 2rem;
   font-family: "Inter", sans-serif;
   color: #f0f9ff;
-
-  background: linear-gradient(to top, #0077b6, #00b4d8);
-  position: relative;
-  overflow: hidden;
+  background: radial-gradient(circle at 50% 20%, #00b4d8 0%, #0077b6 40%, #001d3d 100%);
 }
 
-.page-container::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 150px;
-  background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'><path fill='%23ffffff' fill-opacity='0.3' d='M0,160L40,138.7C80,117,160,75,240,85.3C320,96,400,160,480,176C560,192,640,160,720,144C800,128,880,128,960,154.7C1040,181,1120,235,1200,240C1280,245,1360,203,1400,181.3L1440,160V320H0Z'></path></svg>");
-  background-repeat: repeat-x;
-  animation: waveMove 10s linear infinite;
-}
-
-@keyframes waveMove {
-  from { background-position-x: 0; }
-  to { background-position-x: 1000px; }
-}
-
-/* === TÍTULO PRINCIPAL === */
 .page-container h1, .page-container h2, .page-container h3 {
   text-align: center;
   color: #004b8e;
@@ -40,7 +19,6 @@
     0 0 12px rgba(255, 255, 255, 0.4); /* resplandor azul */
 }
 
-/* === GRID DE TARJETAS === */
 .cards-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -49,7 +27,6 @@
   margin: 0 auto;
 }
 
-/* === TARJETA DE POST === */
 .post-card {
   background: rgba(0, 100, 180, 0.08);
   border-radius: 16px;
@@ -64,7 +41,6 @@
   box-shadow: 0 8px 30px rgba(0, 150, 255, 0.3);
 }
 
-/* === TÍTULO DE CADA POST === */
 .post-card h2 {
   font-size: 1.3rem;
   color: #005fa3;
@@ -75,7 +51,6 @@
   padding-bottom: 0.2rem;
 }
 
-/* === IMÁGENES DENTRO DE TARJETA === */
 .post-card img {
   width: 100%;
   height: 200px;
@@ -91,7 +66,6 @@
   box-shadow: 0 4px 10px rgba(0, 75, 142, 0.2);
 }
 
-/* === RESPONSIVE === */
 @media (max-width: 768px) {
   .page-container {
     padding: 1rem;

@@ -9,10 +9,8 @@ import { useNavigate } from "react-router-dom";
 import { api } from "../services/api";
 import Confetti from "react-confetti";
 
-// Importa el GIF de celebración
 import dancingSeal from "../assets/VirtualAssistant/dancing-seal.gif";
 
-// --- 10 Preguntas de ejemplo ---
 const QUESTIONS: Question[] = [
   {
     text: "¿Qué te inspira más del océano?", options: [
@@ -106,7 +104,6 @@ const QUESTIONS: Question[] = [
   },
 ];
 
-// Devuelve la categoría que más veces se ha seleccionado
 const getDominantCategory = (answers: (Answer | null)[]) => {
   const categoryCount: Record<string, number> = {};
 
@@ -128,7 +125,6 @@ const getDominantCategory = (answers: (Answer | null)[]) => {
   return maxCategory;
 };
 
-// Devuelve la frase motivadora según la categoría predominante
 const getPositiveMessage = (answers: (Answer | null)[], postCategory?: string) => {
   const dominantCategory = getDominantCategory(answers) || postCategory;
 

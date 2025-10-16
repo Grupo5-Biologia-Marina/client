@@ -9,13 +9,11 @@ export default function CreatePostPage() {
   const userId = Number(localStorage.getItem("userId"));
   const { showAlert } = useAlertContext(); // ⚡ Hook global de alertas
 
-  // 🔒 Redirección si no hay usuario logueado
   if (!userId) {
     navigate("/login");
     return null;
   }
 
-  // ✅ Mensaje de éxito + redirección automática
   const handlePostCreated = () => {
     showAlert("¡Descubrimiento creado con éxito!", "success");
     navigate("/posts"); // 👈 redirige a la página de todos los descubrimientos

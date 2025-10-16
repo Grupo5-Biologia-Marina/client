@@ -9,7 +9,6 @@ export const api = axios.create({
   },
 });
 
-// Interceptor para adjuntar token automáticamente
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");
   if (token) {
@@ -18,7 +17,7 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-// ========================================
+
 // ❤️ LIKES API
 // ========================================
 

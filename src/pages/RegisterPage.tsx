@@ -104,7 +104,6 @@ export default function RegisterPage() {
             disabled={loading}
           />
 
-          {/* Campo de contraseña con mostrar/ocultar */}
           <div className="password-container">
             <input
               type={showPassword ? "text" : "password"}

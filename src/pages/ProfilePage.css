@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+
 .profile-page {
   position: relative;
   min-height: 100vh;
@@ -11,9 +13,9 @@
   padding: 3rem 1rem;
   text-align: center;
   overflow: hidden;
+  font-family: 'Poppins', sans-serif;
 }
 
-/* === Burbujas realistas mejoradas === */
 .bubbles {
   position: absolute;
   bottom: 0;
@@ -66,7 +68,6 @@
   }
 }
 
-/* === 20 burbujas con diferentes tamaños y velocidades === */
 .bubble:nth-child(1) {
   left: 5%;
   width: 25px;
@@ -208,8 +209,9 @@
   animation-delay: 2.6s;
 }
 
-/* === Efecto de neón pulsante para el título === */
 .profile-page h1 {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 900;
   font-size: 4rem;
   color: #ffffff;
   text-shadow: 
@@ -240,7 +242,6 @@
   }
 }
 
-/* === Tarjeta de perfil con efectos 3D === */
 .profile-info {
   position: relative;
   z-index: 2;
@@ -257,6 +258,7 @@
   border: 2px solid transparent;
   background-clip: padding-box;
   backdrop-filter: blur(10px);
+  font-family: 'Poppins', sans-serif;
 }
 
 @keyframes cardGlow {
@@ -285,7 +287,6 @@
     inset 0 0 80px rgba(0, 150, 255, 0.4);
 }
 
-/* === Imagen de perfil con efecto flotante === */
 .profile-image {
   width: 160px;
   height: 160px;
@@ -323,8 +324,9 @@
   filter: hue-rotate(45deg) brightness(1.2);
 }
 
-/* === Texto del perfil con efectos === */
 .profile-info p {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
   margin: 0.8rem 0;
   font-size: 1.1rem;
   text-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
@@ -336,13 +338,23 @@
   text-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
 }
 
+.profile-info h2 {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  margin: 1rem 0;
+  font-size: 1.5rem;
+}
+
 .profile-info strong {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
   color: #00eaff;
   text-shadow: 0 0 8px rgba(0, 255, 255, 0.5);
 }
 
-/* === Campo de contraseña con efecto === */
 .profile-info input[type="password"] {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
   background: rgba(0, 50, 80, 0.8);
   color: #b0e0ff;
   border: 1px solid #00f2ff;
@@ -362,6 +374,8 @@
 }
 
 .profile-info button {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
   margin-top: 1.5rem;
   padding: 1rem 2rem;
   border: none;
@@ -369,7 +383,6 @@
   background: linear-gradient(45deg, #00f2ff, #0077ff, #00f2ff);
   background-size: 200% 200%;
   color: white;
-  font-weight: bold;
   font-size: 1.1rem;
   cursor: pointer;
   transition: all 0.4s ease;
@@ -438,9 +451,10 @@
   }
 }
 
-/* === Responsive mejorado === */
 @media (max-width: 768px) {
   .profile-page h1 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 900;
     font-size: 2.5rem;
   }
   
@@ -461,6 +475,8 @@
 
 @media (max-width: 480px) {
   .profile-page h1 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 900;
     font-size: 2rem;
   }
   

@@ -11,11 +11,9 @@ export const useLike = (postId: string | number) => {
   const isAuthenticated = useAuthStore((state) => !!state.token);
   const { showAlert } = useAlertContext();
 
-  // 🔄 Cargar estado inicial del like
   useEffect(() => {
     const fetchLikeInfo = async () => {
       try {
-        // ✅ Aseguramos que postId sea un número
         const numericPostId = typeof postId === 'string' ? parseInt(postId, 10) : postId;
         
         if (isNaN(numericPostId)) {
@@ -38,7 +36,6 @@ export const useLike = (postId: string | number) => {
     }
   }, [postId]);
 
-  // ❤️ Lógica de toggle del like
   const handleToggleLike = async () => {
     if (!isAuthenticated) {
       showAlert('Debes iniciar sesión para dar like', 'warning');
@@ -47,7 +44,6 @@ export const useLike = (postId: string | number) => {
 
     setLoading(true);
     try {
-      // ✅ Aseguramos que postId sea un número
       const numericPostId = typeof postId === 'string' ? parseInt(postId, 10) : postId;
       
       if (isNaN(numericPostId)) {

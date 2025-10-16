@@ -80,7 +80,6 @@
   letter-spacing: 0.02em;
 }
 
-/* Sección del botón de like */
 .post-like-section {
   margin: 2.5rem 0;
   display: flex;
@@ -147,7 +146,6 @@
   color: #a0d8ef;
 }
 
-/* Botones */
 .btn {
   padding: 12px 22px;
   border-radius: 10px;
@@ -181,7 +179,7 @@
 }
 .btn-back:hover { background-color: #0056b3; }
 
-/* Botones admin */
+
 .post-actions-admin {
   display: flex;
   gap: 15px;
@@ -195,7 +193,6 @@
   justify-content: center;
 }
 
-/* Overlay de confirmación */
 .confirm-overlay {
   position: fixed;
   inset: 0;
@@ -240,7 +237,6 @@
   background-color: #5a6268;
 }
 
-/* Animaciones suaves */
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
@@ -251,7 +247,6 @@
   to { transform: translateY(0); opacity: 1; }
 }
 
-/* Responsive */
 @media (max-width: 768px) {
   .post-detail-container {
     padding: 1.5rem;
