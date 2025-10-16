@@ -152,16 +152,13 @@ const ProfilePage: React.FC = () => {
             </button>
           </div>
 
+          
           <h2>Tu perfil:</h2>
           <p><strong>Username:</strong> {user.username}</p>
           <p><strong>Nombre:</strong> {user.firstname}</p>
           <p><strong>Apellido:</strong> {user.lastname}</p>
           <p><strong>Email:</strong> {user.email}</p>
           <p><strong>Rol:</strong> {user.role}</p>
-          <p>
-            <strong>Password:</strong>{" "}
-            <input type="password" value="********" disabled />
-          </p>
 
           <button onClick={handleLogout}>Cerrar sesión</button>
           <button onClick={() => navigate(`/my-posts/${id}`)}>Mis publicaciones</button>
