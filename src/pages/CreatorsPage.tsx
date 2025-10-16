@@ -50,7 +50,7 @@ const creators: Creator[] = [
     role: 'Full Stack Developer', 
     photo: luisa, 
     github: 'https://github.com/luisasilva99', 
-    linkedin: 'www.linkedin.com/in/luisa-silva-martinez', 
+    linkedin: 'https://www.linkedin.com/in/luisa-silva-martinez', 
     description: 'Apasionada por crear interfaces intuitivas y experiencias de usuario memorables.', 
     animal: orca 
   },
