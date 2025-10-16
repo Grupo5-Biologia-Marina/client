@@ -4,6 +4,7 @@ import { api } from "../services/api";
 import axios from "axios";
 import "../styles/PostForm.css";
 import { useAlertContext } from "../context/AlertContext";
+import { useNavigate } from "react-router-dom";
 
 interface PostFormProps {
   userId?: number;
@@ -29,7 +30,10 @@ export default function PostForm({ userId, postId, initialData, onPostSaved }: P
   const [error, setError] = useState("");
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
-  const { showAlert } = useAlertContext(); // ⚡ Hook global de alertas
+  const [fieldErrors, setFieldErrors] = useState<{ [key: string]: string }>({});
+
+  const { showAlert } = useAlertContext();
+  const navigate = useNavigate();
 
   const allCategories: string[] = [
     "🐠 Vida Marina",
@@ -80,10 +84,30 @@ export default function PostForm({ userId, postId, initialData, onPostSaved }: P
     return uploadedUrls;
   };
 
+  // ✅ Validación de campos
+  const validateFields = () => {
+    const errors: { [key: string]: string } = {};
+
+    if (!title.trim()) errors.title = "El título es obligatorio";
+    else if (title.trim().length < 5) errors.title = "El título debe tener al menos 5 caracteres";
+
+    if (!content.trim()) errors.content = "El contenido es obligatorio";
+    else if (content.trim().length < 20) errors.content = "El contenido debe tener al menos 20 caracteres";
+
+    if (categories.length === 0) errors.categories = "Debes seleccionar al menos una categoría";
+
+    setFieldErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setLoading(true);
     setError("");
+    setFieldErrors({});
+
+    if (!validateFields()) return; // ❌ Bloquea submit si hay errores
+
+    setLoading(true);
 
     try {
       const token = localStorage.getItem("token");
@@ -114,14 +138,11 @@ export default function PostForm({ userId, postId, initialData, onPostSaved }: P
           { title, content, credits, categories, images: allImages, userId: userIdStored },
           { headers: { Authorization: `Bearer ${token}` } }
         );
-        setTitle("");
-        setContent("");
-        setCredits("");
-        setCategories([]);
-        setImages([]);
-        setUploadedImages([]);
         showAlert("Post creado correctamente", "success");
       }
+
+      // 🔹 Redirige a /posts después de crear o actualizar
+      navigate("/posts");
 
       if (onPostSaved) onPostSaved();
     } catch (err: any) {
@@ -141,16 +162,16 @@ export default function PostForm({ userId, postId, initialData, onPostSaved }: P
         value={title}
         onChange={(e) => setTitle(e.target.value)}
         className="form-input"
-        required
       />
+      {fieldErrors.title && <p className="form-error">{fieldErrors.title}</p>}
 
       <label className="form-label">Contenido</label>
       <textarea
         value={content}
         onChange={(e) => setContent(e.target.value)}
         className="form-input"
-        required
       />
+      {fieldErrors.content && <p className="form-error">{fieldErrors.content}</p>}
 
       <label className="form-label">Créditos</label>
       <input
@@ -180,6 +201,7 @@ export default function PostForm({ userId, postId, initialData, onPostSaved }: P
           </div>
         )}
       </div>
+      {fieldErrors.categories && <p className="form-error">{fieldErrors.categories}</p>}
 
       <label className="form-label">Imágenes</label>
       <div {...getRootProps()} className={`dropzone ${isDragActive ? "active" : ""}`}>
@@ -192,32 +214,14 @@ export default function PostForm({ userId, postId, initialData, onPostSaved }: P
           {images.map((file, idx) => (
             <div key={idx} className="preview-image">
               <img src={URL.createObjectURL(file)} alt={`Imagen ${idx}`} />
-              <button
-                type="button"
-                className="btn-remove"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  removeImage(file);
-                }}
-              >
-                ×
-              </button>
+              <button type="button" className="btn-remove" onClick={(e) => { e.stopPropagation(); removeImage(file); }}>×</button>
             </div>
           ))}
 
           {uploadedImages.map((url, idx) => (
             <div key={idx} className="preview-image">
               <img src={url} alt={`Imagen subida ${idx}`} />
-              <button
-                type="button"
-                className="btn-remove"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  removeUploadedImage(url);
-                }}
-              >
-                ×
-              </button>
+              <button type="button" className="btn-remove" onClick={(e) => { e.stopPropagation(); removeUploadedImage(url); }}>×</button>
             </div>
           ))}
         </div>

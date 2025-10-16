@@ -109,24 +109,33 @@
 
 /* ==================== BOTÓN ==================== */
 .start-btn {
+  position: relative;
+  display: inline-block;
+  padding: clamp(0.6rem, 2vw, 1rem) clamp(1.5rem, 4vw, 3rem);
+  font-size: clamp(0.85rem, 2.5vw, 1.2rem);
+  font-weight: bold;
+  color: white;
+  border: 3px solid transparent;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  overflow: hidden;
+  z-index: 1;
   background: linear-gradient(45deg, #00f2ff, #0077ff, #00d4ff);
   background-size: 300% 300%;
-  color: white;
-  font-weight: bold;
-  font-size: clamp(0.85rem, 2.5vw, 1.2rem);
-  padding: clamp(0.6rem, 2vw, 1rem) clamp(1.5rem, 4vw, 3rem);
-  border-radius: 0.75rem;
-  border: none;
-  cursor: pointer;
-  transition: all 0.4s ease;
-  box-shadow: 0 4px 15px rgba(0, 242, 255, 0.3);
   animation: gradient-shift 3s ease infinite;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 242, 255, 0.3);
 }
 
 .start-btn:hover {
-  background-position: 100% 0;
   transform: scale(1.08);
-  box-shadow: 0 0 30px rgba(0, 255, 255, 0.9);
+  border-color: rgba(0, 255, 255, 0.8);
+  box-shadow: 
+    0 0 25px rgba(0, 255, 255, 0.9),
+    0 0 40px rgba(0, 180, 255, 0.7),
+    0 0 60px rgba(0, 120, 255, 0.5),
+    inset 0 0 20px rgba(0, 255, 255, 0.2);
+  animation: gradient-shift 1.5s ease infinite, border-glow 2s ease-in-out infinite;
 }
 
 .start-btn:active {
@@ -134,11 +143,26 @@
 }
 
 @keyframes gradient-shift {
-  0%, 100% {
-    background-position: 0% 50%;
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+@keyframes border-glow {
+  0%, 100% { 
+    border-color: rgba(0, 255, 255, 0.8);
+    box-shadow: 
+      0 0 25px rgba(0, 255, 255, 0.9),
+      0 0 40px rgba(0, 180, 255, 0.7),
+      0 0 60px rgba(0, 120, 255, 0.5),
+      inset 0 0 20px rgba(0, 255, 255, 0.2);
   }
-  50% {
-    background-position: 100% 50%;
+  50% { 
+    border-color: rgba(0, 180, 255, 1);
+    box-shadow: 
+      0 0 35px rgba(0, 255, 255, 1),
+      0 0 50px rgba(0, 180, 255, 0.9),
+      0 0 80px rgba(0, 120, 255, 0.7),
+      inset 0 0 30px rgba(0, 255, 255, 0.3);
   }
 }
 
@@ -150,21 +174,11 @@
   display: block !important;
 }
 
-.whale-wrapper {
-  top: 5% !important;
-}
-
-.shark-wrapper {
-  top: 15% !important;
-}
-
-.turtle-wrapper {
-  bottom: 15% !important;
-}
-
-.fishes-wrapper {
-  bottom: 25% !important;
-}
+.whale-wrapper { top: 30% !important; }
+.shark-wrapper { top: 15% !important; }
+.turtle-wrapper { bottom: 5% !important; }
+.fishes-wrapper { bottom: 25% !important; }
+.nemo-dory-wrapper { bottom: 20% !important; }
 
 /* ==================== ANIMALES FLOTANTES ==================== */
 .animal-floating {
@@ -176,21 +190,12 @@
   filter: drop-shadow(0 2px 8px rgba(0, 100, 150, 0.4));
 }
 
-.whale {
-  width: 280px !important;
-}
-
-.shark {
-  width: 170px !important;
-}
-
-.turtle {
-  width: 120px !important;
-}
-
-.fishes {
-  width: 100px !important;
-}
+.whale { width: 280px !important; }
+.shark { width: 170px !important; }
+.turtle { width: 120px !important; }
+.fishes { width: 100px !important; }
+.nemo { width: 80px !important; }
+.dory { width: 80px !important; }
 
 /* ==================== RASTRO DE AGUA ==================== */
 .water-trail {
@@ -212,10 +217,7 @@
   pointer-events: none;
 }
 
-.water-trail.small {
-  width: 80px;
-  height: 50px;
-}
+.water-trail.small { width: 80px; height: 50px; }
 
 /* ==================== BURBUJAS ==================== */
 .bubble {
@@ -249,119 +251,37 @@
 
 /* ==================== RESPONSIVE ==================== */
 @media (max-width: 768px) {
-  .title {
-    font-size: clamp(1.5rem, 9vw, 2.5rem);
-  }
-
-  .subtitle {
-    font-size: clamp(0.75rem, 3.5vw, 1.1rem);
-    margin-bottom: 0.8rem;
-  }
-
-  .start-btn {
-    font-size: clamp(0.8rem, 3vw, 1rem);
-  }
-
-  .whale {
-    width: 160px !important;
-  }
-
-  .shark {
-    width: 110px !important;
-  }
-
-  .turtle {
-    width: 80px !important;
-  }
-
-  .fishes {
-    width: 65px !important;
-  }
-
-  .jellyfish-floating {
-    transform: scale(0.55);
-  }
-
-  .bubble {
-    transform: scale(0.65);
-  }
+  .title { font-size: clamp(1.5rem, 9vw, 2.5rem); }
+  .subtitle { font-size: clamp(0.75rem, 3.5vw, 1.1rem); margin-bottom: 0.8rem; }
+  .start-btn { font-size: clamp(0.8rem, 3vw, 1rem); }
+  .whale { width: 160px !important; }
+  .shark { width: 110px !important; }
+  .turtle { width: 80px !important; }
+  .fishes { width: 65px !important; }
+  .nemo, .dory { width: 60px !important; }
+  .jellyfish-floating { transform: scale(0.55); }
+  .bubble { transform: scale(0.65); }
 }
 
 @media (max-width: 480px) {
-  .title {
-    font-size: clamp(1.3rem, 10vw, 2rem);
-    white-space: normal;
-  }
-
-  .subtitle {
-    font-size: clamp(0.7rem, 4vw, 0.95rem);
-    margin-bottom: 0.6rem;
-  }
-
-  .start-btn {
-    font-size: clamp(0.75rem, 3.5vw, 0.9rem);
-  }
-
-  .whale {
-    width: 120px !important;
-  }
-
-  .shark {
-    width: 85px !important;
-  }
-
-  .turtle {
-    width: 60px !important;
-  }
-
-  .fishes {
-    width: 50px !important;
-  }
-
-  .jellyfish-floating {
-    transform: scale(0.45);
-  }
-
-  .bubble {
-    transform: scale(0.5);
-  }
+  .title { font-size: clamp(1.3rem, 10vw, 2rem); white-space: normal; }
+  .subtitle { font-size: clamp(0.7rem, 4vw, 0.95rem); margin-bottom: 0.6rem; }
+  .start-btn { font-size: clamp(0.75rem, 3.5vw, 0.9rem); }
+  .whale { width: 120px !important; }
+  .shark { width: 85px !important; }
+  .turtle { width: 60px !important; }
+  .fishes { width: 50px !important; }
+  .nemo, .dory { width: 45px !important; }
+  .jellyfish-floating { transform: scale(0.45); }
+  .bubble { transform: scale(0.5); }
 }
 
 @media (max-width: 360px) {
-  .title {
-    font-size: 1.2rem;
-  }
-
-  .subtitle {
-    font-size: 0.65rem;
-  }
-
-  .start-btn {
-    font-size: 0.7rem;
-    padding: 0.5rem 1.2rem;
-  }
+  .title { font-size: 1.2rem; }
+  .subtitle { font-size: 0.65rem; }
+  .start-btn { font-size: 0.7rem; padding: 0.5rem 1.2rem; }
+  .nemo, .dory { width: 40px !important; }
 }
 
 /* ==================== RESET SOLO DENTRO DE WELCOME ==================== */
-.welcome-container * {
-  box-sizing: border-box;
-}
-
-.start-btn.clicked {
-  animation: flashEffect 0.4s ease-out;
-}
-
-@keyframes flashEffect {
-  0% {
-    transform: scale(1);
-    box-shadow: 0 0 0 rgba(0, 255, 255, 0);
-  }
-  50% {
-    transform: scale(1.2);
-    box-shadow: 0 0 60px rgba(0, 255, 255, 0.8);
-  }
-  100% {
-    transform: scale(1);
-    box-shadow: 0 0 0 rgba(0, 255, 255, 0);
-  }
-}
+.welcome-container * { box-sizing: border-box; }

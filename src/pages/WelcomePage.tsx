@@ -7,6 +7,8 @@ import SharkSVG from "../assets/shark.png";
 import WhaleSVG from "../assets/whale.png";
 import TurtleSVG from "../assets/turtle.png";
 import JellyfishSVG from "../assets/jellyfish.png";
+import NemoSVG from "../assets/nemo.png";
+import DorySVG from "../assets/dory.png";
 import OceanGIF from "../assets/ocean.gif";
 import "./WelcomePage.css";
 
@@ -14,9 +16,8 @@ const title = "El Gran Azul";
 
 export default function WelcomePage() {
   const navigate = useNavigate();
-  const { userId } = useAuthStore(); // Zustand: obtener token/usuario (si lo hay)
+  const { userId } = useAuthStore();
 
-  // 🔒 Bloquear scroll SOLO cuando WelcomePage está montada
   useEffect(() => {
     document.body.style.overflow = "hidden";
     document.body.style.position = "fixed";
@@ -33,10 +34,9 @@ export default function WelcomePage() {
 
   return (
     <div className="welcome-container">
-      {/* 🌊 Fondo del océano */}
       <img src={OceanGIF} alt="Ocean background" className="ocean-bg" />
 
-      {/* 💧 BURBUJAS ANIMADAS */}
+      {/* Burbujas animadas */}
       {[...Array(20)].map((_, i) => (
         <motion.div
           key={`bubble-${i}`}
@@ -56,20 +56,19 @@ export default function WelcomePage() {
           transition={{
             repeat: Infinity,
             duration: 8 + Math.random() * 6,
-            ease: "easeInOut",
+            ease: "linear",
             delay: Math.random() * 5,
           }}
         />
       ))}
 
-      {/* 🌫️ Luz ambiental */}
       <motion.div
         className="light-overlay"
         animate={{ opacity: [0.6, 0.3, 0.6] }}
-        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+        transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
       />
 
-      {/* 🐚 Texto principal - CENTRADO */}
+      {/* Texto principal */}
       <div className="text-zone">
         <h1 className="title">
           {title.split("").map((letter, i) => (
@@ -95,27 +94,76 @@ export default function WelcomePage() {
         </motion.p>
 
         <motion.button
-  className="start-btn"
-  onClick={() => {
-    // Pequeña animación antes de navegar
-    document.querySelector(".start-btn")?.classList.add("clicked");
-    setTimeout(() => navigate("/login"), 400);
-  }}
-  initial={{ opacity: 0, scale: 0.8 }}
-  animate={{ opacity: 1, scale: 1 }}
-  transition={{ delay: title.length * 0.15 + 1.2, duration: 0.6 }}
-  whileHover={{
-    scale: 1.1,
-    boxShadow: "0 0 30px rgba(0,255,255,0.9)",
-  }}
-  whileTap={{ scale: 0.95 }}
->
-  Comenzar
-</motion.button>
-
+          className="start-btn"
+          onClick={() => navigate("/login")}
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: title.length * 0.15 + 1.2, duration: 0.6 }}
+          whileHover={{ scale: 1.1, boxShadow: "0 0 30px rgba(0,255,255,0.9)" }}
+          whileTap={{ scale: 0.95 }}
+        >
+          Comenzar
+        </motion.button>
       </div>
 
-      {/* 🐋 Ballena SUPERIOR */}
+      {/* Nemo y Dory */}
+      <div className="animal-wrapper nemo-dory-wrapper">
+        <motion.img
+          src={NemoSVG}
+          alt="Nemo"
+          className="animal-floating nemo"
+          initial={{ x: "-200px", opacity: 0, scale: 0.6 }}
+          animate={{
+            x: "calc(100vw + 200px)",
+            opacity: [0, 0.9, 1, 0.9, 0],
+            y: [0, -6, 0, 6, 0],
+            scale: [0.6, 1.1, 1, 0.8, 0.5],
+          }}
+          transition={{ repeat: Infinity, duration: 18, ease: "linear", delay: 6 }}
+        />
+        <motion.img
+          src={DorySVG}
+          alt="Dory"
+          className="animal-floating dory"
+          initial={{ x: "-220px", opacity: 0, scale: 0.6 }}
+          animate={{
+            x: "calc(100vw + 220px)",
+            opacity: [0, 0.9, 1, 0.9, 0],
+            y: [0, -8, 0, 8, 0],
+            scale: [0.6, 1.1, 1, 0.8, 0.5],
+          }}
+          transition={{ repeat: Infinity, duration: 18, ease: "linear", delay: 6 }}
+        />
+      </div>
+
+      {/* Tiburón */}
+      <div className="animal-wrapper shark-wrapper">
+        <motion.div
+          className="water-trail"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: [0, 0.4, 0.6, 0.4, 0] }}
+          transition={{ repeat: Infinity, duration: 30, ease: "linear", delay: 0 }}
+        />
+        <motion.img
+          src={SharkSVG}
+          alt="Shark"
+          className="animal-floating shark"
+          initial={{ x: "calc(100vw + 200px)", opacity: 0 }}
+          animate={{
+            x: "-200px",
+            opacity: [0, 0.9, 1, 0.9, 0],
+            y: [0, 8, 0, -8, 0],
+          }}
+          transition={{
+            repeat: Infinity,
+            duration: 18,
+            ease: "linear",
+            delay: 1.5     
+          }}
+        />
+      </div>
+
+      {/* Ballena */}
       <div className="animal-wrapper whale-wrapper">
         <motion.div
           className="water-trail"
@@ -130,84 +178,64 @@ export default function WelcomePage() {
           src={WhaleSVG}
           alt="Whale"
           className="animal-floating whale"
-          initial={{ x: "-400px", rotateY: 180, opacity: 0 }}
+          initial={{ x: "-600px", opacity: 0, scale: 0.7 }}
           animate={{
             x: "calc(100vw + 400px)",
-            rotateY: 180,
             opacity: [0, 0.9, 1, 0.9, 0],
-            y: [0, -10, 0, 10, 0],
+            y: [0, -4, 0, 4, 0],
+            scale: [0.7, 1.2, 1, 0.8, 0.6],
           }}
           transition={{ repeat: Infinity, duration: 28, ease: "linear", delay: 3 }}
         />
       </div>
 
-      {/* 🦈 Tiburón SUPERIOR */}
-      <div className="animal-wrapper shark-wrapper">
-        <motion.div
-          className="water-trail"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: [0, 0.4, 0.6, 0.4, 0] }}
-          transition={{ repeat: Infinity, duration: 22, ease: "linear", delay: 5 }}
-        />
-        <motion.img
-          src={SharkSVG}
-          alt="Shark"
-          className="animal-floating shark"
-          initial={{ x: "calc(100vw + 200px)", opacity: 0 }}
-          animate={{
-            x: "-200px",
-            opacity: [0, 0.9, 1, 0.9, 0],
-            y: [0, 8, 0, -8, 0],
-          }}
-          transition={{ repeat: Infinity, duration: 22, ease: "linear", delay: 5 }}
-        />
-      </div>
-
-      {/* 🐢 Tortuga INFERIOR */}
+      {/* Tortuga */}
       <div className="animal-wrapper turtle-wrapper">
         <motion.div
           className="water-trail"
           initial={{ opacity: 0 }}
           animate={{ opacity: [0, 0.3, 0.5, 0.3, 0] }}
-          transition={{ repeat: Infinity, duration: 30, ease: "linear", delay: 1 }}
+          transition={{ repeat: Infinity, duration: 30, ease: "linear", delay: 9 }}
         />
         <motion.img
           src={TurtleSVG}
           alt="Turtle"
           className="animal-floating turtle"
-          initial={{ x: "-200px", opacity: 0 }}
+          initial={{ x: "-400px", opacity: 0, scale: 0.6 }}
           animate={{
             x: "calc(100vw + 200px)",
             opacity: [0, 0.9, 1, 0.9, 0],
             y: [0, -5, 0, 5, 0],
+            scale: [0.6, 1.1, 1, 0.8, 0.5],
           }}
-          transition={{ repeat: Infinity, duration: 30, ease: "linear", delay: 1 }}
+          transition={{ repeat: Infinity, duration: 30, ease: "linear", delay: 9 }}
         />
       </div>
 
-      {/* 🐟 Peces INFERIOR */}
+      {/* Peces inferior */}
       <div className="animal-wrapper fishes-wrapper">
         <motion.div
           className="water-trail small"
           initial={{ opacity: 0 }}
           animate={{ opacity: [0, 0.4, 0.6, 0.4, 0] }}
-          transition={{ repeat: Infinity, duration: 16, ease: "linear", delay: 2.5 }}
+          transition={{ repeat: Infinity, duration: 16, ease: "linear", delay: 12 }}
         />
         <motion.img
           src={FishesSVG}
           alt="Fishes"
           className="animal-floating fishes"
-          initial={{ x: "calc(100vw + 150px)", opacity: 0 }}
+          initial={{ x: "calc(100vw + 150px)", opacity: 0, scale: 1.1 }}
           animate={{
             x: "-150px",
             opacity: [0, 0.9, 1, 0.9, 0],
             y: [0, 6, 0, -6, 0],
+            scale: [1.1, 1, 0.9, 0.7, 0.5],
           }}
-          transition={{ repeat: Infinity, duration: 16, ease: "linear", delay: 2.5 }}
+          transition={{ repeat: Infinity, duration: 16, ease: "linear", delay: 12 }}
         />
       </div>
 
-      {/* 🪼 Medusas flotando suavemente hacia arriba */}
+      {/* Medusas */}
       {[...Array(7)].map((_, i) => (
         <motion.img
           key={i}
@@ -228,7 +256,7 @@ export default function WelcomePage() {
           transition={{
             repeat: Infinity,
             duration: 20 + i * 4,
-            ease: "easeInOut",
+            ease: "linear",
             delay: 5 + i * 2,
           }}
         />

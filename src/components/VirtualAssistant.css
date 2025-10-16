@@ -6,7 +6,7 @@ body, html {
 }
 
 .boton-imagen {
-  position: absolute;
+  position: fixed; /* antes era absolute */
   top: 80px;
   right: 20px;
   text-align: center;
@@ -45,9 +45,10 @@ body, html {
   line-height: 1.2;
 }
 
+/* Tablet */
 @media (max-width: 768px) {
   .boton-imagen {
-    top: 10px;
+    top: 60px; /* baja un poco para no tapar navbar */
     right: 10px;
   }
 
@@ -61,10 +62,10 @@ body, html {
   }
 }
 
-/* Responsive móvil */
+/* Móvil */
 @media (max-width: 480px) {
   .boton-imagen {
-    top: 5px;
+    top: 50px; /* debajo del navbar */
     right: 5px;
   }
 
