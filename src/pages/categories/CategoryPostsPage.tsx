@@ -105,6 +105,9 @@ export const CategoryPostsPage = () => {
                 user: post.user, 
                 date: post.createdAt,
               }}
+              categorySlug={slug}
+              categoryName={categoryName}
+              from={`/category-posts/${slug}`}
               onLikeUpdate={(newCount) => handleLikeUpdate(post.id, newCount)}
             />
           ))}

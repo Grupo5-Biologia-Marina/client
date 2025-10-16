@@ -31,10 +31,16 @@ export default function PostDetailPage() {
 
   const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
 
+  const categoryName = location.state?.categoryName;
   const backPath = location.state?.from || "/posts";
-  const backText = backPath.includes("/my-posts")
-    ? "Volver a mis descubrimientos"
-    : "Volver a descubrimientos";
+
+  let backText = "Volver a descubrimientos";
+  if (categoryName) {
+    backText = `← Volver a ${categoryName}`;
+  } else if (backPath.includes("/my-posts")) {
+    backText = "← Volver a mis descubrimientos";
+  }
+
 
   const canEditOrDelete = () => {
     if (!post || !userId) return false;
@@ -150,9 +156,10 @@ export default function PostDetailPage() {
 
         <div className="post-actions">
           <Link to={backPath} className="btn btn-back">
-            ← {backText}
+            {backText}
           </Link>
         </div>
+
       </main>
 
     </div>

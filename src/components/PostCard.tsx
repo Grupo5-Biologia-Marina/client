@@ -27,15 +27,28 @@ interface PostCardProps {
     date: string;
   };
   from?: string;
+  categorySlug?: string;
+  categoryName?: string;
 }
 
-export const PostCard: React.FC<PostCardProps> = ({ post, from }) => {
+export const PostCard: React.FC<PostCardProps> = ({ post, from, categorySlug, categoryName }) => {
   const navigate = useNavigate();
 
-  const handleCardClick = () => {
-    console.log("Navigating to post ID:", post.id);
-    navigate(`/post/${post.id}`, { state: { from: from || "/posts" }});
-  };
+ const handleCardClick = () => {
+  console.log("Navigating to post ID:", post.id);
+
+  if (categorySlug && categoryName) {
+    navigate(`/post/${post.id}`, {
+      state: {
+        from: `/category-posts/${categorySlug}`,
+        categoryName,
+      },
+    });
+  } else {
+    navigate(`/post/${post.id}`, { state: { from: from || "/posts" } });
+  }
+};
+
 
   const { likesCount, isLiked, handleToggleLike } = useLike(post.id);
 
