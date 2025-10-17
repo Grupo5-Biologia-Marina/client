@@ -1,18 +1,15 @@
 import { renderHook, act } from "@testing-library/react";
 import { vi } from "vitest";
 
-// 🔹 Mock del store
 vi.mock("../store/authStore", () => ({
   useAuthStore: vi.fn(() => ({ token: "fake-token" })),
 }));
 
-// 🔹 Mock del AlertContext
 const mockShowAlert = vi.fn();
 vi.mock("../context/AlertContext", () => ({
   useAlertContext: vi.fn(() => ({ showAlert: mockShowAlert })),
 }));
 
-// 🔹 Mock del API
 const mockGetLikeInfo = vi.fn().mockResolvedValue({
   data: { data: { likesCount: 3, isLikedByUser: false } },
 });
