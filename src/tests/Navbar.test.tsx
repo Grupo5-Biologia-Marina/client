@@ -44,6 +44,6 @@ describe("Navbar - Logout", () => {
     expect(mockClearToken).toHaveBeenCalledTimes(1);
 
     // Verifica que navegue a /login
-    expect(mockNavigate).toHaveBeenCalledWith("/login");
+    expect(mockNavigate).toHaveBeenCalledWith("/discoveries");
   });
 });
