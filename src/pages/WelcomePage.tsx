@@ -1,7 +1,8 @@
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useAuthStore } from "../store/authStore";
+
 import FishesSVG from "../assets/fishes.png";
 import SharkSVG from "../assets/shark.png";
 import WhaleSVG from "../assets/whale.png";
@@ -10,6 +11,10 @@ import JellyfishSVG from "../assets/jellyfish.png";
 import NemoSVG from "../assets/nemo.png";
 import DorySVG from "../assets/dory.png";
 import OceanGIF from "../assets/ocean.gif";
+import UnderwaterMP3 from "../assets/underwater.mp3";
+import GlassesButton from "../assets/glasses-button.png";
+import GlassesFrame from "../assets/glasses.png";
+
 import "./WelcomePage.css";
 
 const title = "El Gran Azul";
@@ -17,24 +22,73 @@ const title = "El Gran Azul";
 export default function WelcomePage() {
   const navigate = useNavigate();
   const { userId } = useAuthStore();
+  const [started, setStarted] = useState(false);
+  const [showFrame, setShowFrame] = useState(false);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
+    if (!started) return;
+
     document.body.style.overflow = "hidden";
     document.body.style.position = "fixed";
     document.body.style.width = "100%";
     document.body.style.height = "100%";
 
+    audioRef.current = new Audio(UnderwaterMP3);
+    audioRef.current.loop = true;
+    audioRef.current.play().catch((err) => {
+      console.warn("Autoplay bloqueado:", err);
+    });
+
+    // Mostrar el marco tras medio segundo
+    const timer = setTimeout(() => setShowFrame(true), 500);
+
     return () => {
+      clearTimeout(timer);
       document.body.style.overflow = "";
       document.body.style.position = "";
       document.body.style.width = "";
       document.body.style.height = "";
+      audioRef.current?.pause();
+      audioRef.current = null;
     };
-  }, []);
+  }, [started]);
+
+  const handleDiscoverClick = () => setStarted(true);
+
+  if (!started) {
+    return (
+      <div className="intro-container">
+        <img src={OceanGIF} alt="Ocean background" className="ocean-bg" />
+
+        <motion.img
+          src={GlassesButton}
+          alt="Descubrir"
+          className="discover-img-btn"
+          onClick={handleDiscoverClick}
+          initial={{ scale: 0.8, opacity: 0.8 }}
+          animate={{ scale: [0.8, 1.1, 1], opacity: [0.8, 1, 0.8] }}
+          transition={{ duration: 1.2, repeat: Infinity, repeatType: "mirror" }}
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="welcome-container">
       <img src={OceanGIF} alt="Ocean background" className="ocean-bg" />
+
+      {/* Marco del buzo */}
+      {showFrame && (
+        <motion.img
+          src={GlassesFrame}
+          alt="Vista del buzo"
+          className="glasses-frame"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1.2 }}
+        />
+      )}
 
       {/* Burbujas animadas */}
       {[...Array(20)].map((_, i) => (
@@ -62,6 +116,7 @@ export default function WelcomePage() {
         />
       ))}
 
+      {/* Luces marinas */}
       <motion.div
         className="light-overlay"
         animate={{ opacity: [0.6, 0.3, 0.6] }}
@@ -90,7 +145,7 @@ export default function WelcomePage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: title.length * 0.15 + 0.4, duration: 1 }}
         >
-          Sumérgete y descubre los misterios del océano.
+          Descubrimientos del océano.
         </motion.p>
 
         <motion.button
@@ -106,7 +161,7 @@ export default function WelcomePage() {
         </motion.button>
       </div>
 
-      {/* Nemo y Dory */}
+      {/* Animales */}
       <div className="animal-wrapper nemo-dory-wrapper">
         <motion.img
           src={NemoSVG}
