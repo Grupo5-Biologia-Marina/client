@@ -67,7 +67,6 @@
 .post-content {
   line-height: 1.7;
   font-size: 1.1rem;
-<<<<<<< HEAD
   margin: 1.5rem 0;
   color: #f2f6ff;
   text-align: justify;
@@ -81,10 +80,8 @@
   padding: 1.2rem 0;
   border-top: 1px solid rgba(255, 255, 255, 0.15);
   border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-=======
   margin-bottom: 1.5rem;
   padding: 0 0.5rem;
->>>>>>> 40a490602d5702e76b202c1c4fda0a79bdcdac17
 }
 
 /* Créditos */
@@ -108,7 +105,6 @@
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-<<<<<<< HEAD
 .post-images h3 {
   margin-bottom: 1rem;
   text-align: center;
@@ -188,9 +184,6 @@
 .btn-back:hover { background-color: #0056b3; }
 
 
-=======
-/* Botones de admin (Editar/Eliminar) */
->>>>>>> 40a490602d5702e76b202c1c4fda0a79bdcdac17
 .post-actions-admin {
   display: flex;
   gap: 15px;
@@ -204,8 +197,6 @@
   justify-content: center;
 }
 
-<<<<<<< HEAD
-=======
 /* Botones generales */
 .btn {
   padding: 10px 20px;
@@ -246,7 +237,6 @@
 }
 
 /* Overlay de confirmación de eliminación */
->>>>>>> 40a490602d5702e76b202c1c4fda0a79bdcdac17
 .confirm-overlay {
   position: fixed;
   inset: 0;
@@ -289,7 +279,6 @@
   background-color: #5a6268;
 }
 
-<<<<<<< HEAD
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
@@ -301,7 +290,6 @@
 }
 
 @media (max-width: 768px) {
-=======
 /* Loading y errores */
 .loading, .error {
   text-align: center;
@@ -309,10 +297,9 @@
   margin-top: 2rem;
   color: #a0d8ef;
 }
-
+}
 /* Responsive */
 @media (max-width: 600px) {
->>>>>>> 40a490602d5702e76b202c1c4fda0a79bdcdac17
   .post-detail-container {
     padding: 1rem;
     margin: 1rem;

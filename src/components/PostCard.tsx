@@ -34,11 +34,6 @@ interface PostCardProps {
 export const PostCard: React.FC<PostCardProps> = ({ post, from, categorySlug, categoryName }) => {
   const navigate = useNavigate();
 
-<<<<<<< HEAD
-  const handleCardClick = () => {
-    navigate(`/post/${post.id}`, { state: { from: from || "/posts" }});
-  };
-=======
  const handleCardClick = () => {
   console.log("Navigating to post ID:", post.id);
 
@@ -54,7 +49,6 @@ export const PostCard: React.FC<PostCardProps> = ({ post, from, categorySlug, ca
   }
 };
 
->>>>>>> 40a490602d5702e76b202c1c4fda0a79bdcdac17
 
   const { likesCount, isLiked, handleToggleLike } = useLike(post.id);
 
