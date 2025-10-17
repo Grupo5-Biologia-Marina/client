@@ -162,6 +162,25 @@ export default function PostDetailPage() {
         </div>
 
       </main>
+      {confirmDeleteOpen && (
+        <div className="confirm-overlay">
+          <div className="confirm-box">
+            <h3 className="confirm-title">¿Eliminar descubrimiento?</h3>
+            <p className="confirm-text">
+              Esta acción no se puede deshacer. ¿Deseas continuar?
+            </p>
+
+            <div className="confirm-actions">
+              <button className="btn btn-cancel" onClick={cancelDelete}>
+                Cancelar
+              </button>
+              <button className="btn btn-confirm" onClick={handleDelete}>
+                Eliminar definitivamente
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       <NavigationButtons />
     </div>
   );
