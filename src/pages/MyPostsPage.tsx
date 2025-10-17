@@ -41,16 +41,13 @@ const MyPostsPage: React.FC = () => {
 
     const fetchMyPosts = async () => {
       try {
-        // Primero intenta obtener los posts del usuario
         const res = await api.get(`/api/posts/user/${userId}`);
         let fetchedPosts: MyPost[] = res.data.data || res.data;
 
-        // Ahora obtén TODOS los posts para conseguir images y likesCount
         const allPostsRes = await api.get(`/api/posts`);
         const allPosts: any[] = allPostsRes.data.data || [];
 
-        // Enriquece los posts del usuario con images y likesCount del listado completo
-        fetchedPosts = fetchedPosts.map(userPost => {
+          fetchedPosts = fetchedPosts.map(userPost => {
           const fullPost = allPosts.find(p => p.id === userPost.id);
           return {
             ...userPost,
@@ -82,7 +79,6 @@ const MyPostsPage: React.FC = () => {
     );
   };
 
-  // 🔧 Función para arreglar la URL de la imagen
   const getImageUrl = (rawUrl?: string) => {
     if (!rawUrl) return "https://via.placeholder.com/400x200?text=Sin+imagen";
     return rawUrl.startsWith("http") ? rawUrl : `${import.meta.env.VITE_API_URL}${rawUrl}`;

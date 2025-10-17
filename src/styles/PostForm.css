@@ -176,7 +176,6 @@
   border: 1px solid #00ff99;
 }
 
-/* Responsive */
 @media (max-width: 768px) {
   .post-form {
     padding: 1.5rem 1.8rem;

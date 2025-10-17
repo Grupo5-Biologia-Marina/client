@@ -36,7 +36,6 @@ export default function WelcomePage() {
     <div className="welcome-container">
       <img src={OceanGIF} alt="Ocean background" className="ocean-bg" />
 
-      {/* Burbujas animadas */}
       {[...Array(20)].map((_, i) => (
         <motion.div
           key={`bubble-${i}`}

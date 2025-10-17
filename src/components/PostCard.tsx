@@ -72,7 +72,6 @@ export const PostCard: React.FC<PostCardProps> = ({ post, from, categorySlug, ca
         },
       }}
     >
-      {/* Imagen */}
       <Box sx={{ position: "relative" }}>
         <CardMedia
           component="img"
@@ -86,7 +85,6 @@ export const PostCard: React.FC<PostCardProps> = ({ post, from, categorySlug, ca
           }}
         />
 
-        {/* Efecto de brillo en hover */}
         <Box
           sx={{
             position: "absolute",
@@ -105,7 +103,6 @@ export const PostCard: React.FC<PostCardProps> = ({ post, from, categorySlug, ca
           p: 3,
         }}
       >
-        {/* Título del post */}
         <Typography
           variant="h6"
           sx={{
@@ -116,7 +113,7 @@ export const PostCard: React.FC<PostCardProps> = ({ post, from, categorySlug, ca
         >
           {post.title}
         </Typography>
-        <Typography variant="body2" color="text.secondary">
+         <Typography variant="body2" sx={{ color: "#a8daff", fontWeight: 500 }}>
           Por {post.user?.username ?? "Usuario desconocido"}
         </Typography>
         <Typography variant="caption" sx={{ color: "#b0e0ff" }}>
@@ -127,7 +124,6 @@ export const PostCard: React.FC<PostCardProps> = ({ post, from, categorySlug, ca
           })}
         </Typography>
 
-        {/* Likes */}
         <Box
           sx={{
             display: "flex",
@@ -145,7 +141,7 @@ export const PostCard: React.FC<PostCardProps> = ({ post, from, categorySlug, ca
             size="small"
             sx={{
               color: "#00ffff",
-              "&:hover": { color: "#00bfff", transform: "scale(1.2)" },
+              "&:hover": { color: "#f32424ff", transform: "scale(1.2)" },
               transition: "all 0.3s ease",
             }}
           >

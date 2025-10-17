@@ -62,8 +62,18 @@ export default function AllDiscoveriesPage() {
 
   return (
     <Box className="page-container">
-      <Typography variant="h3" align="center" sx={{ mb: 4, fontWeight: "bold", textTransform: "uppercase" }}>
-        🌊 Todos los Descubrimientos
+     <Typography 
+        variant="h3" 
+        align="center" 
+        sx={{ 
+          mb: 4, 
+          fontWeight: "bold", 
+          textTransform: "uppercase",
+          fontSize: { xs: '1.25rem', sm: '1.75rem', md: '2.5rem' },
+          px: { xs: 1, sm: 2 }
+        }}
+      >
+        Todos los Descubrimientos
       </Typography>
 
       {posts.length === 0 ? (
@@ -78,7 +88,7 @@ export default function AllDiscoveriesPage() {
               <PostCard
                 key={post.id}
                 post={{
-                  id: String(post.id), // ✅ Convertir a string para compatibilidad
+                  id: String(post.id), 
                   title: post.title,
                   image: post.images?.[0]?.url || "",
                   likes: post.likesCount ?? 0, 

@@ -84,7 +84,6 @@ export default function PostForm({ userId, postId, initialData, onPostSaved }: P
     return uploadedUrls;
   };
 
-  // ✅ Validación de campos
   const validateFields = () => {
     const errors: { [key: string]: string } = {};
 
@@ -141,7 +140,6 @@ export default function PostForm({ userId, postId, initialData, onPostSaved }: P
         showAlert("Post creado correctamente", "success");
       }
 
-      // 🔹 Redirige a /posts después de crear o actualizar
       navigate("/posts");
 
       if (onPostSaved) onPostSaved();

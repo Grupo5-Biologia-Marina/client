@@ -24,7 +24,6 @@ interface PostsState {
   fetchPostsByCategory: (slug: string) => Promise<void>;
 }
 
-// Mapeo de slug a categoría real (debe coincidir EXACTAMENTE con el seeder)
 const categoryMap: Record<string, string> = {
   "marine-life": "🐠 Vida Marina",
   "ocean-ecosystems": "🌊 Ecosistemas Oceánicos",
@@ -60,7 +59,6 @@ export const usePostsStore = create<PostsState>((set, get) => ({
     set({ loading: true });
     
     try {
-      // Si no hay posts cargados, cargarlos primero
       if (get().allPosts.length === 0) {
         console.log("🔄 No posts in store, fetching all posts first...");
         await get().fetchAllPosts();
@@ -78,15 +76,12 @@ export const usePostsStore = create<PostsState>((set, get) => ({
       const allPosts = get().allPosts;
       console.log("📦 All posts in store:", allPosts);
 
-      // Filtrar posts que tengan esta categoría
       const filteredPosts = allPosts.filter((post) => {
-        // Si el post tiene un array de categorías
         if (post.categories && Array.isArray(post.categories)) {
           const hasCategory = post.categories.includes(categoryName);
           console.log(`🔍 Post "${post.title}" categories:`, post.categories, "- Has category:", hasCategory);
           return hasCategory;
         }
-        // Si el post tiene una sola categoría
         if (post.category) {
           const hasCategory = post.category === categoryName;
           console.log(`🔍 Post "${post.title}" category:`, post.category, "- Matches:", hasCategory);

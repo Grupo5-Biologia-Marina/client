@@ -11,13 +11,11 @@ import { useEffect } from "react";
 function AppContent() {
   const location = useLocation();
 
-  // Rutas donde no se muestran navbar/footer
   const hidePaths = ["/", "/welcome", "/login", "/register"];
   const shouldHide = hidePaths.some((p) =>
     p === "/" ? location.pathname === "/" : location.pathname.startsWith(p)
   );
 
-  // Scroll al inicio al cambiar de ruta
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [location.pathname]);
@@ -27,7 +25,7 @@ function AppContent() {
       {!shouldHide && <Navbar />}
 
       <AppRoutes />
-      {/* <NavigationButtons /> */}
+    
       {!shouldHide && <Footer />}
     </>
   );

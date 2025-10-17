@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import VirtualAssistant from '../components/VirtualAssistant';
 import NavigationButtons from "../components/NavigationButtons";
 
-// Imágenes
 import marineLifeImg from "../assets/categories/marine-life.png";
 import ecosystemsImg from "../assets/categories/ocean-ecosystems.png";
 import scienceImg from "../assets/categories/science-exploration.png";
@@ -59,7 +58,6 @@ export default function DiscoveriesPage() {
         px: 3,
       }}
     >
-      {/* Título */}
       <Typography
         variant="h3"
         align="center"
@@ -73,8 +71,6 @@ export default function DiscoveriesPage() {
       >
         Descubrimientos de la Biología Marina
       </Typography>
-
-      {/* Descripción */}
       <Typography
         variant="h6"
         align="center"
@@ -88,8 +84,6 @@ export default function DiscoveriesPage() {
       >
         Explora las cinco categorías principales que componen el fascinante mundo marino.
       </Typography>
-
-      {/* Tarjetas */}
       <Box
         sx={{
           display: "flex",

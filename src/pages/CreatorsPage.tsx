@@ -14,11 +14,9 @@ import GitHubIcon from '@mui/icons-material/GitHub';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 
-// Función para obtener usuario
 import { getUserById } from '../services/userService';
 import type { User } from '../types/userTypes';
 
-// Fotos de creadoras
 import luisa from "../assets/creators/luisa.png";
 import irina from "../assets/creators/irina.png";
 import valentina from "../assets/creators/valentina.png";
@@ -26,7 +24,6 @@ import julia from "../assets/creators/julia.png";
 import aday from "../assets/creators/aday.png";
 import codersImg from "../assets/creators/coders.png";
 
-// Fotos de animales favoritos
 import orca from "../assets/creators/animals/orca.png";
 import seahorse from "../assets/creators/animals/sea-horse.png";
 import dolphin from "../assets/creators/animals/dolphin.png";
@@ -50,7 +47,7 @@ const creators: Creator[] = [
     role: 'Full Stack Developer', 
     photo: luisa, 
     github: 'https://github.com/luisasilva99', 
-    linkedin: 'www.linkedin.com/in/luisa-silva-martinez', 
+    linkedin: 'https://www.linkedin.com/in/luisa-silva-martinez', 
     description: 'Apasionada por crear interfaces intuitivas y experiencias de usuario memorables.', 
     animal: orca 
   },
@@ -113,14 +110,12 @@ const Creadoras: React.FC = () => {
   return (
     <Box sx={{ minHeight: '100vh', background: 'linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 50%, #80deea 100%)', paddingY: 4 }}>
       <Container maxWidth="xl">
-        {/* Saludo */}
         <Box sx={{ textAlign: 'center', marginBottom: 6, padding: 3, background: 'linear-gradient(-45deg, #001f2f, #003d5c, #005f80, #0077aa)', backgroundSize: '400% 400%', animation: 'gradientMove 15s ease infinite', borderRadius: 3, boxShadow: '0 8px 32px rgba(0, 119, 170, 0.3)' }}>
           <Typography variant={isMobile ? 'h4' : 'h3'} sx={{ color: 'white', fontWeight: 'bold', marginBottom: 1, textShadow: '0 2px 10px rgba(0,0,0,0.5)' }}>
             {userName ? `¡${userName}, estamos encantadas de tenerte aquí! 🦀` : 'Cargando...'}
           </Typography>
         </Box>
 
-        {/* Imagen coders */}
         <Box sx={{ display: 'flex', justifyContent: 'center', marginY: 5 }}>
           <Box component="img" src={codersImg} alt="Coders" sx={{ maxWidth: '90%', height: 'auto', borderRadius: 3, boxShadow: '0 8px 24px rgba(0,0,0,0.2)' }} />
         </Box>
@@ -129,7 +124,6 @@ const Creadoras: React.FC = () => {
           Nuestro Equipo de Creadoras
         </Typography>
 
-        {/* Grid de creadoras */}
         <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 3 }}>
           {creators.map((creator, index) => (
             <Box key={index} sx={{ flex: { xs: '1 1 100%', sm: '1 1 calc(50% - 24px)', md: '1 1 calc(20% - 24px)' }, maxWidth: { xs: '100%', sm: 'calc(50% - 24px)', md: 280 }, display: 'flex', justifyContent: 'center' }}>
@@ -164,7 +158,6 @@ const Creadoras: React.FC = () => {
         </Box>
       </Container>
 
-      {/* Overlay card activa */}
       {activeCreator && (
         <Box onClick={() => setActiveCreator(null)} sx={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', backgroundColor: 'rgba(0,0,0,0.6)', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 9999, cursor: 'pointer', p: 2 }}>
           <Card sx={{ width: { xs: '90%', md: 500 }, borderRadius: 3, boxShadow: '0 12px 40px rgba(0,0,0,0.5)', transform: 'scale(1)', transition: 'all 0.3s ease', backgroundImage: 'linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%)', color: 'white' }}>
@@ -184,7 +177,6 @@ const Creadoras: React.FC = () => {
                 {activeCreator.description}
               </Typography>
 
-              {/* Links GitHub y LinkedIn en card ampliada */}
               <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2 }}>
                 <IconButton href={activeCreator.github} target="_blank" rel="noopener noreferrer" sx={{ color: 'white', '&:hover': { color: '#00e5ff', transform: 'scale(1.2)' }, transition: 'all 0.2s ease' }}>
                   <GitHubIcon />

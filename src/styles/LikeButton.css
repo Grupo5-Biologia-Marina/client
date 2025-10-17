@@ -40,7 +40,6 @@
   transition: all 0.2s ease;
 }
 
-/* Variante para cards (más pequeño) */
 .like-button.card {
   padding: 0.4rem 0.8rem;
   font-size: 0.9rem;

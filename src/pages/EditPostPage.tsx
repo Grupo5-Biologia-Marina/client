@@ -33,15 +33,13 @@ export default function EditPostPage() {
                 const res = await api.get(`/api/posts/${id}`);
                 const post = res.data.data;
 
-                // Solo permitir editar si es admin o si el post pertenece al user
+                
                 if (role !== "admin" && Number(post.user?.id) !== Number(userId)) {
                     setError("No tienes permisos para editar este post");
                     return;
                 }
 
 
-
-                // Mapear post a initialData
                 setPostData({
                     title: post.title,
                     content: post.content,

@@ -54,31 +54,40 @@ const Navbar: React.FC = () => {
     navigate("/discoveries");
   };
 
-  // 🌊 Estilos visuales brillantes tipo "El Gran AZUL"
   const navbarStyle = {
-    background: "linear-gradient(-45deg, #001f2f, #003d5c, #0077aa, #00bfff)",
-    backgroundSize: "400% 400%",
-    animation: "gradientMove 15s ease infinite",
-    boxShadow: "0 4px 25px rgba(0, 191, 255, 0.4)",
-    borderBottom: "2px solid rgba(0, 191, 255, 0.5)",
+    background: "linear-gradient(135deg, #003d63 0%, #004d7a 50%, #006a99 100%)",
+    boxShadow: "0 4px 25px rgba(0, 191, 255, 0.3), inset 0 1px 0 rgba(0, 229, 255, 0.15)",
+    borderBottom: "3px solid rgba(0, 229, 255, 0.6)",
+    position: "relative",
+    overflow: "hidden",
+    "&::before": {
+      content: "''",
+      position: "absolute",
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      background: "radial-gradient(circle at 20% 50%, rgba(0, 229, 255, 0.12) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(0, 150, 255, 0.1) 0%, transparent 50%)",
+      pointerEvents: "none",
+    },
   };
 
   const buttonStyle = {
-    color: "#e0f7ff",
-    textShadow: "0 0 8px rgba(0, 191, 255, 0.8)",
+    color: "#00e5ff",
+    textShadow: "0 0 8px rgba(0, 229, 255, 0.6)",
     fontWeight: "bold",
     letterSpacing: "0.5px",
     borderRadius: "8px",
     marginX: "0.4rem",
     paddingX: "1rem",
     transition: "all 0.3s ease",
-    boxShadow: "0 0 8px rgba(0, 191, 255, 0.4)",
+    border: "1px solid rgba(0, 229, 255, 0.3)",
     "&:hover": {
-      background:
-        "radial-gradient(circle at center, rgba(0,191,255,0.3) 0%, rgba(0,119,170,0.2) 80%)",
+      background: "rgba(0, 229, 255, 0.15)",
       transform: "translateY(-2px) scale(1.05)",
-      boxShadow: "0 0 15px rgba(0, 191, 255, 0.7)",
+      boxShadow: "0 0 15px rgba(0, 229, 255, 0.7)",
       textShadow: "0 0 12px rgba(0,255,255,1)",
+      borderColor: "rgba(0, 229, 255, 0.6)",
     },
     "&:active": {
       transform: "scale(0.97)",
@@ -126,7 +135,6 @@ const Navbar: React.FC = () => {
             <Box component="span">AZUL</Box>
           </Typography>
 
-          {/* Desktop */}
           {!isMobile && (
             <Box>
               {userId && (
@@ -138,11 +146,33 @@ const Navbar: React.FC = () => {
                     anchorEl={anchorPosts}
                     open={Boolean(anchorPosts)}
                     onClose={handleMenuClose(setAnchorPosts)}
+                    PaperProps={{
+                      sx: {
+                        background: "linear-gradient(135deg, #003d63 0%, #004d7a 100%)",
+                        boxShadow: "0 8px 32px rgba(0, 229, 255, 0.4)",
+                        border: "1px solid rgba(0, 229, 255, 0.3)",
+                        borderRadius: "12px",
+                        mt: 1,
+                      },
+                    }}
                   >
                     <MenuItem
                       component={RouterLink}
                       to="/posts"
                       onClick={handleMenuClose(setAnchorPosts)}
+                      sx={{
+                        color: "#00e5ff",
+                        fontWeight: 600,
+                        transition: "all 0.3s ease",
+                        borderLeft: "3px solid transparent",
+                        paddingLeft: "15px",
+                        "&:hover": {
+                          background: "rgba(0, 229, 255, 0.15)",
+                          borderLeftColor: "#00e5ff",
+                          boxShadow: "inset 0 0 20px rgba(0, 229, 255, 0.2)",
+                          transform: "translateX(5px)",
+                        },
+                      }}
                     >
                       Ver todos
                     </MenuItem>
@@ -150,6 +180,19 @@ const Navbar: React.FC = () => {
                       component={RouterLink}
                       to="/posts/new"
                       onClick={handleMenuClose(setAnchorPosts)}
+                      sx={{
+                        color: "#00e5ff",
+                        fontWeight: 600,
+                        transition: "all 0.3s ease",
+                        borderLeft: "3px solid transparent",
+                        paddingLeft: "15px",
+                        "&:hover": {
+                          background: "rgba(0, 229, 255, 0.15)",
+                          borderLeftColor: "#00e5ff",
+                          boxShadow: "inset 0 0 20px rgba(0, 229, 255, 0.2)",
+                          transform: "translateX(5px)",
+                        },
+                      }}
                     >
                       Crear nuevo post
                     </MenuItem>
@@ -164,6 +207,16 @@ const Navbar: React.FC = () => {
                 anchorEl={anchorCategorias}
                 open={Boolean(anchorCategorias)}
                 onClose={handleMenuClose(setAnchorCategorias)}
+                PaperProps={{
+                  sx: {
+                    background: "linear-gradient(135deg, #003d63 0%, #004d7a 100%)",
+                    boxShadow: "0 8px 32px rgba(0, 229, 255, 0.4)",
+                    border: "1px solid rgba(0, 229, 255, 0.3)",
+                    borderRadius: "12px",
+                    mt: 1,
+                    minWidth: "280px",
+                  },
+                }}
               >
                 {categories.map((cat) => (
                   <MenuItem
@@ -171,6 +224,22 @@ const Navbar: React.FC = () => {
                     component={RouterLink}
                     to={`/categories/${cat.slug}`}
                     onClick={handleMenuClose(setAnchorCategorias)}
+                    sx={{
+                      color: "#00e5ff",
+                      fontWeight: 600,
+                      padding: "12px 16px",
+                      transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+                      borderLeft: "3px solid transparent",
+                      paddingLeft: "15px",
+                      fontSize: "0.95rem",
+                      "&:hover": {
+                        background: "rgba(0, 229, 255, 0.15)",
+                        borderLeftColor: "#00e5ff",
+                        boxShadow: "inset 0 0 20px rgba(0, 229, 255, 0.2), 0 0 15px rgba(0, 229, 255, 0.3)",
+                        transform: "translateX(8px)",
+                        textShadow: "0 0 10px rgba(0, 229, 255, 0.8)",
+                      },
+                    }}
                   >
                     {cat.text}
                   </MenuItem>
@@ -203,92 +272,232 @@ const Navbar: React.FC = () => {
             </Box>
           )}
 
-          {/* Mobile */}
           {isMobile && (
             <>
               <IconButton edge="end" color="inherit" onClick={() => setMobileOpen(true)}>
                 <MenuIcon />
               </IconButton>
-              <Drawer anchor="right" open={mobileOpen} onClose={() => setMobileOpen(false)}>
-                <Box sx={{ width: 250, backgroundColor: "#001f2f", color: "#e0f7ff" }}>
-                  <List>
-                    {userId && (
-                      <>
-                        <ListItem disablePadding>
-                          <ListItemButton component={RouterLink} to="/posts">
-                            <ListItemText primary="📄 Ver todos los Posts" />
-                          </ListItemButton>
-                        </ListItem>
-                        <ListItem disablePadding>
-                          <ListItemButton component={RouterLink} to="/posts/new">
-                            <ListItemText primary="📝 Crear nuevo post" />
-                          </ListItemButton>
-                        </ListItem>
-                        <Divider />
-                      </>
-                    )}
-                    <ListItem>
-                      <ListItemText primary="📚 Categorías" />
-                    </ListItem>
-                    {categories.map((cat) => (
-                      <ListItem key={cat.slug} disablePadding>
-                        <ListItemButton component={RouterLink} to={`/categories/${cat.slug}`}>
-                          <ListItemText primary={cat.text} />
+              <Drawer
+                anchor="right"
+                open={mobileOpen}
+                onClose={() => setMobileOpen(false)}
+                ModalProps={{
+                  keepMounted: false,
+                }}
+                PaperProps={{
+                  sx: {
+                    width: 280,
+                    background: "linear-gradient(135deg, #003d63 0%, #004d7a 100%)",
+                    boxShadow: "0 8px 32px rgba(0, 229, 255, 0.4)",
+                    border: "1px solid rgba(0, 229, 255, 0.3)",
+                  }
+                }}
+              >
+                <List sx={{ p: 0, width: "100%" }}>
+                  {userId && (
+                    <>
+                      <ListItem disablePadding>
+                        <ListItemButton
+                          component={RouterLink}
+                          to="/posts"
+                          onClick={() => setMobileOpen(false)}
+                          sx={{
+                            color: "#00e5ff",
+                            fontWeight: 600,
+                            transition: "all 0.3s ease",
+                            borderLeft: "3px solid transparent",
+                            paddingLeft: "15px",
+                            "&:hover": {
+                              background: "rgba(0, 229, 255, 0.15)",
+                              borderLeftColor: "#00e5ff",
+                              boxShadow: "inset 0 0 20px rgba(0, 229, 255, 0.2)",
+                              transform: "translateX(5px)",
+                            },
+                          }}
+                        >
+                          <ListItemText primary="📄 Ver todos los Posts" />
                         </ListItemButton>
                       </ListItem>
-                    ))}
-                    <Divider />
-                    <ListItem disablePadding>
-                      <ListItemButton component={RouterLink} to="/creators">
-                        <ListItemText primary="👩‍💻 Creadoras" />
+                      <ListItem disablePadding>
+                        <ListItemButton
+                          component={RouterLink}
+                          to="/posts/new"
+                          onClick={() => setMobileOpen(false)}
+                          sx={{
+                            color: "#00e5ff",
+                            fontWeight: 600,
+                            transition: "all 0.3s ease",
+                            borderLeft: "3px solid transparent",
+                            paddingLeft: "15px",
+                            "&:hover": {
+                              background: "rgba(0, 229, 255, 0.15)",
+                              borderLeftColor: "#00e5ff",
+                              boxShadow: "inset 0 0 20px rgba(0, 229, 255, 0.2)",
+                              transform: "translateX(5px)",
+                            },
+                          }}
+                        >
+                          <ListItemText primary="✍️ Crear nuevo post" />
+                        </ListItemButton>
+                      </ListItem>
+                      <Divider sx={{ backgroundColor: "rgba(0, 229, 255, 0.2)" }} />
+                    </>
+                  )}
+                  <ListItem sx={{ color: "#00e5ff", fontWeight: 600, paddingLeft: "15px" }}>
+                    <ListItemText primary="📚 Categorías" />
+                  </ListItem>
+                  {categories.map((cat) => (
+                    <ListItem key={cat.slug} disablePadding>
+                      <ListItemButton
+                        component={RouterLink}
+                        to={`/categories/${cat.slug}`}
+                        onClick={() => setMobileOpen(false)}
+                        sx={{
+                          color: "#00e5ff",
+                          fontWeight: 600,
+                          transition: "all 0.3s ease",
+                          borderLeft: "3px solid transparent",
+                          paddingLeft: "15px",
+                          fontSize: "0.95rem",
+                          "&:hover": {
+                            background: "rgba(0, 229, 255, 0.15)",
+                            borderLeftColor: "#00e5ff",
+                            boxShadow: "inset 0 0 20px rgba(0, 229, 255, 0.2)",
+                            transform: "translateX(5px)",
+                            textShadow: "0 0 10px rgba(0, 229, 255, 0.8)",
+                          },
+                        }}
+                      >
+                        <ListItemText primary={cat.text} />
                       </ListItemButton>
                     </ListItem>
-                    <Divider />
-                    {!userId ? (
-                      <>
-                        <ListItem disablePadding>
-                          <ListItemButton component={RouterLink} to="/login">
-                            <ListItemText primary="🔐 Iniciar Sesión" />
-                          </ListItemButton>
-                        </ListItem>
-                        <ListItem disablePadding>
-                          <ListItemButton component={RouterLink} to="/register">
-                            <ListItemText primary="📝 Registrarse" />
-                          </ListItemButton>
-                        </ListItem>
-                      </>
-                    ) : (
-                      <>
-                        <ListItem disablePadding>
-                          <ListItemButton component={RouterLink} to={`/users/${userId}`}>
-                            <ListItemText primary="👤 Mi Cuenta" />
-                          </ListItemButton>
-                        </ListItem>
-                        <ListItem disablePadding>
-                          <ListItemButton onClick={handleLogout}>
-                            <ListItemText primary="🚪 Cerrar Sesión" />
-                          </ListItemButton>
-                        </ListItem>
-                      </>
-                    )}
-                  </List>
-                </Box>
+                  ))}
+                  <Divider sx={{ backgroundColor: "rgba(0, 229, 255, 0.2)" }} />
+                  <ListItem disablePadding>
+                    <ListItemButton
+                      component={RouterLink}
+                      to="/creators"
+                      onClick={() => setMobileOpen(false)}
+                      sx={{
+                        color: "#00e5ff",
+                        fontWeight: 600,
+                        transition: "all 0.3s ease",
+                        borderLeft: "3px solid transparent",
+                        paddingLeft: "15px",
+                        "&:hover": {
+                          background: "rgba(0, 229, 255, 0.15)",
+                          borderLeftColor: "#00e5ff",
+                          boxShadow: "inset 0 0 20px rgba(0, 229, 255, 0.2)",
+                          transform: "translateX(5px)",
+                        },
+                      }}
+                    >
+                      <ListItemText primary="👩‍💻 Creadoras" />
+                    </ListItemButton>
+                  </ListItem>
+                  <Divider sx={{ backgroundColor: "rgba(0, 229, 255, 0.2)" }} />
+                  {!userId ? (
+                    <>
+                      <ListItem disablePadding>
+                        <ListItemButton
+                          component={RouterLink}
+                          to="/login"
+                          onClick={() => setMobileOpen(false)}
+                          sx={{
+                            color: "#00e5ff",
+                            fontWeight: 600,
+                            transition: "all 0.3s ease",
+                            borderLeft: "3px solid transparent",
+                            paddingLeft: "15px",
+                            "&:hover": {
+                              background: "rgba(0, 229, 255, 0.15)",
+                              borderLeftColor: "#00e5ff",
+                              boxShadow: "inset 0 0 20px rgba(0, 229, 255, 0.2)",
+                              transform: "translateX(5px)",
+                            },
+                          }}
+                        >
+                          <ListItemText primary="🔑 Iniciar Sesión" />
+                        </ListItemButton>
+                      </ListItem>
+                      <ListItem disablePadding>
+                        <ListItemButton
+                          component={RouterLink}
+                          to="/register"
+                          onClick={() => setMobileOpen(false)}
+                          sx={{
+                            color: "#00e5ff",
+                            fontWeight: 600,
+                            transition: "all 0.3s ease",
+                            borderLeft: "3px solid transparent",
+                            paddingLeft: "15px",
+                            "&:hover": {
+                              background: "rgba(0, 229, 255, 0.15)",
+                              borderLeftColor: "#00e5ff",
+                              boxShadow: "inset 0 0 20px rgba(0, 229, 255, 0.2)",
+                              transform: "translateX(5px)",
+                            },
+                          }}
+                        >
+                          <ListItemText primary="📝 Registrarse" />
+                        </ListItemButton>
+                      </ListItem>
+                    </>
+                  ) : (
+                    <>
+                      <ListItem disablePadding>
+                        <ListItemButton
+                          component={RouterLink}
+                          to={`/users/${userId}`}
+                          onClick={() => setMobileOpen(false)}
+                          sx={{
+                            color: "#00e5ff",
+                            fontWeight: 600,
+                            transition: "all 0.3s ease",
+                            borderLeft: "3px solid transparent",
+                            paddingLeft: "15px",
+                            "&:hover": {
+                              background: "rgba(0, 229, 255, 0.15)",
+                              borderLeftColor: "#00e5ff",
+                              boxShadow: "inset 0 0 20px rgba(0, 229, 255, 0.2)",
+                              transform: "translateX(5px)",
+                            },
+                          }}
+                        >
+                          <ListItemText primary="👤 Mi Cuenta" />
+                        </ListItemButton>
+                      </ListItem>
+                      <ListItem disablePadding>
+                        <ListItemButton
+                          onClick={() => {
+                            handleLogout();
+                            setMobileOpen(false);
+                          }}
+                          sx={{
+                            color: "#00e5ff",
+                            fontWeight: 600,
+                            transition: "all 0.3s ease",
+                            borderLeft: "3px solid transparent",
+                            paddingLeft: "15px",
+                            "&:hover": {
+                              background: "rgba(0, 229, 255, 0.15)",
+                              borderLeftColor: "#00e5ff",
+                              boxShadow: "inset 0 0 20px rgba(0, 229, 255, 0.2)",
+                              transform: "translateX(5px)",
+                            },
+                          }}
+                        >
+                          <ListItemText primary="🚪 Cerrar Sesión" />
+                        </ListItemButton>
+                      </ListItem>
+                    </>
+                  )}
+                </List>
               </Drawer>
             </>
           )}
         </Toolbar>
       </AppBar>
-
-      {/* 🎨 Animación del fondo */}
-      <style>
-        {`
-          @keyframes gradientMove {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-          }
-        `}
-      </style>
     </>
   );
 };

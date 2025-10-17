@@ -1,4 +1,3 @@
-/* ==================== CONTENEDOR PRINCIPAL ==================== */
 .discoveries-container {
   position: relative;
   min-height: 100vh;
@@ -13,7 +12,6 @@
   padding: 60px 20px 120px; /* Espacio superior, lateral y EXTRA para footer */
 }
 
-/* ==================== OVERLAY SEMITRANSPARENTE ==================== */
 .discoveries-overlay {
   background: rgba(0, 20, 40, 0.7);
   backdrop-filter: blur(5px);
@@ -41,7 +39,6 @@
   }
 }
 
-/* ==================== TÍTULO PRINCIPAL ==================== */
 .discoveries-title {
   font-size: clamp(2rem, 5vw, 3rem);
   font-weight: 700;
@@ -53,7 +50,6 @@
   letter-spacing: 0.5px;
 }
 
-/* ==================== SUBTÍTULO ==================== */
 .discoveries-subtitle {
   font-size: clamp(1rem, 2.5vw, 1.3rem);
   margin-bottom: 50px;
@@ -65,7 +61,6 @@
   text-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
 }
 
-/* ==================== GRID DE TARJETAS ==================== */
 .discoveries-grid {
   display: flex;
   flex-wrap: nowrap;
@@ -76,7 +71,6 @@
   padding: 20px 0;
 }
 
-/* ==================== TARJETAS ==================== */
 .discoveries-card {
   flex: 1 1 0;
   min-width: 220px;
@@ -99,13 +93,11 @@
   background: rgba(255, 255, 255, 1);
 }
 
-/* Efecto: oscurecer las demás tarjetas */
 .discoveries-grid:hover .discoveries-card:not(:hover) {
   filter: brightness(0.6);
   transform: scale(0.95);
 }
 
-/* ==================== IMAGEN DE LA TARJETA ==================== */
 .discoveries-card img {
   width: 100%;
   height: 180px;
@@ -117,7 +109,6 @@
   transform: scale(1.1);
 }
 
-/* ==================== CONTENIDO DE LA TARJETA ==================== */
 .discoveries-card-content {
   padding: 20px;
   text-align: center;
@@ -136,7 +127,6 @@
   line-height: 1.5;
 }
 
-/* ==================== RESPONSIVE ==================== */
 @media (max-width: 1200px) {
   .discoveries-grid {
     gap: 20px;
@@ -188,7 +178,6 @@
   }
 }
 
-/* ==================== SCROLLBAR PERSONALIZADO ==================== */
 .discoveries-container::-webkit-scrollbar {
   width: 10px;
 }
