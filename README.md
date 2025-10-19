@@ -20,7 +20,7 @@ La aplicación está diseñada con un enfoque **interactivo y visual**, usando a
 
 ## 📑 Contenidos
 
-- [🎥 Presentación](#-presentacion)
+- [🎥 Presentación](#-presentación)
 - [Tecnologías usadas](#-tecnologías-usadas)
 - [Estructura del proyecto](#-estructura-del-proyecto)
 - [Funcionalidades principales](#-funcionalidades-principales)
@@ -35,7 +35,7 @@ La aplicación está diseñada con un enfoque **interactivo y visual**, usando a
 ## 🎥 Presentación
 
 <a href="https://www.canva.com/design/DAG18WLYmjg/HcOlLKHNWBweeD-9FAHXMA/view?utm_content=DAG18WLYmjg&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=he81c66c033" target="_blank">
-  <img src="./assets/presentacion.png" alt="Ver presentación en Canva" width="400" style="border-radius: 12px;"/>
+  <img src="/src/assets/presentacion.png" alt="Ver presentación en Canva" width="400" style="border-radius: 12px;"/>
 </a>
 
 > 🔗 *Haz clic en la imagen para ver la presentación completa en Canva.*
@@ -208,6 +208,7 @@ Abrir en navegador en http://localhost:5173
 > Todos los recursos utilizados, incluidas imágenes y gráficos, tienen **fines educativos**.  
 > Algunas imágenes han sido recreadas o generadas con **IA** para ilustrar conceptos y enriquecer la experiencia visual.
 > Se indican los enlaces de la fuente y los recursos de la información obtenida en la propia web.
+
 
 
 
