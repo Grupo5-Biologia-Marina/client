@@ -38,6 +38,7 @@ const categories = [
   },
   {
     title: "🌍 Regiones y Océanos",
+    slug: "world-regions",
     image: regionsImg,
     description: "Sumérgete en las distintas regiones marinas que conforman el planeta azul.",
   },
